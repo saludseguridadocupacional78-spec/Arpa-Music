@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a12">
+    <meta property="og:title" content="Anfred - Clases Julio | Arpa Music">
+    <meta property="og:description" content="Horario interactivo - Martes 9AM y Jueves 1PM">
+    <title>🎹 Anfred · Julio 2026 · Arpa Music</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a12;
+            color: #e8e8f0;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 640px; margin: 0 auto; padding: 20px 16px 60px; }
+
+        .header {
+            text-align: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid #1a1a28;
+            margin-bottom: 20px;
+        }
+        .brand {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header h1 { font-size: 1.2rem; font-weight: 700; margin-top: 6px; }
+        .header .sub { color: #8888a0; font-size: 0.8rem; margin-top: 4px; }
+
+        .matrix-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #6366f108;
+            border: 1px solid #6366f120;
+            border-radius: 100px;
+            padding: 8px 18px;
+            margin: 0 0 18px;
+            font-size: 0.75rem;
+            color: #8888a0;
+        }
+        .matrix-bar a { color: #818cf8; text-decoration: none; font-weight: 600; }
+        .matrix-bar a:hover { text-decoration: underline; }
+
+        .cycle-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #6366f115;
+            border: 1px solid #6366f130;
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #818cf8;
+            margin-bottom: 6px;
+        }
+        .cycle-badge .price {
+            background: #6366f130;
+            padding: 2px 10px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+        }
+        .cycle-info {
+            font-size: 0.8rem;
+            color: #8888a0;
+            margin: 4px 0 20px;
+            padding: 10px 16px;
+            background: #10101a;
+            border-radius: 10px;
+            border-left: 3px solid #6366f1;
+            line-height: 1.6;
+        }
+        .cycle-info strong { color: #c8c8e0; }
+
+        /* STUDENT CARD */
+        .student-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(145deg, #10101a, #0c0c14);
+            border: 1px solid #1a1a28;
+            border-radius: 18px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+        .student-avatar {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .student-info .name { font-weight: 700; font-size: 1.1rem; }
+        .student-info .detail { color: #8888a0; font-size: 0.78rem; margin-top: 2px; }
+
+        /* SESSION CARD */
+        .session-card {
+            background: linear-gradient(145deg, #10101a, #0c0c14);
+            border: 1px solid #1a1a28;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        .session-card.hoy {
+            border-color: #818cf855;
+            box-shadow: 0 0 0 1px #818cf822;
+        }
+        .session-card.marcada {
+            border-color: #22c55e44;
+        }
+
+        .card-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid #1a1a28;
+        }
+        .day-tag {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #8888a0;
+            min-width: 28px;
+        }
+        .card-info { flex: 1; }
+        .card-info .date { font-weight: 600; font-size: 0.9rem; }
+        .card-info .num { font-size: 0.7rem; color: #8888a0; margin-top: 1px; }
+        .card-info .time { font-size: 0.7rem; color: #a78bfa; font-weight: 600; margin-top: 1px; }
+        .status-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            background: #1a1a28;
+            color: #8888a0;
+            white-space: nowrap;
+        }
+        .status-badge.today { background: #6366f120; color: #818cf8; }
+
+        /* TOGGLEABLE CHECKBOX */
+        .check-section {
+            padding: 10px 16px 14px;
+        }
+        .check-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .check-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #a78bfa;
+            min-width: 50px;
+        }
+
+        /* Custom toggleable checkbox */
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .toggle-wrap input[type="checkbox"] {
+            display: none;
+        }
+        .toggle-track {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1.5px solid #1a1a28;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #666680;
+            width: 100%;
+            justify-content: center;
+        }
+        .toggle-track:hover {
+            border-color: #22c55e40;
+            color: #a0a0b8;
+            background: #22c55e08;
+        }
+        .toggle-track:active { transform: scale(0.97); }
+
+        .toggle-track .check-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid #555568;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        input[type="checkbox"]:checked + .toggle-track {
+            border-color: #22c55e;
+            background: #22c55e15;
+            color: #22c55e;
+        }
+        input[type="checkbox"]:checked + .toggle-track .check-icon {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+        input[type="checkbox"]:checked + .toggle-track .check-icon::after {
+            content: "✓";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 14px;
+        }
+        input[type="checkbox"]:checked + .toggle-track .label-text {
+            color: #22c55e;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        input[type="checkbox"]:checked + .toggle-track {
+            animation: pop 0.3s ease;
+        }
+
+        .sync-note {
+            text-align: center;
+            padding: 14px 16px;
+            margin: 20px 0;
+            background: #6366f110;
+            border: 1px dashed #6366f130;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            color: #8888a0;
+            line-height: 1.5;
+        }
+        .sync-note strong { color: #818cf8; }
+
+        .footer {
+            text-align: center;
+            padding: 24px 0 16px;
+            border-top: 1px solid #1a1a28;
+            margin-top: 36px;
+            color: #555568;
+            font-size: 0.7rem;
+            line-height: 1.6;
+        }
+        .footer strong { color: #818cf8; }
+        .footer a { color: #818cf8; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 400px) {
+            .student-profile { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="brand">Arpa Music</div>
+            <h1>🎹 Anfred · Julio 2026</h1>
+            <div class="sub">Martes 9:00 AM · Jueves 1:00 PM</div>
+        </div>
+
+        <div class="matrix-bar">
+            🎵 <a href="https://site.zapia.com/yow6lg0r">Portal Arpa Music</a>
+            <span>·</span>
+            <span>🧠 Sincronizado</span>
+        </div>
+
+        <div class="cycle-badge">
+            🎯 Ciclo Julio <span class="price">7 sesiones</span>
+        </div>
+        <div class="cycle-info">
+            📅 <strong>Inicio:</strong> Jueves 9 Jul · <strong>Fin:</strong> Jueves 30 Jul<br>
+            ⏱️ Martes a las <strong>9:00 AM</strong> · Jueves a la <strong>1:00 PM</strong><br>
+            🎹 Piano · Sesiones de 1h 30 min
+        </div>
+
+        <div class="student-profile">
+            <div class="student-avatar">A</div>
+            <div class="student-info">
+                <div class="name">Anfred</div>
+                <div class="detail">🎹 Piano · Ciclo anterior concluido ✅</div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 1 — Jueves 9 -->
+        <div class="session-card hoy">
+            <div class="card-main">
+                <div class="day-tag">JUE</div>
+                <div class="card-info">
+                    <div class="date">9 de Julio</div>
+                    <div class="num">Sesión 1/7 🚀</div>
+                    <div class="time">🕐 1:00 PM</div>
+                </div>
+                <div class="status-badge today">🔜 Hoy</div>
+            </div>
+            <div class="check-section">
+                <div class="check-row">
+                    <span class="check-label">🎹</span>
+                    <div class="toggle-wrap">
+                        <input type="checkbox" id="check-s1">
+                        <label class="toggle-track" for="check-s1">
+                            <span class="check-icon"></span>
+                            <span class="label-text">Marcar clase</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 2 — Martes 14 -->
+        <div class="session-card">
+            <div class="card-main">
+                <div class="day-tag">MAR</div>
+                <div class="card-info">
+                    <div class="date">14 de Julio</div>
+                    <div class="num">Sesión 2/7</div>
+                    <div class="time">🕘 9:00 AM</div>
+                </div>
+                <div class="status-badge">📅 Pendiente</div>
+            </div>
+            <div class="check-section">
+                <div class="check-row">
+                    <span class="check-label">🎹</span>
+                    <div class="toggle-wrap">
+                        <input type="checkbox" id="check-s2">
+                        <label class="toggle-track" for="check-s2">
+                            <span class="check-icon"></span>
+                            <span class="label-text">Marcar clase</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 3 — Jueves 16 -->
+        <div class="session-card">
+            <div class="card-main">
+                <div class="day-tag">JUE</div>
+                <div class="card-info">
+                    <div class="date">16 de Julio</div>
+                    <div class="num">Sesión 3/7</div>
+                    <div class="time">🕐 1:00 PM</div>
+                </div>
+                <div class="status-badge">📅 Pendiente</div>
+            </div>
+            <div class="check-section">
+                <div class="check-row">
+                    <span class="check-label">🎹</span>
+                    <div class="toggle-wrap">
+                        <input type="checkbox" id="check-s3">
+                        <label class="toggle-track" for="check-s3">
+                            <span class="check-icon"></span>
+                            <span class="label-text">Marcar clase</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 4 — Martes 21 -->
+        <div class="session-card">
+            <div class="card-main">
+                <div class="day-tag">MAR</div>
+                <div class="card-info">
+                    <div class="date">21 de Julio</div>
+                    <div class="num">Sesión 4/7</div>
+                    <div class="time">🕘 9:00 AM</div>
+                </div>
+                <div class="status-badge">📅 Pendiente</div>
+            </div>
+            <div class="check-section">
+                <div class="check-row">
+                    <span class="check-label">🎹</span>
+                    <div class="toggle-wrap">
+                        <input type="checkbox" id="check-s4">
+                        <label class="toggle-track" for="check-s4">
+                            <span class="check-icon"></span>
+                            <span class="label-text">Marcar clase</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 5 — Jueves 23 -->
+        <div class="session-card">
+            <div class="card-main">
+                <div class="day-tag">JUE</div>
+                <div class="card-info">
+                    <div class="date">23 de Julio</div>
+                    <div class="num">Sesión 5/7</div>
+                    <div class="time">🕐 1:00 PM</div>
+                </div>
+                <div class="status-badge">📅 Pendiente</div>
+            </div>
+            <div class="check-section">
+                <div class="check-row">
+                    <span class="check-label">🎹</span>
+                    <div class="toggle-wrap">
+                        <input type="checkbox" id="check-s5">
+                        <label class="toggle-track" for="check-s5">
+                            <span class="check-icon"></span>
+                            <span class="label-text">Marcar clase</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 6 — Martes 28 -->
+        <div class="session-card">
+            <div class="card-main">
+                <div class="day-tag">MAR</div>
+                <div class="card-info">
+                    <div class="date">28 de Julio</div>
+                    <div class="num">Sesión 6/7</div>
+                    <div class="time">🕘 9:00 AM</div>
+                </div>
+                <div class="status-badge">📅 Pendiente</div>
+            </div>
+            <div class="check-section">
+                <div class="check-row">
+                    <span class="check-label">🎹</span>
+                    <div class="toggle-wrap">
+                        <input type="checkbox" id="check-s6">
+                        <label class="toggle-track" for="check-s6">
+                            <span class="check-icon"></span>
+                            <span class="label-text">Marcar clase</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 7 — Jueves 30 -->
+        <div class="session-card">
+            <div class="card-main">
+                <div class="day-tag">JUE</div>
+                <div class="card-info">
+                    <div class="date">30 de Julio</div>
+                    <div class="num">Sesión 7/7 🏆</div>
+                    <div class="time">🕐 1:00 PM</div>
+                </div>
+                <div class="status-badge">📅 Pendiente</div>
+            </div>
+            <div class="check-section">
+                <div class="check-row">
+                    <span class="check-label">🎹</span>
+                    <div class="toggle-wrap">
+                        <input type="checkbox" id="check-s7">
+                        <label class="toggle-track" for="check-s7">
+                            <span class="check-icon"></span>
+                            <span class="label-text">Marcar clase</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sync-note">
+            🧠 <strong>¿Cómo funciona?</strong><br>
+            Toca para marcar ✅ o desmarcar 🔄 cada sesión.<br>
+            Cuando me confirmes por <strong>WhatsApp</strong>, yo actualizo el sistema.<br>
+            Anfred ve el estado en tiempo real 🔥
+        </div>
+
+        <div class="footer">
+            <p>🎵 <a href="https://site.zapia.com/yow6lg0r">Portal Arpa Music</a> · Estudiantes</p>
+            <p>Powered by <strong>Zapia</strong> · <strong>Arpa Music</strong> — Soñamos Juntos 🎵</p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const STORAGE_KEY = 'anfred-julio-2026';
+            const checkboxes = document.querySelectorAll('.toggle-wrap input[type="checkbox"]');
+            
+            // Cargar estado guardado
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const state = JSON.parse(saved);
+                checkboxes.forEach(cb => {
+                    if (state[cb.id] === true) {
+                        cb.checked = true;
+                    }
+                });
+            }
+            
+            // Guardar estado al cambiar
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', function() {
+                    const state = {};
+                    checkboxes.forEach(c => { state[c.id] = c.checked; });
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
