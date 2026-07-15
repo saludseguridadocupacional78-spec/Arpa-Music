@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a12">
+    <meta property="og:title" content="Laura Arpa - Técnica Vocal 2 | Arpa Music">
+    <meta property="og:description" content="Horario interactivo - Jueves y Viernes 9AM">
+    <title>🎤 Laura Arpa · Tec Vocal 2 · Arpa Music</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a12;
+            color: #e8e8f0;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 640px; margin: 0 auto; padding: 20px 16px 60px; }
+
+        .header {
+            text-align: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid #1a1a28;
+            margin-bottom: 20px;
+        }
+        .brand {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        .info-card {
+            background: #111118;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #1a1a28;
+        }
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+        .info-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+        .info-label { color: #9ca3af; min-width: 80px; }
+        .info-value { font-weight: 600; }
+
+        .level-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .session-card {
+            background: #111118;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #1a1a28;
+            transition: all 0.3s ease;
+        }
+        .session-card.completed {
+            border-color: #22c55e;
+            background: #0a1a0a;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .day-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #f472b6;
+        }
+        .session-num {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .date { font-size: 1.1rem; font-weight: 700; }
+        .time { font-size: 0.9rem; color: #9ca3af; }
+
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .status-done {
+            background: #22c55e20;
+            color: #22c55e;
+        }
+        .status-pending {
+            background: #f59e0b20;
+            color: #f59e0b;
+        }
+
+        /* Toggle checkbox */
+        .toggle-wrap {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toggle-wrap input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .toggle-wrap input[type="checkbox"]:checked {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+        .toggle-wrap input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .toggle-label {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .sync-note {
+            background: #111118;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 24px;
+            border: 1px solid #1a1a28;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #9ca3af;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0 10px;
+            font-size: 0.75rem;
+            color: #4b5563;
+        }
+        .footer a { color: #f472b6; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="brand">Arpa Music</div>
+            <div class="subtitle">🧠 Sincronizado</div>
+        </div>
+
+        <div class="info-card">
+            <div style="text-align:center; margin-bottom:12px;">
+                <div style="font-size:2.5rem;">🎤</div>
+                <div style="font-size:1.3rem; font-weight:800; margin-top:8px;">Laura Arpa</div>
+                <div class="level-badge">Técnica Vocal 2</div>
+            </div>
+            <div class="info-row">
+                <span class="info-icon">🎯</span>
+                <span class="info-label">Ciclo</span>
+                <span class="info-value">Julio — 8 sesiones</span>
+            </div>
+            <div class="info-row">
+                <span class="info-icon">📅</span>
+                <span class="info-label">Inicio</span>
+                <span class="info-value">Jueves 16 Jul</span>
+            </div>
+            <div class="info-row">
+                <span class="info-icon">⏱️</span>
+                <span class="info-label">Horario</span>
+                <span class="info-value">Jue y Vie · 9:00 AM</span>
+            </div>
+            <div class="info-row">
+                <span class="info-icon">📍</span>
+                <span class="info-label">Modalidad</span>
+                <span class="info-value">Presencial — Turbaco</span>
+            </div>
+            <div class="info-row">
+                <span class="info-icon">⏳</span>
+                <span class="info-label">Duración</span>
+                <span class="info-value">1h 30 min</span>
+            </div>
+        </div>
+
+        <!-- Sesión 1 - YA DADA -->
+        <div class="session-card completed" id="card-s1">
+            <div class="card-header">
+                <span class="day-name">JUE</span>
+                <span class="session-num">Sesión 1/8 🚀</span>
+            </div>
+            <div class="card-info">
+                <div class="date">16 de Julio</div>
+                <div class="time">🕘 9:00 AM</div>
+            </div>
+            <div style="margin-top:8px;">
+                <span class="status-badge status-done">✅ Completada</span>
+            </div>
+            <div class="toggle-wrap">
+                <input type="checkbox" id="asignar-s1" checked>
+                <label class="toggle-label" for="asignar-s1">Clase dada</label>
+            </div>
+        </div>
+
+        <!-- Sesión 2 -->
+        <div class="session-card" id="card-s2">
+            <div class="card-header">
+                <span class="day-name">VIE</span>
+                <span class="session-num">Sesión 2/8</span>
+            </div>
+            <div class="card-info">
+                <div class="date">17 de Julio</div>
+                <div class="time">🕘 9:00 AM</div>
+            </div>
+            <div style="margin-top:8px;">
+                <span class="status-badge status-pending" id="badge-s2">📅 Pendiente</span>
+            </div>
+            <div class="toggle-wrap">
+                <input type="checkbox" id="asignar-s2">
+                <label class="toggle-label" for="asignar-s2">Marcar como dada</label>
+            </div>
+        </div>
+
+        <!-- Sesión 3 -->
+        <div class="session-card" id="card-s3">
+            <div class="card-header">
+                <span class="day-name">JUE</span>
+                <span class="session-num">Sesión 3/8</span>
+            </div>
+            <div class="card-info">
+                <div class="date">23 de Julio</div>
+                <div class="time">🕘 9:00 AM</div>
+            </div>
+            <div style="margin-top:8px;">
+                <span class="status-badge status-pending" id="badge-s3">📅 Pendiente</span>
+            </div>
+            <div class="toggle-wrap">
+                <input type="checkbox" id="asignar-s3">
+                <label class="toggle-label" for="asignar-s3">Marcar como dada</label>
+            </div>
+        </div>
+
+        <!-- Sesión 4 -->
+        <div class="session-card" id="card-s4">
+            <div class="card-header">
+                <span class="day-name">VIE</span>
+                <span class="session-num">Sesión 4/8</span>
+            </div>
+            <div class="card-info">
+                <div class="date">24 de Julio</div>
+                <div class="time">🕘 9:00 AM</div>
+            </div>
+            <div style="margin-top:8px;">
+                <span class="status-badge status-pending" id="badge-s4">📅 Pendiente</span>
+            </div>
+            <div class="toggle-wrap">
+                <input type="checkbox" id="asignar-s4">
+                <label class="toggle-label" for="asignar-s4">Marcar como dada</label>
+            </div>
+        </div>
+
+        <!-- Sesión 5 -->
+        <div class="session-card" id="card-s5">
+            <div class="card-header">
+                <span class="day-name">JUE</span>
+                <span class="session-num">Sesión 5/8</span>
+            </div>
+            <div class="card-info">
+                <div class="date">30 de Julio</div>
+                <div class="time">🕘 9:00 AM</div>
+            </div>
+            <div style="margin-top:8px;">
+                <span class="status-badge status-pending" id="badge-s5">📅 Pendiente</span>
+            </div>
+            <div class="toggle-wrap">
+                <input type="checkbox" id="asignar-s5">
+                <label class="toggle-label" for="asignar-s5">Marcar como dada</label>
+            </div>
+        </div>
+
+        <!-- Sesión 6 -->
+        <div class="session-card" id="card-s6">
+            <div class="card-header">
+                <span class="day-name">VIE</span>
+                <span class="session-num">Sesión 6/8</span>
+            </div>
+            <div class="card-info">
+                <div class="date">31 de Julio</div>
+                <div class="time">🕘 9:00 AM</div>
+            </div>
+            <div style="margin-top:8px;">
+                <span class="status-badge status-pending" id="badge-s6">📅 Pendiente</span>
+            </div>
+            <div class="toggle-wrap">
+                <input type="checkbox" id="asignar-s6">
+                <label class="toggle-label" for="asignar-s6">Marcar como dada</label>
+            </div>
+        </div>
+
+        <!-- Sesión 7 -->
+        <div class="session-card" id="card-s7">
+            <div class="card-header">
+                <span class="day-name">JUE</span>
+                <span class="session-num">Sesión 7/8</span>
+            </div>
+            <div class="card-info">
+                <div class="date">6 de Agosto</div>
+                <div class="time">🕘 9:00 AM</div>
+            </div>
+            <div style="margin-top:8px;">
+                <span class="status-badge status-pending" id="badge-s7">📅 Pendiente</span>
+            </div>
+            <div class="toggle-wrap">
+                <input type="checkbox" id="asignar-s7">
+                <label class="toggle-label" for="asignar-s7">Marcar como dada</label>
+            </div>
+        </div>
+
+        <!-- Sesión 8 -->
+        <div class="session-card" id="card-s8">
+            <div class="card-header">
+                <span class="day-name">VIE</span>
+                <span class="session-num">Sesión 8/8 🏆</span>
+            </div>
+            <div class="card-info">
+                <div class="date">7 de Agosto</div>
+                <div class="time">🕘 9:00 AM</div>
+            </div>
+            <div style="margin-top:8px;">
+                <span class="status-badge status-pending" id="badge-s8">📅 Pendiente</span>
+            </div>
+            <div class="toggle-wrap">
+                <input type="checkbox" id="asignar-s8">
+                <label class="toggle-label" for="asignar-s8">Marcar como dada</label>
+            </div>
+        </div>
+
+        <div class="sync-note">
+            🧠 <strong>¿Cómo funciona?</strong><br>
+            Marca o desmarca cada sesión libremente. El estado se guarda en tu navegador.<br>
+            Cuando confirmes por <strong>WhatsApp</strong>, yo actualizo el sistema.<br>
+            Laura ve el progreso en tiempo real 🔥
+        </div>
+
+        <div class="footer">
+            <p>🎵 <a href="https://site.zapia.com/yow6lg0r">Portal Arpa Music</a> · Estudiantes</p>
+            <p>Powered by <strong>Zapia</strong> · <strong>Arpa Music</strong> — Soñamos Juntos 🎵</p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const STORAGE_KEY = 'laura-arpa-tecvocal2-julio-2026';
+            const checkboxes = document.querySelectorAll('.toggle-wrap input[type="checkbox"]');
+            
+            // Cargar estado guardado
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const state = JSON.parse(saved);
+                checkboxes.forEach(cb => {
+                    if (state[cb.id] === true) {
+                        cb.checked = true;
+                    } else if (state[cb.id] === false && cb.id !== 'asignar-s1') {
+                        cb.checked = false;
+                    }
+                });
+            }
+            
+            // Actualizar visual al cambiar
+            function updateVisual(cb) {
+                const card = cb.closest('.session-card');
+                const badge = card.querySelector('.status-badge');
+                const label = card.querySelector('.toggle-label');
+                
+                if (cb.checked) {
+                    card.classList.add('completed');
+                    if (badge) {
+                        badge.className = 'status-badge status-done';
+                        badge.textContent = '✅ Completada';
+                    }
+                    if (label) label.textContent = 'Clase dada';
+                } else {
+                    card.classList.remove('completed');
+                    if (badge) {
+                        badge.className = 'status-badge status-pending';
+                        badge.textContent = '📅 Pendiente';
+                    }
+                    if (label) label.textContent = 'Marcar como dada';
+                }
+            }
+            
+            // Inicializar visuales
+            checkboxes.forEach(cb => updateVisual(cb));
+            
+            // Guardar estado al cambiar
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', function() {
+                    updateVisual(this);
+                    const state = {};
+                    checkboxes.forEach(c => { state[c.id] = c.checked; });
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
