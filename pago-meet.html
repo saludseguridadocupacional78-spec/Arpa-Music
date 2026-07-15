@@ -14,37 +14,25 @@
             background: #0a0a12;
             color: #e8e8f0;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            -webkit-font-smoothing: antialiased;
         }
-        .container {
-            max-width: 520px;
-            width: 100%;
-            margin: 24px 16px;
-            padding: 32px 24px;
-            background: #12121e;
-            border-radius: 20px;
-            border: 1px solid #1e1e30;
-        }
-        .brand {
+        .container { max-width: 580px; margin: 0 auto; padding: 40px 16px 60px; }
+
+        .header {
             text-align: center;
+            padding: 28px 0 20px;
+            border-bottom: 1px solid #1a1a28;
             margin-bottom: 28px;
         }
-        .brand h1 {
+        .brand {
             font-size: 1.6rem;
             font-weight: 800;
             background: linear-gradient(135deg, #818cf8, #6366f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 4px;
         }
-        .brand p {
-            color: #8888aa;
-            font-size: 0.9rem;
-        }
+        .brand-sub { color: #6666aa; font-size: 0.85rem; margin-top: 4px; }
+
         .step-indicator {
             display: flex;
             align-items: center;
@@ -56,257 +44,212 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
             font-size: 0.85rem;
-            color: #6666aa;
+            background: #12121e;
+            color: #5555aa;
+            transition: all 0.3s;
         }
         .step.active {
+            background: linear-gradient(135deg, #818cf833, #6366f133);
             color: #818cf8;
-            font-weight: 600;
+            border: 1px solid #818cf855;
         }
         .step.completed {
+            background: #10b98122;
             color: #10b981;
+            border: 1px solid #10b98144;
         }
         .step-number {
-            width: 26px;
-            height: 26px;
+            width: 22px; height: 22px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            background: #1e1e30;
-            border: 1px solid #2a2a40;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700;
+            background: currentColor; color: #0a0a12;
         }
-        .step.active .step-number {
-            background: #818cf822;
-            border-color: #818cf8;
-            color: #818cf8;
+        .step.completed .step-number { background: #10b981; color: #0a0a12; }
+        .step.active .step-number { background: #818cf8; color: #0a0a12; }
+        .step-arrow { color: #3333aa; font-size: 1.2rem; }
+
+        .card {
+            background: #12121e;
+            border: 1px solid #1a1a2e;
+            border-radius: 16px;
+            padding: 28px 24px;
         }
-        .step.completed .step-number {
-            background: #10b98122;
-            border-color: #10b981;
-            color: #10b981;
-        }
-        .step-arrow {
-            color: #3333;
-            font-size: 0.7rem;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
+
+        .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            color: #c8c8e0;
-            margin-bottom: 6px;
+            color: #c8c8e8;
+            margin-bottom: 8px;
         }
         .form-group input[type="text"] {
             width: 100%;
             padding: 12px 14px;
-            background: #0a0a12;
-            border: 1px solid #2a2a40;
             border-radius: 10px;
+            border: 1px solid #1a1a2e;
+            background: #0a0a12;
             color: #e8e8f0;
-            font-family: Arial, sans-serif;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            font-family: inherit;
             outline: none;
             transition: border-color 0.2s;
         }
         .form-group input[type="text"]:focus {
             border-color: #818cf8;
         }
+
         .file-upload {
-            position: relative;
-            border: 2px dashed #2a2a40;
+            border: 2px dashed #1a1a2e;
             border-radius: 12px;
-            padding: 28px 16px;
+            padding: 32px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.25s;
-            background: #0a0a12;
+            transition: all 0.3s;
+            position: relative;
         }
-        .file-upload:hover {
+        .file-upload:hover, .file-upload.has-file {
             border-color: #818cf855;
             background: #818cf808;
         }
-        .file-upload.has-file {
-            border-color: #10b981;
-            border-style: solid;
-            background: #10b98108;
-        }
-        .file-upload-icon {
-            font-size: 2.2rem;
-            margin-bottom: 8px;
-        }
-        .file-upload-text {
-            font-size: 0.85rem;
-            color: #8888aa;
-        }
-        .file-upload-text strong {
-            color: #818cf8;
-        }
+        .file-upload-icon { font-size: 2.5rem; margin-bottom: 8px; }
+        .file-upload-text { font-size: 0.9rem; color: #8888bb; }
         .file-name {
-            display: none;
+            margin-top: 8px;
             font-size: 0.85rem;
             color: #10b981;
-            margin-top: 8px;
-            font-weight: 600;
+            display: none;
         }
         .file-upload input[type="file"] {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            inset: 0;
             opacity: 0;
             cursor: pointer;
         }
+
         .btn-submit {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #818cf8, #6366f1);
-            color: white;
             border: none;
             border-radius: 12px;
-            font-family: Arial, sans-serif;
             font-size: 1rem;
             font-weight: 700;
-            cursor: pointer;
+            font-family: inherit;
+            cursor: not-allowed;
+            background: #1a1a2e;
+            color: #5555aa;
             transition: all 0.2s;
-            opacity: 0.5;
-            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .btn-submit.enabled {
-            opacity: 1;
-            pointer-events: all;
+            cursor: pointer;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            color: #fff;
         }
         .btn-submit.enabled:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 20px #6366f144;
-        }
-        .btn-submit:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+            box-shadow: 0 6px 24px #818cf844;
         }
         .btn-submit.loading {
-            opacity: 0.7;
+            cursor: not-allowed;
+            opacity: 0.6;
             pointer-events: none;
         }
         .loading-spinner {
             display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff44;
-            border-top: 2px solid white;
+            width: 18px; height: 18px;
+            border: 2px solid #fff4;
+            border-top-color: #fff;
             border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto;
+            animation: spin 0.8s linear infinite;
         }
-        .btn-submit.loading .loading-spinner {
-            display: block;
-        }
-        .btn-submit.loading .btn-text {
-            display: none;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        .btn-submit.loading .loading-spinner { display: inline-block; }
+        .btn-submit.loading .btn-text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         .success-box {
             display: none;
-            text-align: center;
-            padding: 24px 16px;
+            animation: fadeIn 0.6s ease;
         }
-        .success-box.show {
-            display: block;
-            animation: fadeUp 0.5s ease;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .success-box.show { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
         .success-icon {
             font-size: 3rem;
+            text-align: center;
             margin-bottom: 12px;
         }
         .success-title {
-            font-size: 1.2rem;
+            text-align: center;
+            font-size: 1.4rem;
             font-weight: 700;
             color: #10b981;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .success-sub {
-            font-size: 0.85rem;
-            color: #8888aa;
+            text-align: center;
+            color: #8888bb;
+            font-size: 0.9rem;
             margin-bottom: 24px;
         }
+
         .meet-card {
-            background: #0a0a12;
-            border: 1px solid #818cf844;
-            border-radius: 14px;
-            padding: 20px;
-            margin-top: 8px;
+            background: linear-gradient(135deg, #818cf822, #6366f122);
+            border: 1px solid #818cf855;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
         }
         .meet-card-title {
-            font-size: 0.8rem;
-            color: #818cf8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #c8c8e8;
+            margin-bottom: 16px;
         }
         .meet-link {
-            display: block;
-            word-break: break-all;
-            font-size: 1rem;
-            color: #818cf8;
-            font-weight: 600;
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            color: #fff;
             text-decoration: none;
-            padding: 12px;
-            background: #818cf810;
-            border-radius: 10px;
-            border: 1px solid #818cf822;
+            font-weight: 700;
+            font-size: 1.1rem;
             transition: all 0.2s;
-            margin-bottom: 12px;
         }
         .meet-link:hover {
-            background: #818cf820;
-            border-color: #818cf8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px #818cf866;
         }
         .meet-note {
+            margin-top: 16px;
             font-size: 0.8rem;
             color: #6666aa;
-            line-height: 1.5;
+            line-height: 1.6;
         }
-        .error-msg {
-            display: none;
-            color: #f87171;
-            font-size: 0.8rem;
-            margin-top: 4px;
-        }
+
         .footer {
             text-align: center;
-            margin-top: 28px;
-            padding-top: 20px;
-            border-top: 1px solid #1a1a28;
-            font-size: 0.8rem;
-            color: #5555;
+            padding: 32px 0;
+            color: #4444aa;
+            font-size: 0.85rem;
         }
-        .footer strong {
-            color: #818cf8;
-        }
-        .hidden-form {
-            display: none;
-        }
+        .footer strong { color: #6366f1; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="brand">
-            <h1>🎵 Arpa Music</h1>
-            <p>Comprobante de pago · Acceso a clase</p>
+        <div class="header">
+            <div class="brand">🎵 Arpa Music</div>
+            <div class="brand-sub">Comprobante de Pago · Clases Virtuales</div>
         </div>
 
-        <!-- Step indicator -->
         <div class="step-indicator">
             <div class="step active" id="step1">
                 <span class="step-number">1</span> Subir comprobante
@@ -318,47 +261,47 @@
         </div>
 
         <!-- FORMULARIO -->
-        <form id="pagoForm" method="POST" action="https://formsubmit.co/jl16a90@hotmail.com" enctype="multipart/form-data">
-            <!-- Campos ocultos FormSubmit -->
-            <input type="hidden" name="_subject" value="🎵 NUEVO COMPROBANTE DE PAGO - Arpa Music">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_redirect" value="https://saludseguridadocupacional78-spec.github.io/Arpa-Music/pago-meet.html?ok=true">
-            <input type="hidden" name="_next" value="https://saludseguridadocupacional78-spec.github.io/Arpa-Music/pago-meet.html?ok=true">
+        <div class="card" id="formCard">
+            <form id="pagoForm" method="POST" action="https://formsubmit.co/jl16a90@hotmail.com" enctype="multipart/form-data" target="formsubmit-frame">
+                <input type="hidden" name="_subject" value="🎵 NUEVO COMPROBANTE DE PAGO - Arpa Music">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
 
-            <div class="form-group">
-                <label for="nombre">Nombre completo del estudiante *</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ej: María Pérez" required>
-            </div>
-
-            <div class="form-group">
-                <label for="comprobante">Sube tu comprobante de pago *</label>
-                <div class="file-upload" id="fileUpload">
-                    <div class="file-upload-icon">📄</div>
-                    <div class="file-upload-text">
-                        Haz clic o arrastra tu <strong>comprobante</strong> aquí<br>
-                        <span style="font-size:0.8rem;color:#6666aa;">Imagen o PDF · Máx 10 MB</span>
-                    </div>
-                    <div class="file-name" id="fileName"></div>
-                    <input type="file" id="comprobante" name="comprobante" accept="image/*,application/pdf" required>
+                <div class="form-group">
+                    <label for="nombre">Nombre completo del estudiante *</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: María Pérez" required>
                 </div>
-            </div>
 
-            <button type="submit" class="btn-submit" id="btnSubmit" disabled>
-                <span class="btn-text">🚀 Enviar comprobante</span>
-                <div class="loading-spinner"></div>
-            </button>
-        </form>
+                <div class="form-group">
+                    <label for="comprobante">Sube tu comprobante de pago *</label>
+                    <div class="file-upload" id="fileUpload">
+                        <div class="file-upload-icon">📄</div>
+                        <div class="file-upload-text">
+                            Haz clic o arrastra tu <strong>comprobante</strong> aquí<br>
+                            <span style="font-size:0.8rem;color:#6666aa;">Imagen o PDF · Máx 10 MB</span>
+                        </div>
+                        <div class="file-name" id="fileName"></div>
+                        <input type="file" id="comprobante" name="comprobante" accept="image/*,application/pdf" required>
+                    </div>
+                </div>
 
-        <!-- PANTALLA DE ÉXITO -->
-        <div class="success-box" id="successBox">
+                <button type="submit" class="btn-submit" id="btnSubmit" disabled>
+                    <span class="btn-text">🚀 Enviar comprobante</span>
+                    <div class="loading-spinner"></div>
+                </button>
+            </form>
+            <iframe name="formsubmit-frame" style="display:none;"></iframe>
+        </div>
+
+        <!-- PANTALLA DE ÉXITO - siempre visible cuando se revela -->
+        <div class="card success-box" id="successBox">
             <div class="success-icon">✅</div>
             <div class="success-title">¡Comprobante recibido!</div>
             <div class="success-sub">Tu pago ha sido registrado. Aquí está tu enlace para la clase:</div>
 
             <div class="meet-card">
                 <div class="meet-card-title">📹 Enlace de clase virtual</div>
-                <a class="meet-link" href="https://meet.google.com/uqf-vjsg-yyu" target="_blank" id="meetLink">
+                <a class="meet-link" href="https://meet.google.com/uqf-vjsg-yyu" target="_blank" onclick="window.open('https://meet.google.com/uqf-vjsg-yyu','_blank');return!localStorage.getItem('arpa-meet-clic')||(localStorage.setItem('arpa-meet-clic','1'),!1)">
                     🔗 Abrir Google Meet
                 </a>
                 <div class="meet-note">
@@ -382,14 +325,16 @@
             const fileUpload = document.getElementById('fileUpload');
             const fileName = document.getElementById('fileName');
             const btnSubmit = document.getElementById('btnSubmit');
+            const formCard = document.getElementById('formCard');
             const successBox = document.getElementById('successBox');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
 
-            // Verificar si venimos de un envío exitoso
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('ok') === 'true') {
-                form.style.display = 'none';
-                document.getElementById('step1').className = 'step completed';
-                document.getElementById('step2').className = 'step active';
+            // Verificar si ya completó antes (localStorage)
+            if (localStorage.getItem('arpa-pago-completado') === 'true') {
+                formCard.style.display = 'none';
+                step1.className = 'step completed';
+                step2.className = 'step active';
                 successBox.classList.add('show');
                 return;
             }
@@ -397,23 +342,17 @@
             function toggleSubmit() {
                 const nombreOk = nombreInput.value.trim().length > 0;
                 const fileOk = fileInput.files.length > 0;
-                if (nombreOk && fileOk) {
-                    btnSubmit.disabled = false;
-                    btnSubmit.classList.add('enabled');
-                } else {
-                    btnSubmit.disabled = true;
-                    btnSubmit.classList.remove('enabled');
-                }
+                btnSubmit.disabled = !(nombreOk && fileOk);
+                btnSubmit.classList.toggle('enabled', nombreOk && fileOk);
             }
 
             nombreInput.addEventListener('input', toggleSubmit);
 
             fileInput.addEventListener('change', function() {
                 if (this.files.length > 0) {
-                    const f = this.files[0];
                     fileUpload.classList.add('has-file');
+                    fileName.textContent = '✅ ' + this.files[0].name;
                     fileName.style.display = 'block';
-                    fileName.textContent = '✅ ' + f.name + ' (' + (f.size / 1024).toFixed(1) + ' KB)';
                 } else {
                     fileUpload.classList.remove('has-file');
                     fileName.style.display = 'none';
@@ -421,10 +360,43 @@
                 toggleSubmit();
             });
 
-            // Mostrar loading al enviar
+            // Enviar con fetch para quedarnos en la página
             form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
                 btnSubmit.classList.add('loading');
                 btnSubmit.disabled = true;
+
+                const formData = new FormData(form);
+
+                // Enviar con fetch (oculto, sin recargar)
+                fetch('https://formsubmit.co/ajax/jl16a90@hotmail.com', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Éxito: mostrar Meet
+                    localStorage.setItem('arpa-pago-completado', 'true');
+                    formCard.style.display = 'none';
+                    step1.className = 'step completed';
+                    step2.className = 'step active';
+                    successBox.classList.add('show');
+                })
+                .catch(function() {
+                    // Si falla fetch, intentamos con el iframe (fallback)
+                    form.target = 'formsubmit-frame';
+                    form.submit();
+
+                    // Asumimos éxito después de 2s
+                    setTimeout(function() {
+                        localStorage.setItem('arpa-pago-completado', 'true');
+                        formCard.style.display = 'none';
+                        step1.className = 'step completed';
+                        step2.className = 'step active';
+                        successBox.classList.add('show');
+                    }, 3000);
+                });
             });
         })();
     </script>
