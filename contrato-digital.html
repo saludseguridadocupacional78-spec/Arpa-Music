@@ -96,19 +96,59 @@
             background: linear-gradient(135deg, #1a1a30, #111122);
             border: 2px solid #818cf855;
             border-radius: 16px;
-            padding: 20px 24px;
+            padding: 24px;
             margin-top: 8px;
-            text-align: center;
         }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            color: #c8c8e0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 2px solid #2a2a44;
+            background: #0a0a16;
+            color: #e8e8f0;
+            font-size: 1rem;
+            font-family: Arial, Helvetica, sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-group input[type="text"]:focus {
+            border-color: #818cf8;
+        }
+        .form-group input[type="text"]::placeholder {
+            color: #55557a;
+        }
+        .form-group .error-msg {
+            color: #f87171;
+            font-size: 0.8rem;
+            display: none;
+            margin-top: 4px;
+        }
+        .form-group .error-msg.visible {
+            display: block;
+        }
+
         .accept-label {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start;
             gap: 12px;
             cursor: pointer;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #e8e8f0;
+            text-align: left;
+            margin-bottom: 16px;
         }
         .accept-label input[type="checkbox"] {
             width: 22px;
@@ -116,15 +156,67 @@
             accent-color: #818cf8;
             cursor: pointer;
             flex-shrink: 0;
+            margin-top: 2px;
         }
+
+        .btn-firmar {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: Arial, Helvetica, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-firmar:hover {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            transform: translateY(-1px);
+        }
+        .btn-firmar:disabled {
+            background: #2a2a44;
+            color: #55557a;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .accept-status {
             margin-top: 12px;
-            font-size: 0.9rem;
-            color: #34d399;
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 600;
             display: none;
         }
-        .accept-status.visible {
+        .accept-status.success {
             display: block;
+            background: #10b98122;
+            border: 1px solid #10b98144;
+            color: #34d399;
+        }
+        .accept-status.error {
+            display: block;
+            background: #f8717122;
+            border: 1px solid #f8717144;
+            color: #f87171;
+        }
+
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 3px solid #ffffff44;
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .footer {
@@ -134,13 +226,6 @@
             padding: 20px 0;
             border-top: 1px solid #1a1a28;
             margin-top: 24px;
-        }
-        .footer a {
-            color: #818cf8;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
         }
 
         @media (max-width: 500px) {
@@ -232,47 +317,138 @@
                 <li>Cualquier modificación a estos términos será notificada por escrito vía WhatsApp con al menos 7 días de anticipación.</li>
                 <li>Arpa Music se reserva el derecho de admisión y permanencia en la escuela.</li>
                 <li>Para consultas o reclamaciones, el estudiante/acudiente puede contactar a la dirección de la escuela vía WhatsApp.</li>
-                <li>Al marcar la casilla de aceptación, el estudiante/acudiente declara haber leído, entendido y aceptado la totalidad de los términos y condiciones aquí expuestos.</li>
+                <li>Al firmar este contrato, el estudiante/acudiente declara haber leído, entendido y aceptado la totalidad de los términos y condiciones aquí expuestos.</li>
             </ul>
         </div>
 
         <div class="accept-box">
-            <label class="accept-label">
-                <input type="checkbox" id="accept-check">
-                📝 Leo y acepto las condiciones del contrato
-            </label>
-            <div class="accept-status" id="accept-status">✅ Contrato aceptado digitalmente</div>
+            <form id="contrato-form">
+                <div class="form-group">
+                    <label for="nombre">Nombre completo del estudiante o acudiente *</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre completo" required>
+                    <div class="error-msg" id="nombre-error">⚠️ Este campo es obligatorio</div>
+                </div>
+
+                <label class="accept-label">
+                    <input type="checkbox" id="accept-check" name="acepto" required>
+                    <span>📝 He leído y acepto todas las condiciones del contrato</span>
+                </label>
+
+                <button type="submit" class="btn-firmar" id="btn-firmar">
+                    ✍️ Firmar Contrato
+                </button>
+                <div class="spinner" id="spinner"></div>
+            </form>
+
+            <div class="accept-status" id="accept-status"></div>
         </div>
 
         <div class="footer">
             <p>🎵 <strong>Arpa Music</strong> — Soñamos Juntos 🎵</p>
             <p>Cartagena · Turbaco · Colombia</p>
-            <p>Powered by <strong>Zapia</strong></p>
         </div>
     </div>
 
     <script>
         (function() {
-            const STORAGE_KEY = 'arpa-contrato-aceptado';
+            const form = document.getElementById('contrato-form');
+            const nombreInput = document.getElementById('nombre');
             const checkbox = document.getElementById('accept-check');
+            const btn = document.getElementById('btn-firmar');
+            const spinner = document.getElementById('spinner');
             const status = document.getElementById('accept-status');
-            
-            // Cargar estado guardado
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved === 'true') {
-                checkbox.checked = true;
-                status.classList.add('visible');
+            const nombreError = document.getElementById('nombre-error');
+
+            // Desactivar botón si no hay nombre o no aceptó
+            function toggleBtn() {
+                const nameOk = nombreInput.value.trim().length > 0;
+                const checked = checkbox.checked;
+                btn.disabled = !(nameOk && checked);
             }
-            
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    localStorage.setItem(STORAGE_KEY, 'true');
-                    status.classList.add('visible');
-                } else {
-                    localStorage.removeItem(STORAGE_KEY);
-                    status.classList.remove('visible');
+
+            nombreInput.addEventListener('input', toggleBtn);
+            checkbox.addEventListener('change', toggleBtn);
+            toggleBtn();
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const nombre = nombreInput.value.trim();
+                if (!nombre) {
+                    nombreError.classList.add('visible');
+                    nombreInput.focus();
+                    return;
                 }
+                nombreError.classList.remove('visible');
+
+                if (!checkbox.checked) {
+                    status.className = 'accept-status error';
+                    status.textContent = '⚠️ Debes aceptar las condiciones para firmar';
+                    return;
+                }
+
+                // Deshabilitar formulario
+                btn.disabled = true;
+                btn.style.display = 'none';
+                spinner.style.display = 'block';
+                status.className = '';
+                status.textContent = '';
+
+                const fecha = new Date();
+                const fechaLocal = fecha.toLocaleDateString('es-CO', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                const horaLocal = fecha.toLocaleTimeString('es-CO', {
+                    hour: '2-digit', minute: '2-digit'
+                });
+
+                // Enviar notificación a jl16a90@hotmail.com
+                const payload = {
+                    nombre: nombre,
+                    fecha: fechaLocal,
+                    hora: horaLocal,
+                    acepto: 'Sí',
+                    mensaje: '🎵 CONTRATO FIRMADO - Arpa Music',
+                    terminos: 'Aceptó los 5 puntos: Horario, Asistencia, Pagos y Mora, Deberes, Disposiciones Generales'
+                };
+
+                fetch('https://formsubmit.co/ajax/jl16a90@hotmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    spinner.style.display = 'none';
+                    btn.style.display = 'none';
+                    status.className = 'accept-status success';
+                    status.innerHTML = '✅ <strong>Contrato firmado exitosamente</strong><br>' +
+                        'Gracias, ' + nombre + '. Tu aceptación ha sido registrada y enviada a la dirección de Arpa Music.';
+
+                    // Guardar en localStorage
+                    localStorage.setItem('arpa-contrato-aceptado', 'true');
+                    localStorage.setItem('arpa-contrato-nombre', nombre);
+                    localStorage.setItem('arpa-contrato-fecha', fechaLocal + ' ' + horaLocal);
+                })
+                .catch(error => {
+                    spinner.style.display = 'none';
+                    btn.style.display = 'block';
+                    btn.disabled = false;
+                    status.className = 'accept-status error';
+                    status.textContent = '❌ Hubo un error al enviar. Intenta de nuevo.';
+                    console.error('Error:', error);
+                });
             });
+
+            // Cargar nombre si ya había firmado antes
+            const savedNombre = localStorage.getItem('arpa-contrato-nombre');
+            if (savedNombre) {
+                nombreInput.value = savedNombre;
+                toggleBtn();
+            }
         })();
     </script>
 </body>
