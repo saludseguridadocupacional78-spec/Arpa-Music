@@ -4,706 +4,1500 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a0a12">
-<title>Arpa Music · Sistema de Gestión</title>
+<title>Arpa Music · Sistema de Gestión Integral</title>
 <style>
+/* ═══════════════════════════════════════
+   ARPA MUSIC — Sistema de Gestión Premium
+   Diseño: Dark Mode Ultra | UX: Mobile-First
+   ═══════════════════════════════════════ */
+
+:root {
+  --bg: #08080f; --bg2: #0d0d1a; --bg3: #14142a;
+  --surface: #1a1a30; --surface2: #22223e; --border: #2a2a4a;
+  --text: #e8e8f0; --text2: #9898b8; --text3: #6868a0;
+  --primary: #ec4899; --primary2: #db2777; --primary-glow: rgba(236,72,153,.15);
+  --accent: #8b5cf6; --accent2: #7c3aed;
+  --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+  --info: #3b82f6; --radius: 12px; --radius-sm: 8px;
+  --shadow: 0 4px 24px rgba(0,0,0,.4);
+  --sidebar: 260px;
+}
+
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#0a0a12;color:#e8e8f0;min-height:100vh}
-a{color:#f472b6;text-decoration:none}
-.container{max-width:1200px;margin:0 auto;padding:16px}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px}
+::selection{background:var(--primary);color:#fff}
 
-/* Header */
-.header{background:linear-gradient(135deg,#111118,#1a1a28);border-radius:16px;padding:20px 24px;margin-bottom:20px;border:1px solid #1a1a28;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.brand{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#f472b6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.tag{color:#6b7280;font-size:.8rem;margin-top:2px}
-.ceo-badge{background:#ec4899;color:#fff;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700}
+/* ═══ LAYOUT ═══ */
+.app-wrapper{display:flex;min-height:100vh}
 
-/* Nav */
-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-nav button{background:#111118;border:1px solid #1a1a28;color:#9ca3af;padding:10px 16px;border-radius:12px;cursor:pointer;font-size:.85rem;font-weight:600;transition:all .2s}
-nav button:hover{background:#1a1a28;color:#f472b6;border-color:#f472b6}
-nav button.active{background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;border-color:transparent}
+/* Sidebar */
+.sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s ease}
+.sidebar-brand{padding:20px 18px;border-bottom:1px solid var(--border)}
+.sidebar-brand h1{font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sidebar-brand span{font-size:.7rem;color:var(--text3);margin-top:2px;display:block}
+.sidebar-nav{flex:1;overflow-y:auto;padding:8px 0}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 18px;cursor:pointer;color:var(--text2);font-size:.88rem;font-weight:500;transition:all .2s;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--surface);color:var(--text)}
+.nav-item.active{background:var(--primary-glow);color:var(--primary);border-right:3px solid var(--primary)}
+.nav-item .ico{font-size:1.2rem;width:24px;text-align:center}
 
-/* Stats Grid */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
-.stat-card{background:#111118;border-radius:14px;padding:16px;border:1px solid #1a1a28;text-align:center}
-.stat-card .num{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#f472b6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.stat-card .label{color:#6b7280;font-size:.8rem;margin-top:4px}
-.stat-card .sub{color:#9ca3af;font-size:.7rem;margin-top:2px}
+/* Main */
+.main{flex:1;margin-left:var(--sidebar);min-height:100vh}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:50}
+.topbar h2{font-size:1.15rem;font-weight:700}
+.topbar-info{display:flex;align-items:center;gap:16px;font-size:.82rem;color:var(--text2)}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600}
+.badge-primary{background:var(--primary-glow);color:var(--primary)}
+.badge-success{background:rgba(34,197,94,.15);color:var(--success)}
+.badge-warning{background:rgba(245,158,11,.15);color:var(--warning)}
+.content{padding:24px 28px}
 
-/* Cards */
-.card{background:#111118;border-radius:14px;padding:20px;margin-bottom:16px;border:1px solid #1a1a28}
-.card-title{font-size:1rem;font-weight:700;margin-bottom:16px;color:#f472b6}
-.card table{width:100%;border-collapse:collapse;font-size:.85rem}
-.card th{text-align:left;color:#6b7280;font-weight:600;padding:8px 6px;border-bottom:1px solid #1a1a28}
-.card td{padding:8px 6px;border-bottom:1px solid #0f0f1a}
-.card tr:last-child td{border:none}
-.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:700}
-.badge-green{background:#0a2a0a;color:#22c55e}
-.badge-yellow{background:#2a2a0a;color:#eab308}
-.badge-red{background:#2a0a0a;color:#ef4444}
-.badge-blue{background:#0a0a2a;color:#3b82f6}
-.badge-purple{background:#1a0a2a;color:#a855f7}
+/* ═══ CARDS ═══ */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .2s}
+.card:hover{border-color:var(--surface2)}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card-header h3{font-size:.95rem;font-weight:700}
+.card-header .sub{font-size:.78rem;color:var(--text3)}
 
-/* Progress bar */
-.progress-bar{height:6px;background:#1a1a28;border-radius:10px;overflow:hidden;margin-top:4px}
-.progress-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#f472b6,#ec4899);transition:width .5s}
+/* Grid */
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
 
-/* Grid students */
-.student-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-.student-card{background:#111118;border-radius:14px;padding:16px;border:1px solid #1a1a28;cursor:pointer;transition:all .2s}
-.student-card:hover{border-color:#f472b6;transform:translateY(-2px)}
-.student-card .name{font-weight:700;font-size:.95rem}
-.student-card .detail{color:#9ca3af;font-size:.8rem;margin-top:4px}
-.student-card .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+/* ═══ KPI ═══ */
+.kpi{text-align:center;padding:20px 16px;position:relative;overflow:hidden}
+.kpi-icon{font-size:1.6rem;margin-bottom:8px}
+.kpi-value{font-size:2rem;font-weight:800;letter-spacing:-1px}
+.kpi-label{font-size:.78rem;color:var(--text3);margin-top:4px}
+.kpi-trend{font-size:.72rem;margin-top:6px;font-weight:600}
+.kpi-trend.up{color:var(--success)}
+.kpi-trend.down{color:var(--danger)}
 
-/* Student detail */
-.detail-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.detail-header h2{font-size:1.3rem}
-.back-btn{background:#1a1a28;border:1px solid #1a1a28;color:#9ca3af;padding:8px 14px;border-radius:10px;cursor:pointer;font-size:.8rem}
-.back-btn:hover{color:#f472b6}
-
-/* Forms */
-input,select,textarea{background:#0f0f1a;border:1px solid #1a1a28;color:#e8e8f0;padding:10px 14px;border-radius:10px;font-size:.9rem;width:100%;margin-bottom:10px;font-family:Arial,sans-serif}
-input:focus,select:focus,textarea:focus{outline:none;border-color:#f472b6}
+/* ═══ FORM ═══ */
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.88rem;outline:none;transition:border .2s;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}
 textarea{resize:vertical;min-height:80px}
-.btn{background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;border:none;padding:10px 20px;border-radius:10px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(236,72,153,.3)}
-.btn-secondary{background:#1a1a28;color:#9ca3af;border:1px solid #1a1a28}
-.btn-secondary:hover{background:#2a2a38;color:#f472b6}
-.btn-small{padding:6px 14px;font-size:.8rem}
-.btn-danger{background:#ef4444;color:#fff}
-.btn-danger:hover{background:#dc2626}
+select{appearance:none;cursor:pointer}
+input[type="file"]{padding:8px;background:var(--surface2);cursor:pointer}
 
-/* Modules */
-.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.module-card{background:#111118;border-radius:14px;padding:16px;border:1px solid #1a1a28;text-align:center}
-.module-card .icon{font-size:2rem;margin-bottom:8px}
-.module-card .title{font-weight:700;font-size:.9rem;margin-bottom:6px}
-.module-card .desc{color:#9ca3af;font-size:.8rem}
-.module-card .link{display:inline-block;margin-top:10px;color:#f472b6;font-size:.8rem;font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:none;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px var(--primary-glow)}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-accent:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(139,92,246,.3)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.btn-sm{padding:6px 12px;font-size:.78rem}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{opacity:.9}
+.btn-success{background:var(--success);color:#fff}
+.btn-warning{background:var(--warning);color:#000}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
 
-/* File upload area */
-.file-area{border:2px dashed #1a1a28;border-radius:12px;padding:30px;text-align:center;margin-bottom:12px;cursor:pointer;transition:all .2s}
-.file-area:hover{border-color:#f472b6;background:#0f0f1a}
-.file-area .icon{font-size:2rem;margin-bottom:8px}
-.file-area .text{color:#6b7280;font-size:.85rem}
-.file-list{list-style:none}
-.file-list li{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #0f0f1a;font-size:.85rem}
-.file-list li:last-child{border:none}
-.file-list .del{cursor:pointer;color:#ef4444;font-size:.8rem}
+/* ═══ TABLE ═══ */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+th{color:var(--text3);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+tr:hover td{background:var(--surface)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3)}
+.empty-state .ico{font-size:2.5rem;margin-bottom:12px}
+.empty-state p{font-size:.9rem}
 
-/* Grades */
-.grade-list{display:flex;gap:12px;flex-wrap:wrap}
-.grade-item{background:#0f0f1a;border-radius:10px;padding:12px 16px;text-align:center;min-width:100px}
-.grade-item .period{color:#6b7280;font-size:.7rem}
-.grade-item .note{font-size:1.5rem;font-weight:800;color:#f472b6}
-
-/* Modal */
-.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;padding:20px}
+/* ═══ MODAL ═══ */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:200;display:none;justify-content:center;align-items:center;backdrop-filter:blur(4px)}
 .modal-overlay.show{display:flex}
-.modal{background:#111118;border-radius:16px;padding:24px;max-width:500px;width:100%;border:1px solid #1a1a28;max-height:90vh;overflow-y:auto}
+.modal{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);width:90%;max-width:560px;max-height:90vh;overflow-y:auto;padding:24px;animation:modalIn .25s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-header h3{font-size:1.1rem}
+.modal-close{background:none;border:none;color:var(--text3);font-size:1.4rem;cursor:pointer;padding:4px}
+.modal-close:hover{color:var(--text)}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
 
-/* tabs */
-.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
-.tab{background:#0f0f1a;border:1px solid #1a1a28;color:#6b7280;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600}
-.tab.active{background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;border-color:transparent}
+/* ═══ PROGRESS BAR ═══ */
+.progress{height:8px;background:var(--surface);border-radius:4px;overflow:hidden;margin:6px 0}
+.progress-fill{height:100%;border-radius:4px;transition:width .5s ease;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.progress-fill.success{background:linear-gradient(90deg,var(--success),#34d399)}
+.progress-fill.warning{background:linear-gradient(90deg,var(--warning),#fbbf24)}
 
-/* Calendar mini */
-.session-list{list-style:none}
-.session-list li{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0f0f1a;border-radius:10px;margin-bottom:6px;font-size:.85rem}
-.session-list .check{width:18px;height:18px;border-radius:50%;border:2px solid #1a1a28;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem}
-.session-list .check.done{background:#22c55e;border-color:#22c55e;color:#fff}
+/* ═══ TABS ═══ */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto}
+.tab{padding:10px 18px;font-size:.84rem;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
 
-@media(max-width:600px){.header{flex-direction:column;text-align:center}.stats-grid{grid-template-columns:1fr 1fr}.student-grid{grid-template-columns:1fr}}
+/* ═══ TOAST ═══ */
+.toast-container{position:fixed;top:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 18px;border-radius:var(--radius-sm);background:var(--bg3);border:1px solid var(--border);font-size:.85rem;animation:slideIn .3s ease;max-width:360px;box-shadow:var(--shadow)}
+.toast.success{border-color:var(--success)}
+.toast.error{border-color:var(--danger)}
+.toast.info{border-color:var(--info)}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}}
+
+/* ═══ STUDENT CARD ═══ */
+.student-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .2s}
+.student-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 8px 30px rgba(236,72,153,.08)}
+.student-card .name{font-size:.95rem;font-weight:700}
+.student-card .meta{font-size:.78rem;color:var(--text3);margin-top:4px;display:flex;gap:12px;flex-wrap:wrap}
+.student-card .status{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;padding:2px 10px;border-radius:12px;margin-top:8px}
+.status-active{background:rgba(34,197,94,.15);color:var(--success)}
+.status-inactive{background:rgba(239,68,68,.1);color:var(--danger)}
+.status-paused{background:rgba(245,158,11,.1);color:var(--warning)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .content{padding:16px}
+  .topbar{padding:12px 16px}
+  .modal{width:95%;padding:16px}
+  .menu-toggle{display:flex!important}
+}
+.menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;padding:4px}
+
+/* ═══ MISC ═══ */
+.flex{display:flex}
+.gap-8{gap:8px}.gap-12{gap:12px}.gap-16{gap:16px}
+.items-center{align-items:center}
+.justify-between{justify-content:space-between}
+.mt-8{margin-top:8px}.mt-16{margin-top:16px}.mb-16{margin-bottom:16px}
+.text-center{text-align:center}
+.text-pink{color:var(--primary)}
+.text-muted{color:var(--text3)}
+.text-sm{font-size:.82rem}
+.text-xs{font-size:.75rem}
+.font-bold{font-weight:700}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Charts mini básicos */
+.chart-bar{display:flex;align-items:end;gap:4px;height:100px;padding:10px 0}
+.chart-bar .bar{flex:1;border-radius:4px 4px 0 0;min-height:4px;transition:height .6s ease;position:relative}
+.chart-bar .bar:hover{opacity:.8}
+.chart-bar .bar::after{content:attr(data-label);position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:.65rem;color:var(--text3);white-space:nowrap}
+
+/* File list */
+.file-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:6px}
+.file-item .fname{font-size:.84rem}
+.file-item .fsize{font-size:.72rem;color:var(--text3)}
+
+/* Search input */
+.search-box{position:relative}
+.search-box input{padding-left:34px}
+.search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.85rem}
+
+/* Login */
+.login-screen{display:flex;justify-content:center;align-items:center;min-height:100vh;background:var(--bg);padding:20px}
+.login-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:40px 32px;width:100%;max-width:400px;text-align:center}
+.login-box .logo{font-size:2.5rem;margin-bottom:8px}
+.login-box h2{font-size:1.3rem;margin-bottom:4px}
+.login-box .sub{color:var(--text3);font-size:.85rem;margin-bottom:24px}
+.login-box input{margin-bottom:14px}
+.login-box .btn{width:100%}
+.login-box .error{color:var(--danger);font-size:.8rem;margin-top:8px;display:none}
 </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- Header -->
-  <div class="header">
-    <div>
-      <div class="brand">🎵 Arpa Music</div>
-      <div class="tag">Sistema de Gestión Integral · CEO Luis Francis</div>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <span class="ceo-badge">📊 v2.0</span>
-      <span id="fecha-header" style="color:#6b7280;font-size:.8rem"></span>
-    </div>
-  </div>
+<div id="app"></div>
 
-  <!-- Navigation -->
-  <nav id="main-nav">
-    <button class="active" data-page="dashboard">📊 Dashboard</button>
-    <button data-page="estudiantes">👥 Estudiantes</button>
-    <button data-page="contrato">📜 Contrato</button>
-    <button data-page="horarios">🗓️ Horarios</button>
-    <button data-page="asistencia">✅ Asistencia</button>
-    <button data-page="cobranza">💰 Cobranza</button>
-    <button data-page="contenido">📚 Ciclos</button>
-    <button data-page="marketing">📢 Marketing</button>
-    <button data-page="gerencia">⚙️ Gerencia</button>
-  </nav>
-
-  <!-- Page container -->
-  <div id="page-content"></div>
-</div>
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
-// ============ DATA ============
-const DATA = {
-  estudiantes: [
-    {id:"gustavo",nombre:"Gustavo Babilonia",instrumento:"Canto",nivel:"Técnica Vocal",horario:"Martes y Jueves 6:30PM",telefono:"573005731218",ciclo:3,progreso:65,calificaciones:[{periodo:"Ciclo 2",nota:8.5}],activo:true,asistencia:[1,1,0,1,1,0],archivos:[]},
-    {id:"juandy",nombre:"Juandy",instrumento:"Por definir",nivel:"Inicial",horario:"Lunes y Martes 9:00AM",telefono:"573215942748",ciclo:1,progreso:20,calificaciones:[],activo:true,asistencia:[1,0,1,0,0,0],archivos:[]},
-    {id:"angelina",nombre:"Angelina",instrumento:"Guitarra",nivel:"Intermedio",horario:"Martes y Jueves 2:00PM",telefono:"573163969870",ciclo:2,progreso:45,calificaciones:[{periodo:"Ciclo 1",nota:7.5}],activo:true,asistencia:[1,1,1,0,0,0],archivos:[]},
-    {id:"mia",nombre:"Mia Contreras",instrumento:"Piano",nivel:"Inicial",horario:"Por definir",telefono:"573181825064",ciclo:1,progreso:15,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
-    {id:"omar",nombre:"Omar Bravo",instrumento:"Por definir",nivel:"Inicial",horario:"Domingos 10:00AM",telefono:"573133966427",ciclo:1,progreso:10,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
-    {id:"sandra",nombre:"Sandra Alcaldía",instrumento:"Por definir",nivel:"Inicial",horario:"Jueves 3PM, Viernes 3PM",telefono:"573014540390",ciclo:1,progreso:25,calificaciones:[],activo:true,asistencia:[1,0,0,0,0,0],archivos:[]},
-    {id:"nadia",nombre:"Nadia",instrumento:"Por definir",nivel:"Inicial",horario:"Jueves 4PM, Dom 5:30PM",telefono:"",ciclo:1,progreso:20,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
-    {id:"anfred",nombre:"Anfred",instrumento:"Piano",nivel:"Intermedio",horario:"Jueves 12:30PM, Sáb 1PM",telefono:"573006412936",ciclo:2,progreso:50,calificaciones:[{periodo:"Ciclo 1",nota:8.0}],activo:true,asistencia:[1,1,0,1,0,0],archivos:[]},
-    {id:"wilson",nombre:"Wilson Marta Pano",instrumento:"Piano",nivel:"Ciclo 2 Completado",horario:"Lunes y Viernes 10:30AM",telefono:"573015440117",ciclo:3,progreso:70,calificaciones:[{periodo:"Ciclo 1",nota:9.0},{periodo:"Ciclo 2",nota:8.5}],activo:true,asistencia:[1,1,1,1,0,0],archivos:[],pago_pendiente:true},
-    {id:"andres",nombre:"Andrés Cliente",instrumento:"Piano",nivel:"Inicial",horario:"Martes 4PM",telefono:"573103569911",ciclo:1,progreso:30,calificaciones:[],activo:true,asistencia:[1,0,0,0,0,0],archivos:[]},
-    {id:"julian",nombre:"Julián Grijalba",instrumento:"Violín",nivel:"Inicial",horario:"Sábados 10AM",telefono:"573054055804",ciclo:1,progreso:15,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
-    {id:"laura",nombre:"Laura Arpa",instrumento:"Técnica Vocal 2",nivel:"Avanzado",horario:"Jueves y Viernes 9AM",telefono:"573014288568",ciclo:3,progreso:75,calificaciones:[{periodo:"Ciclo 2",nota:9.0}],activo:true,asistencia:[1,1,1,1,0,0],archivos:[]},
-    {id:"hijo-kathe",nombre:"Hijo de Kathe",instrumento:"Por definir",nivel:"Inicial",horario:"Lunes y Jueves 4:45PM",telefono:"",ciclo:1,progreso:10,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
-    {id:"jireh",nombre:"Jireh",instrumento:"Por definir",nivel:"Técnica 3",horario:"Por definir",telefono:"573136615919",ciclo:3,progreso:60,calificaciones:[{periodo:"Ciclo 2",nota:7.5}],activo:true,asistencia:[1,0,1,0,0,0],archivos:[]},
-    {id:"laurissa",nombre:"Laurissa Barrios",instrumento:"Por definir",nivel:"Intermedio",horario:"Pausado",telefono:"573245679396",ciclo:2,progreso:0,calificaciones:[{periodo:"Ciclo 1",nota:8.0}],activo:false,asistencia:[0,0,0,0,0,0],archivos:[],pausada:true}
-  ],
-  contenido: {
-    1:{nombre:"Ciclo 1 - Fundamentos",sesiones:6,temas:["Introducción al instrumento y postura","Lectura básica de partituras","Ejercicios de digitación / respiración","Primeras canciones o escalas","Ritmo y tempo básico","Evaluación parcial y repaso"]},
-    2:{nombre:"Ciclo 2 - Desarrollo Técnico",sesiones:6,temas:["Técnica avanzada de digitación / vocalización","Acordes básicos y progresiones","Lectura a primera vista","Interpretación y expresión musical","Grabación de práctica guiada","Evaluación de medio ciclo"]},
-    3:{nombre:"Ciclo 3 - Dominio Intermedio",sesiones:6,temas:["Escalas mayores y menores","Improvisación básica","Repertorio extendido","Teoría musical aplicada","Preparación para presentación","Evaluación final de ciclo"]}
+// ═══════════════════════════════════════
+// ARPA MUSIC — Application Core
+// ═══════════════════════════════════════
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const APP = { state: 'loading', mode: 'admin', user: null, page: 'dashboard' };
+
+// ═══ IndexedDB ═══
+const DB = {
+  _db: null,
+  _ready: false,
+  async init() {
+    return new Promise((res,rej) => {
+      const r = indexedDB.open('ArpaMusicDB', 1);
+      r.onupgradeneeded = e => {
+        const db = e.target.result;
+        if(!db.objectStoreNames.contains('estudiantes')) db.createObjectStore('estudiantes', {keyPath:'id'});
+        if(!db.objectStoreNames.contains('cobranza')) db.createObjectStore('cobranza', {keyPath:'id', autoIncrement:true});
+        if(!db.objectStoreNames.contains('asistencia')) db.createObjectStore('asistencia', {keyPath:'id', autoIncrement:true});
+        if(!db.objectStoreNames.contains('archivos')) db.createObjectStore('archivos', {keyPath:'id', autoIncrement:true});
+        if(!db.objectStoreNames.contains('marketing')) db.createObjectStore('marketing', {keyPath:'id', autoIncrement:true});
+        if(!db.objectStoreNames.contains('config')) db.createObjectStore('config', {keyPath:'key'});
+        if(!db.objectStoreNames.contains('calificaciones')) db.createObjectStore('calificaciones', {keyPath:'id', autoIncrement:true});
+        if(!db.objectStoreNames.contains('contratos')) db.createObjectStore('contratos', {keyPath:'id', autoIncrement:true});
+      };
+      r.onsuccess = e => { this._db = e.target.result; this._ready = true; res(); };
+      r.onerror = e => rej(e);
+    });
   },
-  enlaces: {
-    contrato:"https://da.gd/fE9hGI",
-    pago_meet:"https://da.gd/NQVaep",
-    horario_andres_felipe:"https://da.gd/G4X5ZD",
-    meet:"meet.google.com/uqf-vjsg-yyu",
-    correo:"jl16a90@hotmail.com"
+  async getAll(store) {
+    return new Promise((res,rej) => {
+      const t = this._db.transaction(store,'readonly').objectStore(store).getAll();
+      t.onsuccess = e => res(e.target.result);
+      t.onerror = e => rej(e);
+    });
   },
-  cobranza: [],
-  marketing: []
+  async get(store, id) {
+    return new Promise((res,rej) => {
+      const t = this._db.transaction(store,'readonly').objectStore(store).get(id);
+      t.onsuccess = e => res(e.target.result);
+      t.onerror = e => rej(e);
+    });
+  },
+  async put(store, data) {
+    return new Promise((res,rej) => {
+      const t = this._db.transaction(store,'readwrite').objectStore(store).put(data);
+      t.onsuccess = e => res(e.target.result);
+      t.onerror = e => rej(e.target.error?.message || 'Error');
+    });
+  },
+  async delete(store, id) {
+    return new Promise((res,rej) => {
+      const t = this._db.transaction(store,'readwrite').objectStore(store).delete(id);
+      t.onsuccess = e => res();
+      t.onerror = e => rej(e);
+    });
+  },
+  async getByIndex(store, idx, val) {
+    return new Promise((res,rej) => {
+      const t = this._db.transaction(store,'readonly').objectStore(store);
+      const i = t.index(idx);
+      const r = i.getAll(val);
+      r.onsuccess = e => res(e.target.result);
+      r.onerror = e => rej(e);
+    });
+  }
 };
 
-// Save / Load localStorage
-function saveData() {
-  localStorage.setItem('arpa_data', JSON.stringify(DATA));
-}
-function loadData() {
-  const stored = localStorage.getItem('arpa_data');
-  if (stored) {
-    const parsed = JSON.parse(stored);
-    Object.assign(DATA, parsed);
-  }
-}
-loadData();
+// ═══ Data Seed (default students) ═══
+const DEFAULT_STUDENTS = [
+  {id:'gustavo',nombre:'Gustavo Babilonia',instrumento:'Canto',nivel:'Técnica Vocal',horario:'Martes y Jueves 6:30PM',telefono:'573005731218',ciclo:3,progreso:65,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2025-09-01'},
+  {id:'juandy',nombre:'Juandy',instrumento:'Por definir',nivel:'Inicial',horario:'Lunes y Martes 9:00AM',telefono:'573215942748',ciclo:1,progreso:20,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2026-06-01'},
+  {id:'angelina',nombre:'Angelina',instrumento:'Guitarra',nivel:'Intermedio',horario:'Martes y Jueves 2:00PM',telefono:'573163969870',ciclo:2,progreso:45,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2026-01-15'},
+  {id:'mia',nombre:'Mia Contreras',instrumento:'Piano',nivel:'Inicial',horario:'Por definir',telefono:'573181825064',ciclo:1,progreso:15,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2026-05-01'},
+  {id:'omar',nombre:'Omar Bravo',instrumento:'Por definir',nivel:'Inicial',horario:'Domingos 10:00AM',telefono:'573133966427',ciclo:1,progreso:10,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2026-06-10'},
+  {id:'sandra',nombre:'Sandra Alcaldía',instrumento:'Por definir',nivel:'Inicial',horario:'Jueves 3PM y Viernes 3PM',telefono:'573014540390',ciclo:1,progreso:25,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2026-05-20'},
+  {id:'nadia',nombre:'Nadia',instrumento:'Por definir',nivel:'Inicial',horario:'Jueves 4PM y Domingos 5:30PM',telefono:'',ciclo:1,progreso:20,activo:true,email:'',pin:'',modalidad:'Virtual',fechaIngreso:'2026-04-15'},
+  {id:'anfred',nombre:'Anfred',instrumento:'Piano',nivel:'Intermedio',horario:'Jueves 12:30PM y Sáb 1PM',telefono:'573006412936',ciclo:2,progreso:50,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2025-11-01'},
+  {id:'wilson',nombre:'Wilson Marta Pano',instrumento:'Piano',nivel:'Ciclo 2 Completado',horario:'Lunes y Viernes 10:30AM',telefono:'573015440117',ciclo:3,progreso:70,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2025-08-01'},
+  {id:'andres',nombre:'Andrés Cliente',instrumento:'Piano',nivel:'Inicial',horario:'Martes 4:00PM',telefono:'573103569911',ciclo:1,progreso:30,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2026-06-15'},
+  {id:'julian',nombre:'Julián Grijalba',instrumento:'Violín',nivel:'Inicial',horario:'Sábados 10:00AM',telefono:'573054055804',ciclo:1,progreso:15,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2026-06-01'},
+  {id:'laura',nombre:'Laura Arpa',instrumento:'Técnica Vocal',nivel:'Avanzado',horario:'Jueves y Viernes 9:00AM',telefono:'573014288568',ciclo:3,progreso:75,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2025-10-01'},
+  {id:'hijo-kathe',nombre:'Hijo de Kathe',instrumento:'Por definir',nivel:'Inicial',horario:'Lunes y Jueves 4:45PM',telefono:'',ciclo:1,progreso:10,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2026-07-01'},
+  {id:'jireh',nombre:'Jireh',instrumento:'Por definir',nivel:'Técnica 3',horario:'Por definir',telefono:'573136615919',ciclo:3,progreso:60,activo:true,email:'',pin:'',modalidad:'Presencial',fechaIngreso:'2025-09-15'},
+  {id:'laurissa',nombre:'Laurissa Barrios',instrumento:'Por definir',nivel:'Intermedio',horario:'Pausado',telefono:'573245679396',ciclo:2,progreso:0,activo:false,email:'',pin:'',modalidad:'Virtual',fechaIngreso:'2026-02-01',pausada:true}
+];
 
-// ============ HELPERS ============
-function activeStudents() { return DATA.estudiantes.filter(e => e.activo); }
-function totalStudents() { return DATA.estudiantes.length; }
-function avgProgress() {
-  const a = activeStudents();
-  return a.length ? Math.round(a.reduce((s,e) => s + e.progreso, 0) / a.length) : 0;
-}
-function pendingPayments() { return DATA.estudiantes.filter(e => e.pago_pendiente).length; }
-function instrumentCount() {
-  const map = {};
-  DATA.estudiantes.forEach(e => {
-    const i = e.instrumento === 'Por definir' ? 'Sin asignar' : e.instrumento;
-    map[i] = (map[i] || 0) + 1;
-  });
-  return map;
+const CONTENIDO = {
+  ciclo1:{nombre:'Fundamentos',sesiones:6,temas:['Introducción y postura','Lectura básica','Ejercicios de digitación/respiración','Primeras canciones','Ritmo y tempo','Evaluación parcial']},
+  ciclo2:{nombre:'Desarrollo Técnico',sesiones:6,temas:['Técnica avanzada','Acordes y progresiones','Lectura a primera vista','Interpretación musical','Grabación guiada','Evaluación medio ciclo']},
+  ciclo3:{nombre:'Dominio Intermedio',sesiones:6,temas:['Escalas mayores/menores','Improvisación básica','Repertorio extendido','Teoría aplicada','Preparación presentación','Evaluación final']}
+};
+
+// ═══ Toast ═══
+function toast(msg, type='info'){
+  const c = $('#toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='.3s'; setTimeout(()=>t.remove(),300); }, 3000);
 }
 
-function renderStats() {
-  const activos = activeStudents();
-  return `
-    <div class="stats-grid">
-      <div class="stat-card"><div class="num">${totalStudents()}</div><div class="label">Total Estudiantes</div><div class="sub">${activos.length} activos</div></div>
-      <div class="stat-card"><div class="num">${activos.length}</div><div class="label">Activos</div><div class="sub">${totalStudents() - activos.length} inactivos</div></div>
-      <div class="stat-card"><div class="num">${avgProgress()}%</div><div class="label">Progreso Promedio</div></div>
-      <div class="stat-card"><div class="num">$${pendingPayments() > 0 ? pendingPayments() : 0}</div><div class="label">Pagos Pendientes</div><div class="sub">${pendingPayments()} estudiante(s)</div></div>
+// ═══ Helpers ═══
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function formatDate(d){ return new Date(d).toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'}) }
+function formatMoney(n){ return '$' + Number(n).toLocaleString('es-CO') }
+
+// ═══ Page Router ═══
+function navigate(page){
+  APP.page = page;
+  $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === page));
+  renderPage(page);
+}
+
+// ═══ RENDER ENGINE ═══
+function renderPage(page){
+  const main = $('#app');
+  if(APP.mode === 'login') return renderLogin(main);
+  if(page === 'dashboard') renderDashboard(main);
+  else if(page === 'estudiantes') renderEstudiantes(main);
+  else if(page === 'estudiante') renderEstudianteDetalle(main);
+  else if(page === 'cobranza') renderCobranza(main);
+  else if(page === 'contenido') renderContenido(main);
+  else if(page === 'asistencia') renderAsistencia(main);
+  else if(page === 'marketing') renderMarketing(main);
+  else if(page === 'gerencia') renderGerencia(main);
+  else if(page === 'contrato') renderContrato(main);
+  else if(page === 'archivos') renderArchivos(main);
+  else if(page === 'config') renderConfig(main);
+  else if(page === 'calificaciones') renderCalificaciones(main);
+  else renderDashboard(main);
+}
+
+// ═══ RENDER: Login ═══
+function renderLogin(container){
+  container.innerHTML = `
+    <div class="login-screen">
+      <div class="login-box">
+        <div class="logo">🎵</div>
+        <h2>Arpa Music</h2>
+        <p class="sub">Sistema de Gestión Integral</p>
+        <input type="password" id="loginPin" placeholder="PIN del CEO" style="text-align:center;font-size:1.2rem;letter-spacing:8px">
+        <button class="btn btn-primary" onclick="doLogin()">Acceder</button>
+        <div class="error" id="loginError">PIN incorrecto</div>
+      </div>
     </div>`;
 }
 
-function renderEstudianteCard(e, idx) {
-  const ciclo = DATA.contenido[e.ciclo]?.nombre || `Ciclo ${e.ciclo}`;
-  return `<div class="student-card" onclick="showStudentDetail('${e.id}')">
-    <div class="name">${e.nombre}</div>
-    <div class="detail">🎸 ${e.instrumento} · ${e.nivel}</div>
-    <div class="row">
-      <span style="font-size:.7rem;color:#6b7280">Ciclo ${e.ciclo}</span>
-      <span class="badge ${e.activo?'badge-green':'badge-red'}">${e.activo?'Activo':e.pausada?'Pausado':'Inactivo'}</span>
-    </div>
-    <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:${e.progreso}%"></div></div>
-  </div>`;
+// ═══ Login Logic ═══
+async function doLogin(){
+  const pin = $('#loginPin').value;
+  const config = await DB.get('config', 'ceo_pin');
+  if(!config) { await DB.put('config', {key:'ceo_pin', value:'1234'}); }
+  const cfg = await DB.get('config', 'ceo_pin');
+  if(pin === (cfg?.value || '1234')){
+    APP.mode = 'admin';
+    APP.user = 'ceo';
+    initApp();
+  } else {
+    $('#loginError').style.display = 'block';
+  }
 }
 
-// ============ PAGES ============
-function renderDashboard() {
-  const inst = instrumentCount();
-  let instHtml = Object.entries(inst).map(([k,v]) => `<span class="badge badge-purple" style="margin:2px">${k}: ${v}</span>`).join('');
-  const recientes = [...DATA.estudiantes].sort((a,b) => b.progreso - a.progreso).slice(0,5);
-  return `
-    ${renderStats()}
-    <div class="card">
-      <div class="card-title">🎯 Resumen Ejecutivo</div>
-      <table>
-        <tr><td>📜 Enlace Contrato Digital</td><td><a href="${DATA.enlaces.contrato}" target="_blank">${DATA.enlaces.contrato}</a></td></tr>
-        <tr><td>💳 Enlace Pago + Meet</td><td><a href="${DATA.enlaces.pago_meet}" target="_blank">${DATA.enlaces.pago_meet}</a></td></tr>
-        <tr><td>📹 Google Meet</td><td>${DATA.enlaces.meet}</td></tr>
-        <tr><td>📧 Notificaciones</td><td>${DATA.enlaces.correo}</td></tr>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">🎸 Instrumentos</div>
-      <div>${instHtml}</div>
-    </div>
-    <div class="card">
-      <div class="card-title">🏆 Top 5 Progreso</div>
-      ${recientes.map(e => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0f0f1a;font-size:.85rem"><span>${e.nombre}</span><span>${e.progreso}%</span></div>`).join('')}
-    </div>
-  `;
+// ═══ INIT APP ═══
+async function initApp(){
+  // Seed students if empty
+  const existing = await DB.getAll('estudiantes');
+  if(!existing.length){
+    for(const s of DEFAULT_STUDENTS) await DB.put('estudiantes', s);
+  }
+  renderFullApp();
 }
 
-function renderEstudiantes() {
-  return `
-    <div class="card">
-      <div class="card-title">👥 Todos los Estudientes</div>
-      <div class="student-grid">
-        ${DATA.estudiantes.map((e,i) => renderEstudianteCard(e,i)).join('')}
+function renderFullApp(){
+  const container = $('#app');
+  container.innerHTML = `
+    <div class="app-wrapper">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h1>🎵 Arpa Music</h1>
+          <span>Sistema de Gestión</span>
+        </div>
+        <nav class="sidebar-nav" id="main-nav">
+          ${['dashboard','📊','Dashboard','estudiantes','👥','Estudiantes','asistencia','✅','Asistencia','calificaciones','📈','Calificaciones','cobranza','💰','Cobranza','contenido','📚','Contenido','archivos','📁','Archivos','contrato','📜','Contrato','marketing','📣','Marketing','gerencia','🏢','Gerencia','config','⚙️','Configuración'].reduce((a,_,i,arr)=>{
+            if(i%3===0) a+=`<button class="nav-item${i===0?' active':''}" data-page="${arr[i]}"><span class="ico">${arr[i+1]}</span>${arr[i+2]}</button>`;
+            return a;
+          },'')}
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+          <h2 id="pageTitle">Dashboard</h2>
+          <div class="topbar-info">
+            <span id="clock"></span>
+            <span class="badge badge-primary">CEO</span>
+            <button class="btn btn-sm btn-outline" onclick="APP.mode='login';renderFullApp();">🔒</button>
+          </div>
+        </div>
+        <div class="content" id="pageContent"></div>
+      </main>
+    </div>`;
+
+  // Bind nav
+  setTimeout(() => {
+    document.querySelectorAll('#main-nav .nav-item').forEach(btn => {
+      btn.addEventListener('click', () => navigate(btn.dataset.page));
+    });
+    // Clock
+    setInterval(() => {
+      const c = $('#clock');
+      if(c) c.textContent = new Date().toLocaleTimeString('es-CO', {hour:'2-digit',minute:'2-digit'});
+    }, 1000);
+    navigate('dashboard');
+  }, 50);
+}
+
+// ═══════════════════════════════════════
+// PAGE: DASHBOARD
+// ═══════════════════════════════════════
+async function renderDashboard(container){
+  $('#pageTitle').textContent = '📊 Dashboard';
+  const estudiantes = await DB.getAll('estudiantes');
+  const cobranza = await DB.getAll('cobranza');
+  const activos = estudiantes.filter(e => e.activo);
+  const totalPagos = cobranza.reduce((a,c) => a + (c.monto || 0), 0);
+  const pendientes = cobranza.filter(c => !c.pagado).length;
+
+  container.innerHTML = `
+    <div class="grid grid-4">
+      <div class="card kpi">
+        <div class="kpi-icon">👥</div>
+        <div class="kpi-value">${estudiantes.length}</div>
+        <div class="kpi-label">Total Estudiantes</div>
+        <div class="kpi-trend up">${activos.length} activos</div>
+      </div>
+      <div class="card kpi">
+        <div class="kpi-icon">💰</div>
+        <div class="kpi-value">${formatMoney(totalPagos)}</div>
+        <div class="kpi-label">Ingresos Totales</div>
+        <div class="kpi-trend ${pendientes > 0 ? 'down' : 'up'}">${pendientes} pendientes</div>
+      </div>
+      <div class="card kpi">
+        <div class="kpi-icon">🎼</div>
+        <div class="kpi-value">${Object.keys(CONTENIDO).length}</div>
+        <div class="kpi-label">Ciclos Activos</div>
+        <div class="kpi-trend up">${estudiantes.filter(e=>e.ciclo===3).length} en ciclo 3</div>
+      </div>
+      <div class="card kpi">
+        <div class="kpi-icon">📅</div>
+        <div class="kpi-value">${new Date().toLocaleDateString('es-CO',{day:'numeric',month:'short'})}</div>
+        <div class="kpi-label">Clases Hoy</div>
+        <div class="kpi-trend up">${estudiantes.filter(e=>e.activo).length} activos</div>
       </div>
     </div>
-    <div style="text-align:center;margin:16px 0">
-      <button class="btn" onclick="showAddStudentModal()">➕ Agregar Estudiante</button>
-    </div>
-  `;
-}
 
-function renderContrato() {
-  return `
-    <div class="card" style="text-align:center;padding:40px 20px">
-      <div style="font-size:3rem;margin-bottom:16px">📜</div>
-      <div class="card-title" style="font-size:1.2rem">Contrato Digital Arpa Music</div>
-      <p style="color:#9ca3af;margin:16px 0;line-height:1.6">
-        Ciclos de <strong>6 sesiones</strong> · Firma digital · Notificación automática al correo
-      </p>
-      <a href="${DATA.enlaces.contrato}" target="_blank" class="btn" style="display:inline-block;text-decoration:none">Abrir Contrato Digital →</a>
-    </div>
-  `;
-}
-
-function renderHorarios() {
-  const enl = DATA.enlaces;
-  return `
-    <div class="card">
-      <div class="card-title">🗓️ Horarios Disponibles</div>
-      <table>
-        <tr><th>Estudiante</th><th>Días</th><th>Hora</th><th>Link</th></tr>
-        ${DATA.estudiantes.filter(e=>e.horario && e.horario!=='Pausado' && e.horario!=='Por definir').map(e => `
-          <tr>
-            <td><strong>${e.nombre}</strong></td>
-            <td>${e.horario.split(',')[0]}</td>
-            <td>${e.horario.includes('PM')||e.horario.includes('AM') ? e.horario.split(',').slice(-1) : e.horario}</td>
-            <td><a href="https://saludseguridadocupacional78-spec.github.io/Arpa-Music/horario-${e.id}.html" target="_blank" style="font-size:.75rem">Ver</a></td>
-          </tr>
-        `).join('')}
-        <tr><td colspan="4" style="text-align:center;padding-top:12px"><strong>🗓️ Andrés y Felipe</strong> · Mar/Vie · <a href="${enl.horario_andres_felipe}" target="_blank">${enl.horario_andres_felipe}</a></td></tr>
-      </table>
-    </div>
-  `;
-}
-
-function renderAsistencia() {
-  return `
-    <div class="card">
-      <div class="card-title">✅ Asistencia por Estudiante (últimas 6 sesiones)</div>
-      ${DATA.estudiantes.map(e => {
-        const total = e.asistencia.filter(a => a === 1).length;
-        return `<div style="margin-bottom:12px">
-          <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px">
-            <span><strong>${e.nombre}</strong></span>
-            <span>${total}/${e.asistencia.length} (${Math.round(total/e.asistencia.length*100)}%)</span>
-          </div>
-          <div style="display:flex;gap:4px">
-            ${e.asistencia.map(a => `<span style="width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;background:${a?'#0a2a0a':'#2a0a0a'};color:${a?'#22c55e':'#ef4444'}">${a?'✓':'✗'}</span>`).join('')}
-          </div>
-        </div>`;
-      }).join('')}
-    </div>
-  `;
-}
-
-function renderCobranza() {
-  const pendientes = DATA.estudiantes.filter(e => e.pago_pendiente);
-  return `
-    <div class="stats-grid">
-      <div class="stat-card"><div class="num">${pendientes.length}</div><div class="label">Pagos Pendientes</div></div>
-      <div class="stat-card"><div class="num">${DATA.estudiantes.filter(e=>e.activo).length - pendientes.filter(e=>e.activo).length}</div><div class="label">Al Día</div></div>
-      <div class="stat-card"><div class="num">${DATA.cobranza.length}</div><div class="label">Registros</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title">⚠️ Pendientes de Pago</div>
-      ${pendientes.length ? pendientes.map(e => `
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #0f0f1a;align-items:center">
-          <span><strong>${e.nombre}</strong> · Ciclo ${e.ciclo}</span>
-          <button class="btn btn-small" onclick="marcarPagado('${e.id}')">✅ Pagó</button>
+    <div class="grid grid-2 mt-16">
+      <div class="card">
+        <div class="card-header"><h3>🎯 Acciones Rápidas</h3></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn btn-primary" onclick="navigate('estudiantes')">👥 Gestionar Estudiantes</button>
+          <button class="btn btn-accent" onclick="navigate('cobranza')">💰 Registrar Pago</button>
+          <button class="btn btn-outline" onclick="navigate('asistencia')">✅ Tomar Asistencia</button>
         </div>
-      `).join('') : '<p style="color:#22c55e">✓ Todos al día</p>'}
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>🔗 Enlaces Rápidos</h3></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="https://da.gd/fE9hGI" target="_blank" class="btn btn-outline btn-sm">📜 Contrato Digital</a>
+          <a href="https://da.gd/NQVaep" target="_blank" class="btn btn-outline btn-sm">💳 Pago + Meet</a>
+          <a href="https://da.gd/G4X5ZD" target="_blank" class="btn btn-outline btn-sm">🎹 Horario Andrés & Felipe</a>
+          <a href="https://meet.google.com/uqf-vjsg-yyu" target="_blank" class="btn btn-outline btn-sm">📹 Google Meet</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-title">+ Registrar Pago</div>
-      <select id="cob-pago-est">
-        <option value="">Seleccionar estudiante</option>
-        ${DATA.estudiantes.filter(e=>e.activo).map(e => `<option value="${e.id}">${e.nombre}</option>`).join('')}
-      </select>
-      <input type="number" id="cob-monto" placeholder="Monto pagado" style="width:200px">
-      <button class="btn btn-small" onclick="registrarPago()">💾 Registrar</button>
-    </div>
-    <div class="card">
-      <div class="card-title">Historial de Cobranza</div>
-      ${DATA.cobranza.length ? `<table>${DATA.cobranza.slice().reverse().map(r => `<tr><td>${r.fecha}</td><td><strong>${r.estudiante}</strong></td><td>$${r.monto.toLocaleString()}</td></tr>`).join('')}</table>` : '<p style="color:#6b7280">Sin registros aún</p>'}
+
+    <div class="card mt-16">
+      <div class="card-header">
+        <h3>📋 Últimos Estudiantes</h3>
+        <span class="sub">${estudiantes.length} registrados</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nombre</th><th>Instrumento</th><th>Ciclo</th><th>Progreso</th><th>Estado</th></tr></thead>
+          <tbody>
+            ${estudiantes.slice(0,8).map(e => `
+              <tr style="cursor:pointer" onclick="verEstudiante('${e.id}')">
+                <td style="font-weight:600">${e.nombre}</td>
+                <td>${e.instrumento}</td>
+                <td><span class="badge badge-primary">Ciclo ${e.ciclo}</span></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div class="progress" style="flex:1;height:6px"><div class="progress-fill" style="width:${e.progreso}%"></div></div>
+                    <span class="text-xs">${e.progreso}%</span>
+                  </div>
+                </td>
+                <td><span class="status ${e.activo?'status-active':'status-inactive'}">${e.activo?'Activo':'Inactivo'}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
     </div>
   `;
 }
 
-function renderContenido() {
-  return `
-    <div class="card">
-      <div class="card-title">📚 Contenido Temático por Ciclos</div>
-      ${Object.entries(DATA.contenido).map(([k, ciclo]) => `
-        <div style="background:#0f0f1a;border-radius:12px;padding:16px;margin-bottom:12px">
-          <h3 style="color:#f472b6;font-size:.95rem;margin-bottom:8px">${ciclo.nombre}</h3>
-          <p style="color:#6b7280;font-size:.8rem;margin-bottom:8px">${ciclo.sesiones} sesiones</p>
-          <ol style="padding-left:20px;color:#9ca3af;font-size:.85rem;line-height:1.8">
-            ${ciclo.temas.map(t => `<li>${t}</li>`).join('')}
-          </ol>
+// ═══════════════════════════════════════
+// PAGE: ESTUDIANTES
+// ═══════════════════════════════════════
+async function renderEstudiantes(container){
+  $('#pageTitle').textContent = '👥 Gestión Estudiantil';
+  const estudiantes = await DB.getAll('estudiantes');
+
+  container.innerHTML = `
+    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <div class="search-box" style="flex:1;min-width:200px"><input placeholder="Buscar estudiante..." id="searchEst" oninput="filterEstudiantes()"></div>
+      <button class="btn btn-primary" onclick="mostrarFormEstudiante()">➕ Nuevo Estudiante</button>
+    </div>
+    <div class="grid" id="estGrid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+      ${estudiantes.map(e => `
+        <div class="student-card" data-id="${e.id}" data-nombre="${e.nombre.toLowerCase()}">
+          <div class="name">${e.nombre}</div>
+          <div class="meta">
+            <span>🎼 ${e.instrumento}</span>
+            <span>📊 Ciclo ${e.ciclo}</span>
+          </div>
+          <div class="meta">📅 ${e.horario}</div>
+          <div style="margin-top:8px">
+            <div class="progress" style="height:6px"><div class="progress-fill" style="width:${e.progreso}%"></div></div>
+            <div class="flex items-center justify-between mt-8">
+              <span class="status ${e.activo?'status-active':'status-inactive'}">${e.activo?'Activo':'Inactivo'}</span>
+              <div class="flex gap-8">
+                <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();verEstudiante('${e.id}')">Ver</button>
+                <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();editarEstudiante('${e.id}')">✏️</button>
+                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation();eliminarEstudiante('${e.id}')">🗑️</button>
+              </div>
+            </div>
+          </div>
         </div>
       `).join('')}
     </div>
   `;
 }
 
-function renderMarketing() {
-  return `
-    <div class="stats-grid">
-      <div class="stat-card"><div class="num">${DATA.marketing.length}</div><div class="label">Campañas</div></div>
-      <div class="stat-card"><div class="num">${totalStudents()}</div><div class="label">Base Estudiantes</div></div>
-      <div class="stat-card"><div class="num">${activeStudents().length}</div><div class="label">Activos</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title">📢 Gestión de Marketing</div>
-      <div style="margin-bottom:12px">
-        <input placeholder="Nombre de la campaña" id="mk-name">
-        <textarea placeholder="Descripción / mensaje" id="mk-desc"></textarea>
-        <button class="btn btn-small" onclick="crearCampania()">➕ Crear Campaña</button>
+function filterEstudiantes(){
+  const q = $('#searchEst').value.toLowerCase();
+  document.querySelectorAll('#estGrid .student-card').forEach(c => {
+    c.style.display = c.dataset.nombre.includes(q) ? '' : 'none';
+  });
+}
+
+function verEstudiante(id){ APP._estId = id; navigate('estudiante'); }
+
+async function renderEstudianteDetalle(container){
+  const e = await DB.get('estudiantes', APP._estId);
+  if(!e) return navigate('estudiantes');
+  $('#pageTitle').textContent = `👤 ${e.nombre}`;
+  const archivos = (await DB.getAll('archivos')).filter(a => a.estudianteId === e.id);
+  const pagos = (await DB.getAll('cobranza')).filter(c => c.estudianteId === e.id);
+  const asistencias = (await DB.getAll('asistencia')).filter(a => a.estudianteId === e.id);
+
+  container.innerHTML = `
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-header"><h3>📋 Perfil</h3><button class="btn btn-sm btn-outline" onclick="editarEstudiante('${e.id}')">✏️ Editar</button></div>
+        <table>
+          <tr><td style="color:var(--text3)">Instrumento</td><td style="font-weight:600">${e.instrumento}</td></tr>
+          <tr><td style="color:var(--text3)">Nivel</td><td>${e.nivel}</td></tr>
+          <tr><td style="color:var(--text3)">Horario</td><td>${e.horario}</td></tr>
+          <tr><td style="color:var(--text3)">Teléfono</td><td>${e.telefono || '—'}</td></tr>
+          <tr><td style="color:var(--text3)">Modalidad</td><td><span class="badge badge-primary">${e.modalidad || 'Presencial'}</span></td></tr>
+          <tr><td style="color:var(--text3)">Ciclo Actual</td><td><span class="badge badge-success">Ciclo ${e.ciclo}</span></td></tr>
+          <tr><td style="color:var(--text3)">Progreso</td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress" style="flex:1;height:6px"><div class="progress-fill" style="width:${e.progreso}%"></div></div>${e.progreso}%</div></td></tr>
+          <tr><td style="color:var(--text3)">Ingreso</td><td>${formatDate(e.fechaIngreso)}</td></tr>
+        </table>
       </div>
-      ${DATA.marketing.length ? DATA.marketing.slice().reverse().map(c => `
-        <div style="background:#0f0f1a;border-radius:10px;padding:12px;margin-bottom:8px">
-          <div style="display:flex;justify-content:space-between;font-size:.85rem">
-            <strong>${c.nombre}</strong><span style="color:#6b7280;font-size:.7rem">${c.fecha}</span>
+      <div class="card">
+        <div class="card-header"><h3>💰 Pagos</h3><button class="btn btn-sm btn-primary" onclick="registrarPago('${e.id}')">+ Pago</button></div>
+        ${pagos.length ? `
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fecha</th><th>Monto</th><th>Estado</th></tr></thead>
+            <tbody>
+              ${pagos.map(p => `<tr><td>${formatDate(p.fecha)}</td><td>${formatMoney(p.monto)}</td><td><span class="status ${p.pagado?'status-active':'status-inactive'}">${p.pagado?'Pagado':p.metodo||'Pendiente'}</span></td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>` : `<div class="empty-state"><div class="ico">💰</div><p>Sin pagos registrados</p></div>`}
+      </div>
+    </div>
+
+    <div class="grid grid-2 mt-16">
+      <div class="card">
+        <div class="card-header"><h3>✅ Asistencia</h3></div>
+        ${asistencias.length ? `
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fecha</th><th>Estado</th></tr></thead>
+            <tbody>
+              ${asistencias.slice(-10).reverse().map(a => `<tr><td>${formatDate(a.fecha)}</td><td><span class="status ${a.presente?'status-active':'status-inactive'}">${a.presente?'✅ Presente':'❌ Ausente'}</span></td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>` : `<div class="empty-state"><div class="ico">✅</div><p>Sin asistencias registradas</p></div>`}
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>📁 Archivos</h3><button class="btn btn-sm btn-primary" onclick="subirArchivo('${e.id}')">+ Subir</button></div>
+        ${archivos.length ? archivos.map(a => `
+          <div class="file-item">
+            <div><div class="fname">${a.nombre}</div><div class="fsize">${a.tipo || 'Documento'} · ${formatDate(a.fecha)}</div></div>
+            <div class="flex gap-8">
+              <button class="btn btn-sm btn-outline" onclick="descargarArchivo(${a.id})">📥</button>
+              <button class="btn btn-sm btn-danger" onclick="eliminarArchivo(${a.id})">🗑️</button>
+            </div>
           </div>
-          <p style="color:#9ca3af;font-size:.8rem;margin-top:4px">${c.desc}</p>
+        `).join('') : `<div class="empty-state"><div class="ico">📁</div><p>Sin archivos</p></div>`}
+      </div>
+    </div>
+
+    <div class="card mt-16">
+      <div class="card-header"><h3>📈 Progreso por Ciclo</h3></div>
+      <div style="padding:8px 0">
+        ${[1,2,3].map(c => `
+          <div class="flex items-center gap-16" style="margin-bottom:12px">
+            <span style="min-width:80px">Ciclo ${c}</span>
+            <div class="progress" style="flex:1;height:8px">
+              <div class="progress-fill ${e.ciclo >= c ? 'success' : ''}" style="width:${e.ciclo >= c ? 100 : (e.ciclo === c ? e.progreso : 0)}%"></div>
+            </div>
+            <span class="text-xs">${e.ciclo >= c ? '✅' : (e.ciclo === c ? e.progreso+'%' : '⏳')}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="flex gap-8 mt-16">
+      <button class="btn btn-outline" onclick="navigate('estudiantes')">← Volver</button>
+      <a href="${e.telefono ? 'https://wa.me/'+e.telefono.replace(/^0+/,'') : '#'}" target="_blank" class="btn btn-success">💬 WhatsApp</a>
+    </div>
+  `;
+}
+
+// ═══ CRUD: Estudiante ═══
+function mostrarFormEstudiante(data=null){
+  const esEditar = !!data;
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay show';
+  overlay.onclick = e => { if(e.target===overlay) overlay.remove(); };
+  overlay.innerHTML = `
+    <div class="modal">
+      <div class="modal-header">
+        <h3>${esEditar ? '✏️ Editar Estudiante' : '➕ Nuevo Estudiante'}</h3>
+        <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"><label>Nombre Completo</label><input id="fNombre" value="${data?.nombre||''}" placeholder="Ej: Juan Pérez"></div>
+        <div class="grid grid-2" style="gap:12px">
+          <div class="form-group"><label>Instrumento</label>
+            <select id="fInstrumento">
+              ${['Por definir','Piano','Guitarra','Violín','Canto','Técnica Vocal','Batería','Bajo','Ukelele','Flauta','Otro'].map(i => `<option ${data?.instrumento===i?'selected':''}>${i}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group"><label>Nivel</label>
+            <select id="fNivel">
+              ${['Inicial','Intermedio','Avanzado','Técnica 1','Técnica 2','Técnica 3','Ciclo 2 Completado'].map(n => `<option ${data?.nivel===n?'selected':''}>${n}</option>`).join('')}
+            </select>
+          </div>
         </div>
-      `).join('') : '<p style="color:#6b7280">Sin campañas registradas</p>'}
-    </div>
-  `;
+        <div class="form-group"><label>Horario</label><input id="fHorario" value="${data?.horario||''}" placeholder="Ej: Martes y Jueves 3PM"></div>
+        <div class="grid grid-2" style="gap:12px">
+          <div class="form-group"><label>Teléfono</label><input id="fTelefono" value="${data?.telefono||''}" placeholder="57300xxxxxx"></div>
+          <div class="form-group"><label>Modalidad</label>
+            <select id="fModalidad">
+              <option ${data?.modalidad==='Presencial'?'selected':''}>Presencial</option>
+              <option ${data?.modalidad==='Virtual'?'selected':''}>Virtual</option>
+              <option ${data?.modalidad==='Mixta'?'selected':''}>Mixta</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-2" style="gap:12px">
+          <div class="form-group"><label>Ciclo</label>
+            <select id="fCiclo">
+              <option value="1" ${data?.ciclo===1?'selected':''}>Ciclo 1 - Fundamentos</option>
+              <option value="2" ${data?.ciclo===2?'selected':''}>Ciclo 2 - Desarrollo Técnico</option>
+              <option value="3" ${data?.ciclo===3?'selected':''}>Ciclo 3 - Dominio Intermedio</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Progreso (%)</label><input type="number" id="fProgreso" min="0" max="100" value="${data?.progreso||0}"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarEstudiante('${data?.id||''}')">${esEditar ? 'Guardar Cambios' : 'Crear Estudiante'}</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
 }
 
-function renderGerencia() {
-  return `
-    <div class="card">
-      <div class="card-title">⚙️ Panel de Gerencia</div>
-      <table>
-        <tr><td>📊 Total estudiantes</td><td><strong>${totalStudents()}</strong></td></tr>
-        <tr><td>✅ Activos</td><td><strong>${activeStudents().length}</strong></td></tr>
-        <tr><td>⏸️ Pausados</td><td><strong>${DATA.estudiantes.filter(e=>e.pausada).length}</strong></td></tr>
-        <tr><td>📈 Promedio progreso</td><td><strong>${avgProgress()}%</strong></td></tr>
-        <tr><td>🎸 Instrumentos</td><td><strong>${Object.keys(instrumentCount()).length}</strong></td></tr>
-        <tr><td>💰 Pagos pendientes</td><td><strong>${pendingPayments()}</strong></td></tr>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">🔗 Enlaces Rápidos</div>
-      <table>
-        <tr><td>📜 Contrato Digital</td><td><a href="${DATA.enlaces.contrato}" target="_blank">Abrir</a></td></tr>
-        <tr><td>💳 Pago + Meet</td><td><a href="${DATA.enlaces.pago_meet}" target="_blank">Abrir</a></td></tr>
-        <tr><td>🎹 Andrés & Felipe</td><td><a href="${DATA.enlaces.horario_andres_felipe}" target="_blank">Abrir</a></td></tr>
-        <tr><td>📹 Meet</td><td><a href="https://${DATA.enlaces.meet}" target="_blank">Entrar</a></td></tr>
-        <tr><td>📧 Correo notificaciones</td><td>${DATA.enlaces.correo}</td></tr>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">🔄 Acciones del Sistema</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-small btn-secondary" onclick="exportarDatos()">📥 Exportar Datos</button>
-        <button class="btn btn-small btn-secondary" onclick="if(confirm('¿Restaurar datos de fábrica?')){localStorage.removeItem('arpa_data');location.reload()}">🔄 Restaurar</button>
+async function guardarEstudiante(id){
+  const data = {
+    nombre: $('#fNombre').value.trim(),
+    instrumento: $('#fInstrumento').value,
+    nivel: $('#fNivel').value,
+    horario: $('#fHorario').value.trim(),
+    telefono: $('#fTelefono').value.trim(),
+    modalidad: $('#fModalidad').value,
+    ciclo: parseInt($('#fCiclo').value),
+    progreso: parseInt($('#fProgreso').value) || 0
+  };
+  if(!data.nombre) return toast('El nombre es obligatorio','error');
+  if(id){
+    const old = await DB.get('estudiantes', id);
+    Object.assign(old, data);
+    await DB.put('estudiantes', old);
+    toast('Estudiante actualizado ✅','success');
+  } else {
+    data.id = uid();
+    data.activo = true;
+    data.fechaIngreso = new Date().toISOString().slice(0,10);
+    data.email = '';
+    data.pin = '';
+    await DB.put('estudiantes', data);
+    toast('Estudiante creado ✅','success');
+  }
+  document.querySelector('.modal-overlay')?.remove();
+  navigate(APP._estId ? 'estudiante' : 'estudiantes');
+}
+
+function editarEstudiante(id){
+  DB.get('estudiantes', id).then(e => {
+    APP._estId = id;
+    mostrarFormEstudiante(e);
+  });
+}
+
+async function eliminarEstudiante(id){
+  if(!confirm('¿Eliminar este estudiante? Se perderán todos sus datos.')) return;
+  await DB.delete('estudiantes', id);
+  toast('Estudiante eliminado','info');
+  navigate('estudiantes');
+}
+
+// ═══════════════════════════════════════
+// PAGE: COBRANZA
+// ═══════════════════════════════════════
+async function renderCobranza(container){
+  $('#pageTitle').textContent = '💰 Cobranza';
+  const cobranza = await DB.getAll('cobranza');
+  const estudiantes = await DB.getAll('estudiantes');
+  const total = cobranza.reduce((a,c) => a+(c.monto||0),0);
+  const pendientes = cobranza.filter(c => !c.pagado).length;
+  const esteMes = cobranza.filter(c => {
+    const d = new Date(c.fecha);
+    const hoy = new Date();
+    return d.getMonth()===hoy.getMonth() && d.getFullYear()===hoy.getFullYear();
+  });
+  const mesTotal = esteMes.reduce((a,c)=>a+(c.monto||0),0);
+
+  container.innerHTML = `
+    <div class="grid grid-3 mb-16">
+      <div class="card kpi">
+        <div class="kpi-value" style="color:var(--success)">${formatMoney(total)}</div>
+        <div class="kpi-label">💰 Total Recaudado</div>
+      </div>
+      <div class="card kpi">
+        <div class="kpi-value" style="color:var(--warning)">${formatMoney(mesTotal)}</div>
+        <div class="kpi-label">📆 Este Mes</div>
+      </div>
+      <div class="card kpi">
+        <div class="kpi-value" style="color:${pendientes>0?'var(--danger)':'var(--success)'}">${pendientes}</div>
+        <div class="kpi-label">⏳ Pendientes</div>
       </div>
     </div>
-  `;
-}
 
-// ============ STUDENT DETAIL ============
-function showStudentDetail(id) {
-  const e = DATA.estudiantes.find(x => x.id === id);
-  if (!e) return;
-  const ciclo = DATA.contenido[e.ciclo];
-  const totalAsis = e.asistencia.length;
-  const asisCount = e.asistencia.filter(a => a === 1).length;
-  const asisPct = totalAsis ? Math.round(asisCount/totalAsis*100) : 0;
-
-  document.getElementById('page-content').innerHTML = `
-    <div class="detail-header">
-      <button class="back-btn" onclick="navigate('estudiantes')">← Volver</button>
-      <h2>${e.nombre}</h2>
-      <span class="badge ${e.activo?'badge-green':'badge-red'}">${e.activo?'Activo':e.pausada?'Pausado':'Inactivo'}</span>
-    </div>
-
-    <div class="tabs" id="detail-tabs">
-      <button class="tab active" onclick="switchDetailTab('perfil',this)">👤 Perfil</button>
-      <button class="tab" onclick="switchDetailTab('progreso',this)">📈 Progreso</button>
-      <button class="tab" onclick="switchDetailTab('archivos',this)">📁 Archivos</button>
-      <button class="tab" onclick="switchDetailTab('calificaciones',this)">🏆 Calificaciones</button>
-    </div>
-    <div id="detail-content">
-      ${renderDetailPerfil(e)}
-    </div>
-  `;
-  window._detailStudent = e;
-}
-
-function switchDetailTab(tab, btn) {
-  document.querySelectorAll('#detail-tabs .tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  const e = window._detailStudent;
-  if (!e) return;
-  const map = { perfil: renderDetailPerfil, progreso: renderDetailProgreso, archivos: renderDetailArchivos, calificaciones: renderDetailCalificaciones };
-  document.getElementById('detail-content').innerHTML = map[tab](e);
-}
-
-function renderDetailPerfil(e) {
-  return `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="card"><div class="card-title">🎸 Instrumento</div><p><strong>${e.instrumento}</strong></p><p style="color:#9ca3af;font-size:.8rem">${e.nivel}</p></div>
-      <div class="card"><div class="card-title">🕐 Horario</div><p><strong>${e.horario}</strong></p>${e.telefono ? `<p style="color:#9ca3af;font-size:.8rem">📞 ${e.telefono}</p>` : ''}</div>
-      <div class="card"><div class="card-title">📚 Ciclo Actual</div><p><strong>Ciclo ${e.ciclo}</strong></p><p style="color:#9ca3af;font-size:.8rem">${DATA.contenido[e.ciclo]?.nombre || 'Por definir'}</p></div>
-      <div class="card"><div class="card-title">📊 Asistencia</div><p><strong>${asisCount}/${totalAsis} (${asisPct}%)</strong></p></div>
-    </div>
-    <div class="card"><div class="card-title">✏️ Editar Estudiante</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <input id="edit-nombre" value="${e.nombre}" placeholder="Nombre">
-        <input id="edit-instrumento" value="${e.instrumento}" placeholder="Instrumento">
-        <select id="edit-ciclo">
-          ${[1,2,3].map(c => `<option value="${c}" ${e.ciclo===c?'selected':''}>Ciclo ${c}</option>`).join('')}
-        </select>
-        <input id="edit-progreso" type="number" value="${e.progreso}" min="0" max="100" placeholder="Progreso %">
-      </div>
-      <button class="btn btn-small" style="margin-top:8px" onclick="guardarEditEstudiante('${e.id}')">💾 Guardar Cambios</button>
-    </div>
-  `;
-}
-
-function renderDetailProgreso(e) {
-  const ciclo = DATA.contenido[e.ciclo];
-  return `
-    <div class="card">
-      <div class="card-title">📈 Progreso General: ${e.progreso}%</div>
-      <div class="progress-bar" style="height:12px"><div class="progress-fill" style="width:${e.progreso}%"></div></div>
-    </div>
-    ${ciclo ? `
-    <div class="card">
-      <div class="card-title">${ciclo.nombre} · ${ciclo.sesiones} sesiones</div>
-      <ul class="session-list">
-        ${ciclo.temas.map((t, i) => `
-          <li>
-            <span class="check ${e.asistencia[i]?'done':''}">${e.asistencia[i]?'✓':''}</span>
-            <span style="${e.asistencia[i]?'color:#22c55e':'color:#9ca3af'}">Sesión ${i+1}: ${t}</span>
-          </li>
-        `).join('')}
-      </ul>
-    </div>` : ''}
-    <div class="card">
-      <div class="card-title">🎯 Marcar Asistencia</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        ${[1,2,3,4,5,6].map(i => `
-          <button class="btn btn-small ${e.asistencia[i-1]?'btn-danger':'btn-secondary'}" onclick="toggleAsistencia('${e.id}', ${i-1})">
-            Sesión ${i} ${e.asistencia[i-1]?'✓':''}
-          </button>
-        `).join('')}
-      </div>
-    </div>
-  `;
-}
-
-function renderDetailArchivos(e) {
-  const files = e.archivos || [];
-  return `
-    <div class="card">
-      <div class="card-title">📁 Archivos de ${e.nombre}</div>
-      <div class="file-area" onclick="document.getElementById('file-input-${e.id}').click()">
-        <div class="icon">📤</div>
-        <div class="text">Haz clic para subir un archivo</div>
-      </div>
-      <input type="file" id="file-input-${e.id}" style="display:none" onchange="subirArchivo('${e.id}', this)">
-      <ul class="file-list" id="file-list-${e.id}">
-        ${files.map((f, i) => `<li><span>📄 ${f.nombre}</span><span style="color:#6b7280;font-size:.7rem">${f.fecha}</span></li>`).join('')}
-      </ul>
-    </div>
-  `;
-}
-
-function renderDetailCalificaciones(e) {
-  return `
-    <div class="card">
-      <div class="card-title">🏆 Calificaciones de ${e.nombre}</div>
-      <div class="grade-list">
-        ${e.calificaciones.length ? e.calificaciones.map(c => `
-          <div class="grade-item"><div class="period">${c.periodo}</div><div class="note">${c.nota}</div></div>
-        `).join('') : '<p style="color:#6b7280">Sin calificaciones registradas</p>'}
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">➕ Agregar Calificación</div>
-      <select id="cal-periodo">
-        <option value="">Seleccionar periodo</option>
-        ${[1,2,3].map(c => `<option value="Ciclo ${c}">Ciclo ${c}</option>`).join('')}
+    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="mostrarFormPago()">➕ Registrar Pago</button>
+      <select id="filtroCobranza" style="width:auto;min-width:180px" onchange="renderCobranza(document.getElementById('pageContent'))">
+        <option value="all">Todos los pagos</option>
+        <option value="pendientes">Pendientes</option>
+        <option value="pagados">Pagados</option>
       </select>
-      <input type="number" id="cal-nota" min="0" max="10" step="0.5" placeholder="Nota (0-10)" style="width:200px">
-      <button class="btn btn-small" onclick="agregarCalificacion('${e.id}')">💾 Guardar</button>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>Registro de Pagos</h3><span class="sub">${cobranza.length} registros</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fecha</th><th>Estudiante</th><th>Concepto</th><th>Monto</th><th>Método</th><th>Estado</th><th></th></tr></thead>
+          <tbody>
+            ${cobranza.length ? cobranza.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).map(c => {
+              const est = estudiantes.find(e=>e.id===c.estudianteId);
+              return `<tr>
+                <td>${formatDate(c.fecha)}</td>
+                <td style="font-weight:600">${est?.nombre||'—'}</td>
+                <td>${c.concepto||'Mensualidad'}</td>
+                <td style="font-weight:700;color:var(--success)">${formatMoney(c.monto)}</td>
+                <td>${c.metodo||'Efectivo'}</td>
+                <td><span class="status ${c.pagado?'status-active':'status-inactive'}">${c.pagado?'✅ Pagado':'⏳ Pendiente'}</span></td>
+                <td><button class="btn btn-sm ${c.pagado?'btn-outline':'btn-success'}" onclick="togglePago(${c.id})">${c.pagado?'Revertir':'✓'}</button></td>
+              </tr>`;
+            }).join('') : `<tr><td colspan="7"><div class="empty-state"><div class="ico">💰</div><p>No hay pagos registrados</p></div></td></tr>`}
+          </tbody>
+        </table>
+      </div>
     </div>
   `;
 }
 
-// ============ ACTIONS ============
-function toggleAsistencia(id, idx) {
-  const e = DATA.estudiantes.find(x => x.id === id);
-  if (e) {
-    e.asistencia[idx] = e.asistencia[idx] ? 0 : 1;
-    saveData();
-    showStudentDetail(id);
+async function mostrarFormPago(estudianteId=''){
+  const estudiantes = await DB.getAll('estudiantes');
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay show';
+  overlay.onclick = e => { if(e.target===overlay) overlay.remove(); };
+  overlay.innerHTML = `
+    <div class="modal">
+      <div class="modal-header"><h3>💰 Registrar Pago</h3><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+      <div class="modal-body">
+        <div class="form-group"><label>Estudiante</label>
+          <select id="pEstudiante">${estudiantes.filter(e=>e.activo).map(e => `<option value="${e.id}" ${e.id===estudianteId?'selected':''}>${e.nombre}</option>`).join('')}</select>
+        </div>
+        <div class="form-group"><label>Monto ($)</label><input type="number" id="pMonto" placeholder="0" min="0"></div>
+        <div class="grid grid-2" style="gap:12px">
+          <div class="form-group"><label>Concepto</label>
+            <select id="pConcepto">
+              <option>Mensualidad</option><option>Matrícula</option><option>Inscripción</option><option>Material</option><option>Evento</option><option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Método de Pago</label>
+            <select id="pMetodo">
+              <option>Efectivo</option><option>Nequi</option><option>Bancolombia</option><option>DaviPlata</option><option>Transferencia</option><option>Tarjeta</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarPago()">Registrar Pago</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+async function guardarPago(){
+  const data = {
+    estudianteId: $('#pEstudiante').value,
+    monto: parseFloat($('#pMonto').value) || 0,
+    concepto: $('#pConcepto').value,
+    metodo: $('#pMetodo').value,
+    fecha: new Date().toISOString().slice(0,10),
+    pagado: true,
+    fechaRegistro: new Date().toISOString()
+  };
+  if(!data.monto) return toast('Ingresa un monto válido','error');
+  await DB.put('cobranza', data);
+  toast(`💰 Pago de ${formatMoney(data.monto)} registrado ✅`,'success');
+  document.querySelector('.modal-overlay')?.remove();
+  navigate('cobranza');
+}
+
+function registrarPago(estId){ mostrarFormPago(estId); }
+
+async function togglePago(id){
+  const pago = await DB.get('cobranza', id);
+  if(pago){
+    pago.pagado = !pago.pagado;
+    await DB.put('cobranza', pago);
+    toast(pago.pagado ? '✅ Pagado' : '⏳ Pendiente','info');
+    navigate('cobranza');
   }
 }
 
-function guardarEditEstudiante(id) {
-  const e = DATA.estudiantes.find(x => x.id === id);
-  if (!e) return;
-  e.nombre = document.getElementById('edit-nombre').value || e.nombre;
-  e.instrumento = document.getElementById('edit-instrumento').value || e.instrumento;
-  e.ciclo = parseInt(document.getElementById('edit-ciclo').value) || e.ciclo;
-  e.progreso = parseInt(document.getElementById('edit-progreso').value) || e.progreso;
-  saveData();
-  showStudentDetail(id);
+// ═══════════════════════════════════════
+// PAGE: ASISTENCIA
+// ═══════════════════════════════════════
+async function renderAsistencia(container){
+  $('#pageTitle').textContent = '✅ Asistencia';
+  const estudiantes = await DB.getAll('estudiantes');
+  const asistencias = await DB.getAll('asistencia');
+  const activos = estudiantes.filter(e => e.activo);
+  const hoy = new Date().toISOString().slice(0,10);
+  const asistenciaHoy = asistencias.filter(a => a.fecha === hoy);
+
+  container.innerHTML = `
+    <div class="grid grid-2 mb-16">
+      <div class="card kpi">
+        <div class="kpi-value">${asistenciaHoy.filter(a=>a.presente).length}/${activos.length}</div>
+        <div class="kpi-label">✅ Presentes Hoy</div>
+        <div class="kpi-trend up">${Math.round(asistenciaHoy.filter(a=>a.presente).length/activos.length*100||0)}% asistencia</div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>📅 Marcar Asistencia</h3><span class="sub">${formatDate(hoy)}</span></div>
+        <div style="display:grid;gap:8px;max-height:360px;overflow-y:auto">
+          ${activos.map(e => {
+            const ya = asistenciaHoy.find(a => a.estudianteId === e.id);
+            return `
+              <div class="flex items-center justify-between" style="padding:8px 12px;background:var(--surface);border-radius:var(--radius-sm)">
+                <span style="font-weight:600;font-size:.88rem">${e.nombre}</span>
+                <div class="flex gap-8">
+                  <button class="btn btn-sm ${ya?.presente ? 'btn-success' : 'btn-outline'}" onclick="marcarAsistencia('${e.id}',true,this)">✅</button>
+                  <button class="btn btn-sm ${ya?.presente===false ? 'btn-danger' : 'btn-outline'}" onclick="marcarAsistencia('${e.id}',false,this)">❌</button>
+                </div>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>📋 Historial Reciente</h3></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fecha</th><th>Estudiante</th><th>Estado</th></tr></thead>
+          <tbody>
+            ${asistencias.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).slice(0,20).map(a => {
+              const est = estudiantes.find(e=>e.id===a.estudianteId);
+              return `<tr>
+                <td>${formatDate(a.fecha)}</td>
+                <td style="font-weight:600">${est?.nombre||'—'}</td>
+                <td><span class="status ${a.presente?'status-active':'status-inactive'}">${a.presente?'✅ Presente':'❌ Ausente'}</span></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
 }
 
-function agregarCalificacion(id) {
-  const e = DATA.estudiantes.find(x => x.id === id);
-  if (!e) return;
-  const periodo = document.getElementById('cal-periodo').value;
-  const nota = parseFloat(document.getElementById('cal-nota').value);
-  if (!periodo || isNaN(nota)) return alert('Completa todos los campos');
-  e.calificaciones.push({periodo, nota});
-  saveData();
-  showStudentDetail(id);
+async function marcarAsistencia(estId, presente, btn){
+  const hoy = new Date().toISOString().slice(0,10);
+  const asistencias = await DB.getAll('asistencia');
+  const existente = asistencias.find(a => a.estudianteId === estId && a.fecha === hoy);
+  if(existente){
+    existente.presente = presente;
+    await DB.put('asistencia', existente);
+  } else {
+    await DB.put('asistencia', {estudianteId: estId, fecha: hoy, presente, registro: new Date().toISOString()});
+  }
+  toast(presente ? '✅ Presente' : '❌ Ausente', presente ? 'success' : 'info');
+  // Update UI
+  const parent = btn.closest('.flex');
+  parent.querySelectorAll('.btn').forEach(b => b.className = 'btn btn-sm btn-outline');
+  btn.className = `btn btn-sm ${presente?'btn-success':'btn-danger'}`;
 }
 
-function subirArchivo(id, input) {
-  const e = DATA.estudiantes.find(x => x.id === id);
-  if (!e || !input.files.length) return;
+// ═══════════════════════════════════════
+// PAGE: CONTENIDO
+// ═══════════════════════════════════════
+async function renderContenido(container){
+  $('#pageTitle').textContent = '📚 Contenido Temático';
+  const estudiantes = await DB.getAll('estudiantes');
+
+  container.innerHTML = `
+    <div class="tabs" id="cicloTabs">
+      ${Object.entries(CONTENIDO).map(([k,v],i) => `<button class="tab ${i===0?'active':''}" data-ciclo="${k}" onclick="switchCiclo('${k}')">${v.nombre}</button>`).join('')}
+    </div>
+    <div id="cicloContent">
+      ${renderCiclo('ciclo1', estudiantes)}
+    </div>
+  `;
+}
+
+function renderCiclo(cicloKey, estudiantes){
+  const c = CONTENIDO[cicloKey];
+  const enCiclo = estudiantes.filter(e => e.ciclo === parseInt(cicloKey.replace('ciclo','')));
+  return `
+    <div class="card mb-16">
+      <div class="card-header">
+        <h3>${c.nombre} · ${c.sesiones} sesiones</h3>
+        <span class="badge badge-primary">${enCiclo.length} estudiantes</span>
+      </div>
+      <div style="display:grid;gap:10px">
+        ${c.temas.map((t,i) => `
+          <div class="flex items-center gap-12" style="padding:12px 16px;background:var(--surface);border-radius:var(--radius-sm)">
+            <span style="width:28px;height:28px;border-radius:50%;background:var(--primary-glow);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700">${i+1}</span>
+            <span style="font-size:.9rem">${t}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>👥 Estudiantes en este ciclo</h3></div>
+      ${enCiclo.length ? enCiclo.map(e => `
+        <div class="flex items-center justify-between" style="padding:8px 14px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:4px">
+          <span style="font-weight:600;font-size:.88rem">${e.nombre}</span>
+          <span style="font-size:.78rem;color:var(--text3)">${e.instrumento} · ${e.progreso}%</span>
+        </div>
+      `).join('') : `<div class="empty-state"><p>Sin estudiantes en este ciclo</p></div>`}
+    </div>
+  `;
+}
+
+function switchCiclo(key){
+  document.querySelectorAll('#cicloTabs .tab').forEach(t => t.classList.toggle('active', t.dataset.ciclo===key));
+  DB.getAll('estudiantes').then(est => {
+    $('#cicloContent').innerHTML = renderCiclo(key, est);
+  });
+}
+
+// ═══════════════════════════════════════
+// PAGE: ARCHIVOS
+// ═══════════════════════════════════════
+async function renderArchivos(container){
+  $('#pageTitle').textContent = '📁 Archivos';
+  const archivos = await DB.getAll('archivos');
+  const estudiantes = await DB.getAll('estudiantes');
+
+  container.innerHTML = `
+    <div style="display:flex;gap:12px;margin-bottom:16px;">
+      <button class="btn btn-primary" onclick="subirArchivo('')">📤 Subir Archivo</button>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>📁 Todos los archivos</h3><span class="sub">${archivos.length} archivos</span></div>
+      ${archivos.length ? archivos.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).map(a => {
+        const est = estudiantes.find(e=>e.id===a.estudianteId);
+        return `<div class="file-item">
+          <div><div class="fname">${a.nombre}</div><div class="fsize">${est?.nombre||'General'} · ${a.tipo||'Documento'} · ${formatDate(a.fecha)}</div></div>
+          <div class="flex gap-8">
+            <button class="btn btn-sm btn-outline" onclick="descargarArchivo(${a.id})">📥</button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarArchivo(${a.id})">🗑️</button>
+          </div>
+        </div>`;
+      }).join('') : `<div class="empty-state"><div class="ico">📁</div><p>No hay archivos subidos</p></div>`}
+    </div>
+  `;
+}
+
+function subirArchivo(estId){
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay show';
+  overlay.onclick = e => { if(e.target===overlay) overlay.remove(); };
+  overlay.innerHTML = `
+    <div class="modal" style="max-width:480px">
+      <div class="modal-header"><h3>📤 Subir Archivo</h3><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+      <div class="modal-body">
+        <div class="form-group"><label>Archivo</label><input type="file" id="fileInput"></div>
+        <div class="form-group"><label>Nombre del archivo</label><input id="fileName" placeholder="Comprobante mes julio"></div>
+        <div id="filePreview" style="display:none;margin-top:8px;padding:12px;background:var(--surface);border-radius:var(--radius-sm);text-align:center">
+          <div style="font-size:2rem">📄</div>
+          <div class="text-sm" id="fileInfo"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarArchivo('${estId}')">Subir</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  // Preview
+  setTimeout(() => {
+    $('#fileInput')?.addEventListener('change', function(){
+      if(this.files[0]){
+        $('#filePreview').style.display = 'block';
+        $('#fileInfo').textContent = `${this.files[0].name} · ${(this.files[0].size/1024).toFixed(1)}KB`;
+        if(!$('#fileName').value) $('#fileName').value = this.files[0].name.replace(/\.[^.]+$/,'');
+      }
+    });
+  }, 100);
+}
+
+async function guardarArchivo(estId){
+  const input = $('#fileInput');
+  if(!input?.files?.[0]) return toast('Selecciona un archivo','error');
   const file = input.files[0];
   const reader = new FileReader();
-  reader.onload = function(evt) {
-    if (!e.archivos) e.archivos = [];
-    e.archivos.push({nombre: file.name, fecha: new Date().toLocaleDateString('es-CO')});
-    saveData();
-    showStudentDetail(id);
+  reader.onload = async function(e){
+    const data = {
+      estudianteId: estId || 'general',
+      nombre: $('#fileName').value.trim() || file.name,
+      tipo: file.type || file.name.split('.').pop() || 'Documento',
+      contenido: e.target.result,
+      size: file.size,
+      fecha: new Date().toISOString().slice(0,10),
+      fechaRegistro: new Date().toISOString()
+    };
+    await DB.put('archivos', data);
+    toast(`📁 ${data.nombre} subido ✅`,'success');
+    document.querySelector('.modal-overlay')?.remove();
+    navigate('archivos');
   };
   reader.readAsDataURL(file);
 }
 
-function marcarPagado(id) {
-  const e = DATA.estudiantes.find(x => x.id === id);
-  if (e) {
-    e.pago_pendiente = false;
-    saveData();
-    renderPage();
+async function descargarArchivo(id){
+  const a = await DB.get('archivos', id);
+  if(!a) return toast('Archivo no encontrado','error');
+  const link = document.createElement('a');
+  link.href = a.contenido;
+  link.download = a.nombre;
+  link.click();
+  toast(`📥 Descargando ${a.nombre}`,'info');
+}
+
+async function eliminarArchivo(id){
+  if(!confirm('¿Eliminar este archivo?')) return;
+  await DB.delete('archivos', id);
+  toast('Archivo eliminado','info');
+  navigate('archivos');
+}
+
+// ═══════════════════════════════════════
+// PAGE: CALIFICACIONES
+// ═══════════════════════════════════════
+async function renderCalificaciones(container){
+  $('#pageTitle').textContent = '📈 Calificaciones';
+  const estudiantes = await DB.getAll('estudiantes');
+  const calificaciones = await DB.getAll('calificaciones');
+
+  container.innerHTML = `
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-header"><h3>📊 Rendimiento General</h3></div>
+        <div class="chart-bar" style="height:120px">
+          ${estudiantes.filter(e=>e.activo).slice(0,10).map(e => {
+            const notas = calificaciones.filter(c=>c.estudianteId===e.id);
+            const avg = notas.length ? (notas.reduce((a,c)=>a+(c.nota||0),0)/notas.length).toFixed(1) : '—';
+            const h = avg !== '—' ? Math.min(parseFloat(avg)*10, 100) : 0;
+            return `<div class="bar" style="height:${h}%;background:${h>70?'var(--success)':h>40?'var(--warning)':'var(--danger)'}" data-label="${e.nombre.split(' ')[0]}"></div>`;
+          }).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>⭐ Asignar Calificación</h3></div>
+        <div class="form-group">
+          <label>Estudiante</label>
+          <select id="calEst">${estudiantes.filter(e=>e.activo).map(e => `<option value="${e.id}">${e.nombre}</option>`).join('')}</select>
+        </div>
+        <div class="grid grid-2" style="gap:12px">
+          <div class="form-group"><label>Nota (1-10)</label><input type="number" id="calNota" min="0" max="10" step="0.5"></div>
+          <div class="form-group"><label>Ciclo</label>
+            <select id="calCiclo"><option value="1">Ciclo 1</option><option value="2">Ciclo 2</option><option value="3">Ciclo 3</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="asignarCalificacion()">⭐ Asignar Nota</button>
+      </div>
+    </div>
+
+    <div class="card mt-16">
+      <div class="card-header"><h3>📋 Historial de Calificaciones</h3></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Estudiante</th><th>Ciclo</th><th>Nota</th><th>Fecha</th></tr></thead>
+          <tbody>
+            ${calificaciones.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).map(c => {
+              const est = estudiantes.find(e=>e.id===c.estudianteId);
+              return `<tr>
+                <td style="font-weight:600">${est?.nombre||'—'}</td>
+                <td><span class="badge badge-primary">Ciclo ${c.ciclo}</span></td>
+                <td style="font-size:1.1rem;font-weight:700;color:${c.nota>=7?'var(--success)':c.nota>=4?'var(--warning)':'var(--danger)'}">${c.nota}</td>
+                <td class="text-muted">${formatDate(c.fecha)}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+async function asignarCalificacion(){
+  const estId = $('#calEst').value;
+  const nota = parseFloat($('#calNota').value);
+  const ciclo = parseInt($('#calCiclo').value);
+  if(!nota || nota<0 || nota>10) return toast('Nota inválida (1-10)','error');
+  await DB.put('calificaciones', {
+    estudianteId: estId,
+    nota,
+    ciclo,
+    fecha: new Date().toISOString().slice(0,10),
+    fechaRegistro: new Date().toISOString()
+  });
+  toast(`⭐ Nota ${nota} asignada ✅`,'success');
+  navigate('calificaciones');
+}
+
+// ═══════════════════════════════════════
+// PAGE: MARKETING
+// ═══════════════════════════════════════
+async function renderMarketing(container){
+  $('#pageTitle').textContent = '📣 Marketing';
+  const campanas = await DB.getAll('marketing');
+
+  container.innerHTML = `
+    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="mostrarFormCampana()">📣 Nueva Campaña</button>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-header"><h3>📣 Campañas Activas</h3></div>
+        ${campanas.filter(c=>c.activa!==false).length ? campanas.filter(c=>c.activa!==false).map(c => `
+          <div style="padding:14px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:8px">
+            <div class="flex items-center justify-between">
+              <span style="font-weight:700;font-size:.9rem">${c.nombre}</span>
+              <span class="badge badge-success">Activa</span>
+            </div>
+            <div style="font-size:.8rem;color:var(--text3);margin-top:6px">${c.descripcion||''}</div>
+            <div class="flex gap-8 mt-8">
+              <span class="text-xs">📅 ${formatDate(c.fecha)}</span>
+              <span class="text-xs">👥 ${c.segmento||'General'}</span>
+            </div>
+          </div>
+        `).join('') : `<div class="empty-state"><div class="ico">📣</div><p>Sin campañas activas</p></div>`}
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>📊 Leads y Conversiones</h3></div>
+        <div class="empty-state"><div class="ico">📊</div><p>Conecta tu CRM para ver métricas</p></div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <button class="btn btn-sm btn-outline">🔗 Conectar CRM</button>
+          <button class="btn btn-sm btn-outline">📱 Campaña WhatsApp</button>
+          <button class="btn btn-sm btn-outline">📧 Email Marketing</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function mostrarFormCampana(){
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay show';
+  overlay.onclick = e => { if(e.target===overlay) overlay.remove(); };
+  overlay.innerHTML = `
+    <div class="modal">
+      <div class="modal-header"><h3>📣 Nueva Campaña</h3><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+      <div class="modal-body">
+        <div class="form-group"><label>Nombre de Campaña</label><input id="mkNombre" placeholder="Ej: Promoción Julio"></div>
+        <div class="form-group"><label>Descripción</label><textarea id="mkDesc" placeholder="Detalles de la campaña..."></textarea></div>
+        <div class="grid grid-2" style="gap:12px">
+          <div class="form-group"><label>Segmento</label>
+            <select id="mkSegmento"><option>General</option><option>Nuevos Leads</option><option>Estudiantes Activos</option><option>Exalumnos</option><option>Lista de Espera</option></select>
+          </div>
+          <div class="form-group"><label>Canal</label>
+            <select id="mkCanal"><option>WhatsApp</option><option>Email</option><option>Redes Sociales</option><option>Presencial</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarCampana()">Crear Campaña</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+async function guardarCampana(){
+  const data = {
+    nombre: $('#mkNombre').value.trim(),
+    descripcion: $('#mkDesc').value.trim(),
+    segmento: $('#mkSegmento').value,
+    canal: $('#mkCanal').value,
+    fecha: new Date().toISOString().slice(0,10),
+    activa: true,
+    fechaRegistro: new Date().toISOString()
+  };
+  if(!data.nombre) return toast('Nombre de campaña requerido','error');
+  await DB.put('marketing', data);
+  toast('📣 Campaña creada ✅','success');
+  document.querySelector('.modal-overlay')?.remove();
+  navigate('marketing');
+}
+
+// ═══════════════════════════════════════
+// PAGE: GERENCIA
+// ═══════════════════════════════════════
+async function renderGerencia(container){
+  $('#pageTitle').textContent = '🏢 Gerencia';
+  const estudiantes = await DB.getAll('estudiantes');
+  const cobranza = await DB.getAll('cobranza');
+  const asistencias = await DB.getAll('asistencia');
+  const totalPagos = cobranza.reduce((a,c)=>a+(c.monto||0),0);
+  const activos = estudiantes.filter(e=>e.activo);
+  const inactivos = estudiantes.filter(e=>!e.activo);
+
+  container.innerHTML = `
+    <div class="grid grid-2 mb-16">
+      <div class="card">
+        <div class="card-header"><h3>📊 Reportes Ejecutivos</h3></div>
+        <div style="padding:8px 0">
+          <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+            <span>👥 Total estudiantes</span><span style="font-weight:700">${estudiantes.length}</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+            <span>✅ Activos</span><span style="font-weight:700;color:var(--success)">${activos.length}</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+            <span>⏸️ Inactivos/Pausados</span><span style="font-weight:700;color:var(--warning)">${inactivos.length}</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+            <span>💰 Total recaudado</span><span style="font-weight:700;color:var(--success)">${formatMoney(totalPagos)}</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+            <span>📋 Registros de asistencia</span><span style="font-weight:700">${asistencias.length}</span>
+          </div>
+          <div class="flex items-center justify-between" style="padding:8px 0">
+            <span>🎼 Ciclos activos</span><span style="font-weight:700">${Object.keys(CONTENIDO).length}</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>📤 Exportar Datos</h3></div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+          <button class="btn btn-accent" onclick="exportarDatos('json')">📥 Exportar JSON Completo</button>
+          <button class="btn btn-outline" onclick="exportarDatos('csv-estudiantes')">📄 Exportar CSV Estudiantes</button>
+          <button class="btn btn-outline" onclick="exportarDatos('csv-cobranza')">📄 Exportar CSV Cobranza</button>
+          <div style="margin-top:12px;padding:16px;background:var(--surface);border-radius:var(--radius-sm);border:1px dashed var(--border)">
+            <div class="form-group"><label>Importar datos (JSON)</label><input type="file" id="importFile" accept=".json"></div>
+            <button class="btn btn-sm btn-warning" onclick="importarDatos()">📥 Importar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>📋 Distribución por Ciclo</h3></div>
+      <div class="grid grid-3" style="margin-top:8px">
+        ${[1,2,3].map(c => {
+          const count = estudiantes.filter(e=>e.ciclo===c).length;
+          const pct = estudiantes.length ? Math.round(count/estudiantes.length*100) : 0;
+          return `<div style="text-align:center;padding:16px;background:var(--surface);border-radius:var(--radius-sm)">
+            <div style="font-size:1.8rem;font-weight:800;color:var(--primary)">${count}</div>
+            <div style="font-size:.78rem;color:var(--text3)">Ciclo ${c}</div>
+            <div class="progress mt-8" style="height:6px"><div class="progress-fill" style="width:${pct}%"></div></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+async function exportarDatos(tipo){
+  if(tipo === 'json'){
+    const data = {
+      estudiantes: await DB.getAll('estudiantes'),
+      cobranza: await DB.getAll('cobranza'),
+      asistencia: await DB.getAll('asistencia'),
+      archivos: await DB.getAll('archivos'),
+      marketing: await DB.getAll('marketing'),
+      calificaciones: await DB.getAll('calificaciones'),
+      contratos: await DB.getAll('contratos'),
+      config: await DB.getAll('config'),
+      exportado: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `arpa-music-backup-${new Date().toISOString().slice(0,10)}.json`;
+    link.click();
+    toast('📥 Backup exportado ✅','success');
+  } else if(tipo === 'csv-estudiantes'){
+    const est = await DB.getAll('estudiantes');
+    const headers = 'id,nombre,instrumento,nivel,horario,telefono,ciclo,progreso,activo,fechaIngreso';
+    const rows = est.map(e => `${e.id},"${e.nombre}",${e.instrumento},${e.nivel},"${e.horario}",${e.telefono||''},${e.ciclo},${e.progreso},${e.activo},${e.fechaIngreso||''}`);
+    const csv = [headers, ...rows].join('\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `estudiantes-${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+    toast('📄 CSV exportado ✅','success');
+  } else if(tipo === 'csv-cobranza'){
+    const cob = await DB.getAll('cobranza');
+    const est = await DB.getAll('estudiantes');
+    const headers = 'id,estudiante,monto,concepto,metodo,pagado,fecha';
+    const rows = cob.map(c => {
+      const e = est.find(s=>s.id===c.estudianteId);
+      return `${c.id},"${e?.nombre||''}",${c.monto},${c.concepto||''},${c.metodo||''},${c.pagado},${c.fecha}`;
+    });
+    const csv = [headers, ...rows].join('\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `cobranza-${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+    toast('📄 CSV exportado ✅','success');
   }
 }
 
-function registrarPago() {
-  const est = document.getElementById('cob-pago-est').value;
-  const monto = parseFloat(document.getElementById('cob-monto').value);
-  if (!est || isNaN(monto)) return alert('Selecciona estudiante y monto');
-  const e = DATA.estudiantes.find(x => x.id === est);
-  DATA.cobranza.push({estudiante: e.nombre, monto, fecha: new Date().toLocaleDateString('es-CO')});
-  e.pago_pendiente = false;
-  saveData();
-  renderPage();
+async function importarDatos(){
+  const input = $('#importFile');
+  if(!input?.files?.[0]) return toast('Selecciona un archivo JSON','error');
+  const text = await input.files[0].text();
+  try {
+    const data = JSON.parse(text);
+    if(data.estudiantes) for(const e of data.estudiantes) await DB.put('estudiantes', e);
+    if(data.cobranza) for(const c of data.cobranza) await DB.put('cobranza', c);
+    if(data.asistencia) for(const a of data.asistencia) await DB.put('asistencia', a);
+    if(data.archivos) for(const a of data.archivos) await DB.put('archivos', a);
+    if(data.marketing) for(const m of data.marketing) await DB.put('marketing', m);
+    if(data.calificaciones) for(const c of data.calificaciones) await DB.put('calificaciones', c);
+    toast('📥 Datos importados correctamente ✅','success');
+  } catch(e){
+    toast('❌ Error al importar: formato inválido','error');
+  }
 }
 
-function crearCampania() {
-  const nom = document.getElementById('mk-name').value;
-  const desc = document.getElementById('mk-desc').value;
-  if (!nom || !desc) return alert('Completa nombre y descripción');
-  DATA.marketing.push({nombre: nom, desc, fecha: new Date().toLocaleDateString('es-CO')});
-  saveData();
-  renderPage();
+// ═══════════════════════════════════════
+// PAGE: CONTRATO
+// ═══════════════════════════════════════
+async function renderContrato(container){
+  $('#pageTitle').textContent = '📜 Contrato Digital';
+  const contratos = await DB.getAll('contratos');
+  const estudiantes = await DB.getAll('estudiantes');
+
+  container.innerHTML = `
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-header"><h3>📜 Contratos Firmados</h3></div>
+        ${contratos.length ? contratos.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).map(c => {
+          const est = estudiantes.find(e=>e.id===c.estudianteId);
+          return `<div class="flex items-center justify-between" style="padding:10px 14px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:6px">
+            <div><span style="font-weight:600;font-size:.88rem">${est?.nombre||c.nombre||'—'}</span><div class="text-xs text-muted">${formatDate(c.fecha)} · Ciclo ${c.ciclo||1}</div></div>
+            <span class="badge badge-success">✅ Firmado</span>
+          </div>`;
+        }).join('') : `<div class="empty-state"><div class="ico">📜</div><p>Sin contratos firmados aún</p></div>`}
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>📤 Enviar Contrato</h3></div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+          <a href="https://da.gd/fE9hGI" target="_blank" class="btn btn-primary">📜 Abrir Contrato Digital</a>
+          <p class="text-xs text-muted">El contrato se firma digitalmente y las notificaciones llegan a jl16a90@hotmail.com</p>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
-function showAddStudentModal() {
-  const name = prompt('Nombre completo del nuevo estudiante:');
-  if (!name) return;
-  const id = name.toLowerCase().replace(/[^a-záéíóúñ]/g,'-').replace(/-+/g,'-');
-  DATA.estudiantes.push({
-    id, nombre: name, instrumento: 'Por definir', nivel: 'Inicial',
-    horario: 'Por definir', telefono: '', ciclo: 1, progreso: 0,
-    calificaciones: [], activo: true, asistencia: [0,0,0,0,0,0], archivos: []
-  });
-  saveData();
-  renderPage();
+// ═══════════════════════════════════════
+// PAGE: CONFIG
+// ═══════════════════════════════════════
+async function renderConfig(container){
+  $('#pageTitle').textContent = '⚙️ Configuración';
+  const config = await DB.getAll('config');
+  const pinCfg = config.find(c => c.key === 'ceo_pin');
+
+  container.innerHTML = `
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-header"><h3>🔐 Seguridad</h3></div>
+        <div class="form-group"><label>PIN del CEO</label>
+          <input type="password" id="cfgPin" value="${pinCfg?.value||'1234'}" placeholder="Nuevo PIN" style="max-width:200px;text-align:center;font-size:1.1rem;letter-spacing:6px">
+        </div>
+        <button class="btn btn-primary" onclick="guardarConfig()">💾 Guardar PIN</button>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>💾 Base de Datos</h3></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-accent" onclick="exportarDatos('json')">📥 Respaldo Completo</button>
+          <button class="btn btn-warning" onclick="if(confirm('¿Resetear todos los datos?')){indexedDB.deleteDatabase('ArpaMusicDB');location.reload()}">⚠️ Resetear Sistema</button>
+          <p class="text-xs text-muted mt-8">Los datos se almacenan localmente en IndexedDB. Exporta respaldos periódicamente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-16">
+      <div class="card-header"><h3>📊 Estado del Sistema</h3></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">
+        ${[
+          {label:'Estudiantes',count:(await DB.getAll('estudiantes')).length},
+          {label:'Pagos',count:(await DB.getAll('cobranza')).length},
+          {label:'Asistencias',count:(await DB.getAll('asistencia')).length},
+          {label:'Archivos',count:(await DB.getAll('archivos')).length},
+          {label:'Calificaciones',count:(await DB.getAll('calificaciones')).length},
+          {label:'Campañas',count:(await DB.getAll('marketing')).length}
+        ].map(s => `
+          <div style="text-align:center;padding:14px;background:var(--surface);border-radius:var(--radius-sm)">
+            <div style="font-size:1.5rem;font-weight:800;color:var(--primary)">${s.count}</div>
+            <div class="text-xs text-muted">${s.label}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
 }
 
-function exportarDatos() {
-  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `arpa-music-backup-${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
+async function guardarConfig(){
+  const pin = $('#cfgPin').value || '1234';
+  await DB.put('config', {key:'ceo_pin', value: pin});
+  toast('🔐 PIN actualizado ✅','success');
 }
 
-// ============ NAVIGATION ============
-function navigate(page) {
-  document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('active'));
-  const btn = document.querySelector(`#main-nav button[data-page="${page}"]`);
-  if (btn) btn.classList.add('active');
-  renderPage(page);
-}
+// ═══════════════════════════════════════
+// ═══ BOOT ═══
+// ═══════════════════════════════════════
 
-const renderers = {
-  dashboard: renderDashboard,
-  estudiantes: renderEstudiantes,
-  contrato: renderContrato,
-  horarios: renderHorarios,
-  asistencia: renderAsistencia,
-  cobranza: renderCobranza,
-  contenido: renderContenido,
-  marketing: renderMarketing,
-  gerencia: renderGerencia
-};
-
-function renderPage(page) {
-  page = page || document.querySelector('#main-nav .active')?.dataset?.page || 'dashboard';
-  const renderer = renderers[page] || renderDashboard;
-  document.getElementById('page-content').innerHTML = renderer();
-}
-
-// ============ INIT ============
-document.getElementById('fecha-header').textContent = new Date().toLocaleDateString('es-CO', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-
-document.querySelectorAll('#main-nav button').forEach(btn => {
-  btn.addEventListener('click', () => navigate(btn.dataset.page));
-});
-
-renderPage('dashboard');
+(async function boot(){
+  await DB.init();
+  const config = await DB.get('config', 'ceo_pin');
+  if(!config) await DB.put('config', {key:'ceo_pin', value:'1234'});
+  renderLogin($('#app'));
+})();
 </script>
 </body>
 </html>
