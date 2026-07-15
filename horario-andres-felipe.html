@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a12">
+    <meta property="og:title" content="Andrés & Felipe - Piano | Arpa Music">
+    <meta property="og:description" content="Horario interactivo - Martes y Viernes">
+    <title>🎹 Andrés & Felipe · Piano · Arpa Music</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a12;
+            color: #e8e8f0;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 640px; margin: 0 auto; padding: 20px 16px 60px; }
+
+        .header {
+            text-align: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid #1a1a28;
+            margin-bottom: 20px;
+        }
+        .brand {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        .info-card {
+            background: #111118;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #1a1a28;
+        }
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+        .info-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+        .info-label { color: #9ca3af; min-width: 80px; }
+        .info-value { font-weight: 600; }
+
+        .level-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #d1d5db;
+        }
+
+        .session-card {
+            background: #111118;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #1a1a28;
+            transition: all 0.3s ease;
+        }
+        .session-card.completed {
+            border-color: #22c55e;
+            background: #0a1a0a;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .day-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8b5cf6;
+        }
+        .session-num {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .date-main {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 0.88rem;
+            color: #9ca3af;
+        }
+        .check-item.completed { color: #22c55e; }
+        .check-circle {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            border: 2px solid #2a2a3a;
+            flex-shrink: 0;
+        }
+        .check-circle.done {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+
+        .footer-note {
+            text-align: center;
+            padding: 20px 0 10px;
+            font-size: 0.75rem;
+            color: #4b5563;
+        }
+
+        .meet-link {
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+            padding: 14px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        .meet-link:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <div class="brand">🎹 Arpa Music</div>
+        <div class="subtitle">Horario personalizado</div>
+    </div>
+
+    <div class="info-card">
+        <div class="info-row">
+            <span class="info-icon">👦</span>
+            <span class="info-label">Estudiante</span>
+            <span class="info-value">Andrés & Felipe</span>
+        </div>
+        <div class="info-row">
+            <span class="info-icon">🎹</span>
+            <span class="info-label">Instrumento</span>
+            <span class="info-value">Piano</span>
+        </div>
+        <div class="info-row">
+            <span class="info-icon">📅</span>
+            <span class="info-label">Días</span>
+            <span class="info-value">Martes y Viernes</span>
+        </div>
+        <div class="info-row">
+            <span class="info-icon">🔢</span>
+            <span class="info-label">Ciclo</span>
+            <span class="info-value">8 sesiones</span>
+        </div>
+        <div class="level-badge">🎯 Inicio: Viernes 17 de Julio</div>
+    </div>
+
+    <div class="section-title">📋 Sesiones del Ciclo</div>
+
+    <div class="session-card" data-date="2026-07-17">
+        <div class="card-header">
+            <span class="day-name">Sesión 1</span>
+            <span class="session-num">#1 · Julio</span>
+        </div>
+        <div class="date-main">Viernes 17 de Julio</div>
+    </div>
+
+    <div class="session-card" data-date="2026-07-21">
+        <div class="card-header">
+            <span class="day-name">Sesión 2</span>
+            <span class="session-num">#2 · Julio</span>
+        </div>
+        <div class="date-main">Martes 21 de Julio</div>
+    </div>
+
+    <div class="session-card" data-date="2026-07-24">
+        <div class="card-header">
+            <span class="day-name">Sesión 3</span>
+            <span class="session-num">#3 · Julio</span>
+        </div>
+        <div class="date-main">Viernes 24 de Julio</div>
+    </div>
+
+    <div class="session-card" data-date="2026-07-28">
+        <div class="card-header">
+            <span class="day-name">Sesión 4</span>
+            <span class="session-num">#4 · Julio</span>
+        </div>
+        <div class="date-main">Martes 28 de Julio</div>
+    </div>
+
+    <div class="session-card" data-date="2026-07-31">
+        <div class="card-header">
+            <span class="day-name">Sesión 5</span>
+            <span class="session-num">#5 · Julio</span>
+        </div>
+        <div class="date-main">Viernes 31 de Julio</div>
+    </div>
+
+    <div class="session-card" data-date="2026-08-04">
+        <div class="card-header">
+            <span class="day-name">Sesión 6</span>
+            <span class="session-num">#6 · Agosto</span>
+        </div>
+        <div class="date-main">Martes 4 de Agosto</div>
+    </div>
+
+    <div class="session-card" data-date="2026-08-07">
+        <div class="card-header">
+            <span class="day-name">Sesión 7</span>
+            <span class="session-num">#7 · Agosto</span>
+        </div>
+        <div class="date-main">Viernes 7 de Agosto</div>
+    </div>
+
+    <div class="session-card" data-date="2026-08-11">
+        <div class="card-header">
+            <span class="day-name">Sesión 8</span>
+            <span class="session-num">#8 · Agosto</span>
+        </div>
+        <div class="date-main">Martes 11 de Agosto</div>
+    </div>
+
+    <a href="https://meet.google.com/uqf-vjsg-yyu" class="meet-link" target="_blank">
+        🎥 Ingresar a Clase Virtual
+    </a>
+
+    <div class="footer-note">
+        Arpa Music — Transformando vidas a través de la música 🎵
+    </div>
+
+</div>
+
+<script>
+    // Marcar sesiones pasadas como completadas automáticamente
+    (function() {
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        document.querySelectorAll('.session-card').forEach(function(card) {
+            const dateStr = card.getAttribute('data-date');
+            if (!dateStr) return;
+            const parts = dateStr.split('-');
+            const cardDate = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+            if (cardDate <= today) {
+                card.classList.add('completed');
+            }
+        });
+    })();
+</script>
+</body>
+</html>
