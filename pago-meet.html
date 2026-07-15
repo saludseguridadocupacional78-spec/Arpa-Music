@@ -14,97 +14,93 @@
             background: #0a0a12;
             color: #e8e8f0;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
-        .container { max-width: 580px; margin: 0 auto; padding: 40px 16px 60px; }
+        .container { max-width: 560px; margin: 0 auto; padding: 24px 16px 60px; }
 
         .header {
             text-align: center;
             padding: 28px 0 20px;
             border-bottom: 1px solid #1a1a28;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
         .brand {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, #818cf8, #6366f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .brand-sub { color: #6666aa; font-size: 0.85rem; margin-top: 4px; }
-
-        .step-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 28px;
+        .subtitle {
+            color: #8888aa;
+            font-size: 0.9rem;
+            margin-top: 6px;
         }
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            background: #12121e;
-            color: #5555aa;
-            transition: all 0.3s;
-        }
-        .step.active {
-            background: linear-gradient(135deg, #818cf833, #6366f133);
-            color: #818cf8;
-            border: 1px solid #818cf855;
-        }
-        .step.completed {
-            background: #10b98122;
-            color: #10b981;
-            border: 1px solid #10b98144;
-        }
-        .step-number {
-            width: 22px; height: 22px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.75rem; font-weight: 700;
-            background: currentColor; color: #0a0a12;
-        }
-        .step.completed .step-number { background: #10b981; color: #0a0a12; }
-        .step.active .step-number { background: #818cf8; color: #0a0a12; }
-        .step-arrow { color: #3333aa; font-size: 1.2rem; }
 
         .card {
             background: #12121e;
             border: 1px solid #1a1a2e;
             border-radius: 16px;
             padding: 28px 24px;
+            margin-bottom: 16px;
         }
+
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #555577;
+            transition: all 0.3s;
+        }
+        .step.active { color: #818cf8; }
+        .step.completed { color: #10b981; }
+        .step-number {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.8rem;
+        }
+        .step.completed .step-number {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        .step-arrow { color: #333355; font-size: 1rem; }
 
         .form-group { margin-bottom: 20px; }
-        .form-group label {
+        label {
             display: block;
             font-size: 0.9rem;
-            font-weight: 600;
-            color: #c8c8e8;
+            color: #b0b0d0;
             margin-bottom: 8px;
+            font-weight: 600;
         }
-        .form-group input[type="text"] {
+        input[type="text"] {
             width: 100%;
-            padding: 12px 14px;
+            padding: 12px 16px;
+            background: #1a1a2e;
+            border: 2px solid #2a2a44;
             border-radius: 10px;
-            border: 1px solid #1a1a2e;
-            background: #0a0a12;
-            color: #e8e8f0;
+            color: #fff;
             font-size: 1rem;
-            font-family: inherit;
+            font-family: Arial, sans-serif;
             outline: none;
-            transition: border-color 0.2s;
+            transition: border-color 0.3s;
         }
-        .form-group input[type="text"]:focus {
-            border-color: #818cf8;
-        }
+        input[type="text"]:focus { border-color: #818cf8; }
 
         .file-upload {
-            border: 2px dashed #1a1a2e;
+            border: 2px dashed #2a2a44;
             border-radius: 12px;
             padding: 32px 20px;
             text-align: center;
@@ -112,23 +108,24 @@
             transition: all 0.3s;
             position: relative;
         }
-        .file-upload:hover, .file-upload.has-file {
-            border-color: #818cf855;
-            background: #818cf808;
-        }
-        .file-upload-icon { font-size: 2.5rem; margin-bottom: 8px; }
-        .file-upload-text { font-size: 0.9rem; color: #8888bb; }
+        .file-upload:hover { border-color: #6366f1; background: #1a1a28; }
+        .file-upload.has-file { border-color: #10b981; background: #10b9810d; }
+        .file-upload-icon { font-size: 2.2rem; margin-bottom: 8px; }
+        .file-upload-text { color: #8888aa; font-size: 0.9rem; }
         .file-name {
-            margin-top: 8px;
-            font-size: 0.85rem;
-            color: #10b981;
             display: none;
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: #10b9811a;
+            border-radius: 8px;
+            color: #10b981;
+            font-size: 0.85rem;
         }
+        .file-name.show { display: block; }
         .file-upload input[type="file"] {
             position: absolute;
-            inset: 0;
-            opacity: 0;
-            cursor: pointer;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; cursor: pointer;
         }
 
         .btn-submit {
@@ -138,116 +135,126 @@
             border-radius: 12px;
             font-size: 1rem;
             font-weight: 700;
-            font-family: inherit;
-            cursor: not-allowed;
-            background: #1a1a2e;
-            color: #5555aa;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #2a2a44;
+            color: #555577;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
         }
         .btn-submit.enabled {
-            cursor: pointer;
             background: linear-gradient(135deg, #818cf8, #6366f1);
             color: #fff;
         }
         .btn-submit.enabled:hover {
             transform: translateY(-1px);
-            box-shadow: 0 6px 24px #818cf844;
+            box-shadow: 0 8px 25px #6366f144;
         }
-        .btn-submit.loading {
-            cursor: not-allowed;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        .loading-spinner {
+        .btn-submit:disabled { cursor: not-allowed; }
+        .btn-submit.loading .btn-text { visibility: hidden; }
+        .btn-submit.loading .spinner { display: block; }
+        .spinner {
             display: none;
-            width: 18px; height: 18px;
-            border: 2px solid #fff4;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px; height: 24px;
+            border: 3px solid #ffffff44;
             border-top-color: #fff;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        .btn-submit.loading .loading-spinner { display: inline-block; }
-        .btn-submit.loading .btn-text { display: none; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
         .success-box {
             display: none;
-            animation: fadeIn 0.6s ease;
+            text-align: center;
         }
         .success-box.show { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .success-icon {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 12px;
-        }
+        .success-icon { font-size: 3.5rem; margin-bottom: 12px; }
         .success-title {
-            text-align: center;
             font-size: 1.4rem;
-            font-weight: 700;
+            font-weight: 800;
             color: #10b981;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
-        .success-sub {
-            text-align: center;
-            color: #8888bb;
-            font-size: 0.9rem;
-            margin-bottom: 24px;
-        }
+        .success-sub { color: #8888aa; margin-bottom: 20px; }
 
         .meet-card {
-            background: linear-gradient(135deg, #818cf822, #6366f122);
+            background: linear-gradient(135deg, #1a1a3e, #12122e);
             border: 1px solid #818cf855;
             border-radius: 16px;
             padding: 24px;
-            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .meet-card-title {
-            font-size: 1rem;
-            color: #c8c8e8;
-            margin-bottom: 16px;
+            font-size: 0.9rem;
+            color: #8888aa;
+            margin-bottom: 12px;
         }
         .meet-link {
-            display: inline-block;
-            padding: 14px 32px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #818cf8, #6366f1);
+            display: block;
+            padding: 14px 20px;
+            background: #818cf8;
             color: #fff;
             text-decoration: none;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.2s;
+            text-align: center;
+            transition: all 0.3s;
         }
         .meet-link:hover {
+            background: #6366f1;
             transform: translateY(-2px);
-            box-shadow: 0 8px 28px #818cf866;
+            box-shadow: 0 8px 25px #6366f144;
         }
         .meet-note {
-            margin-top: 16px;
-            font-size: 0.8rem;
+            margin-top: 12px;
             color: #6666aa;
+            font-size: 0.8rem;
             line-height: 1.6;
+        }
+
+        .msg {
+            display: none;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .msg.error {
+            display: block;
+            color: #f87171;
+            background: #f8717111;
+        }
+        .msg.sending {
+            display: block;
+            color: #818cf8;
+            background: #818cf811;
         }
 
         .footer {
             text-align: center;
-            padding: 32px 0;
-            color: #4444aa;
-            font-size: 0.85rem;
+            padding: 20px 0;
+            color: #444466;
+            font-size: 0.8rem;
+            line-height: 1.6;
         }
-        .footer strong { color: #6366f1; }
+        .footer strong { color: #6666aa; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div class="brand">🎵 Arpa Music</div>
-            <div class="brand-sub">Comprobante de Pago · Clases Virtuales</div>
+            <div class="subtitle">Sube tu comprobante y accede a tu clase virtual</div>
         </div>
 
         <div class="step-indicator">
@@ -260,48 +267,41 @@
             </div>
         </div>
 
-        <!-- FORMULARIO -->
         <div class="card" id="formCard">
-            <form id="pagoForm" method="POST" action="https://formsubmit.co/jl16a90@hotmail.com" enctype="multipart/form-data" target="formsubmit-frame">
-                <input type="hidden" name="_subject" value="🎵 NUEVO COMPROBANTE DE PAGO - Arpa Music">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="table">
+            <div class="form-group">
+                <label for="nombre">Nombre completo del estudiante *</label>
+                <input type="text" id="nombre" placeholder="Ej: María Pérez" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="nombre">Nombre completo del estudiante *</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej: María Pérez" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="comprobante">Sube tu comprobante de pago *</label>
-                    <div class="file-upload" id="fileUpload">
-                        <div class="file-upload-icon">📄</div>
-                        <div class="file-upload-text">
-                            Haz clic o arrastra tu <strong>comprobante</strong> aquí<br>
-                            <span style="font-size:0.8rem;color:#6666aa;">Imagen o PDF · Máx 10 MB</span>
-                        </div>
-                        <div class="file-name" id="fileName"></div>
-                        <input type="file" id="comprobante" name="comprobante" accept="image/*,application/pdf" required>
+            <div class="form-group">
+                <label for="comprobante">Sube tu comprobante de pago *</label>
+                <div class="file-upload" id="fileUpload">
+                    <div class="file-upload-icon">📄</div>
+                    <div class="file-upload-text">
+                        Haz clic o arrastra tu <strong>comprobante</strong> aquí<br>
+                        <span style="font-size:0.8rem;color:#555577;">Imagen o PDF · Máx 10 MB</span>
                     </div>
+                    <div class="file-name" id="fileName"></div>
+                    <input type="file" id="comprobante" accept="image/*,application/pdf" required>
                 </div>
+            </div>
 
-                <button type="submit" class="btn-submit" id="btnSubmit" disabled>
-                    <span class="btn-text">🚀 Enviar comprobante</span>
-                    <div class="loading-spinner"></div>
-                </button>
-            </form>
-            <iframe name="formsubmit-frame" style="display:none;"></iframe>
+            <div id="statusMsg"></div>
+
+            <button class="btn-submit" id="btnSubmit" disabled>
+                <span class="btn-text">🚀 Obtener enlace de clase</span>
+                <div class="spinner"></div>
+            </button>
         </div>
 
-        <!-- PANTALLA DE ÉXITO - siempre visible cuando se revela -->
-        <div class="card success-box" id="successBox">
+        <div class="success-box" id="successBox">
             <div class="success-icon">✅</div>
             <div class="success-title">¡Comprobante recibido!</div>
-            <div class="success-sub">Tu pago ha sido registrado. Aquí está tu enlace para la clase:</div>
+            <div class="success-sub">Tu pago ha sido registrado. Haz clic abajo para ingresar a tu clase:</div>
 
             <div class="meet-card">
                 <div class="meet-card-title">📹 Enlace de clase virtual</div>
-                <a class="meet-link" href="https://meet.google.com/uqf-vjsg-yyu" target="_blank" onclick="window.open('https://meet.google.com/uqf-vjsg-yyu','_blank');return!localStorage.getItem('arpa-meet-clic')||(localStorage.setItem('arpa-meet-clic','1'),!1)">
+                <a class="meet-link" href="https://meet.google.com/uqf-vjsg-yyu" target="_blank">
                     🔗 Abrir Google Meet
                 </a>
                 <div class="meet-note">
@@ -319,83 +319,79 @@
 
     <script>
         (function() {
-            const form = document.getElementById('pagoForm');
-            const nombreInput = document.getElementById('nombre');
+            const nombre = document.getElementById('nombre');
             const fileInput = document.getElementById('comprobante');
-            const fileUpload = document.getElementById('fileUpload');
-            const fileName = document.getElementById('fileName');
-            const btnSubmit = document.getElementById('btnSubmit');
+            const upload = document.getElementById('fileUpload');
+            const fName = document.getElementById('fileName');
+            const btn = document.getElementById('btnSubmit');
             const formCard = document.getElementById('formCard');
-            const successBox = document.getElementById('successBox');
-            const step1 = document.getElementById('step1');
-            const step2 = document.getElementById('step2');
+            const s1 = document.getElementById('step1');
+            const s2 = document.getElementById('step2');
+            const success = document.getElementById('successBox');
+            const status = document.getElementById('statusMsg');
 
-            // Verificar si ya completó antes (localStorage)
-            if (localStorage.getItem('arpa-pago-completado') === 'true') {
-                formCard.style.display = 'none';
-                step1.className = 'step completed';
-                step2.className = 'step active';
-                successBox.classList.add('show');
+            // Ya completado antes?
+            if (localStorage.getItem('arpa-pago-ok') === 'true') {
+                formCard.remove();
+                s1.className = 'step completed';
+                s2.className = 'step active';
+                success.classList.add('show');
                 return;
             }
 
-            function toggleSubmit() {
-                const nombreOk = nombreInput.value.trim().length > 0;
-                const fileOk = fileInput.files.length > 0;
-                btnSubmit.disabled = !(nombreOk && fileOk);
-                btnSubmit.classList.toggle('enabled', nombreOk && fileOk);
+            function check() {
+                const ok = nombre.value.trim().length > 0 && fileInput.files.length > 0;
+                btn.disabled = !ok;
+                btn.classList.toggle('enabled', ok);
             }
 
-            nombreInput.addEventListener('input', toggleSubmit);
+            nombre.addEventListener('input', check);
 
             fileInput.addEventListener('change', function() {
                 if (this.files.length > 0) {
-                    fileUpload.classList.add('has-file');
-                    fileName.textContent = '✅ ' + this.files[0].name;
-                    fileName.style.display = 'block';
+                    upload.classList.add('has-file');
+                    fName.textContent = '📎 ' + this.files[0].name;
+                    fName.classList.add('show');
                 } else {
-                    fileUpload.classList.remove('has-file');
-                    fileName.style.display = 'none';
+                    upload.classList.remove('has-file');
+                    fName.classList.remove('show');
                 }
-                toggleSubmit();
+                check();
             });
 
-            // Enviar con fetch para quedarnos en la página
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+            btn.addEventListener('click', function() {
+                if (btn.disabled) return;
 
-                btnSubmit.classList.add('loading');
-                btnSubmit.disabled = true;
+                const fd = new FormData();
+                fd.append('nombre', nombre.value.trim());
+                fd.append('comprobante', fileInput.files[0]);
+                fd.append('_subject', '🎵 NUEVO COMPROBANTE DE PAGO - Arpa Music');
+                fd.append('_captcha', 'false');
 
-                const formData = new FormData(form);
+                btn.classList.add('loading');
+                btn.disabled = true;
+                status.innerHTML = '<div class="msg sending">📤 Enviando comprobante...</div>';
 
-                // Enviar con fetch (oculto, sin recargar)
                 fetch('https://formsubmit.co/ajax/jl16a90@hotmail.com', {
                     method: 'POST',
-                    body: formData
+                    body: fd
                 })
-                .then(response => response.json())
-                .then(data => {
-                    // Éxito: mostrar Meet
-                    localStorage.setItem('arpa-pago-completado', 'true');
+                .then(function(r) {
+                    if (!r.ok) throw new Error('Error');
+                    // Éxito
+                    localStorage.setItem('arpa-pago-ok', 'true');
+                    status.innerHTML = '';
+                    btn.classList.remove('loading');
                     formCard.style.display = 'none';
-                    step1.className = 'step completed';
-                    step2.className = 'step active';
-                    successBox.classList.add('show');
+                    s1.className = 'step completed';
+                    s2.className = 'step active';
+                    success.classList.add('show');
                 })
                 .catch(function() {
-                    // Si falla fetch, intentamos con el iframe (fallback)
-                    form.target = 'formsubmit-frame';
-                    form.submit();
-
-                    // Asumimos éxito después de 2s
-                    setTimeout(function() {
-                        localStorage.setItem('arpa-pago-completado', 'true');
-                        formCard.style.display = 'none';
-                        step1.className = 'step completed';
-                        step2.className = 'step active';
-                        successBox.classList.add('show');
-                    }, 3000);
+                    status.innerHTML = '<div class="msg error">❌ Error al enviar. Intenta de nuevo.</div>';
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                    btn.classList.add('enabled');
                 });
             });
         })();
