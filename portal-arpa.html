@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a12">
+<title>Arpa Music · Sistema de Gestión</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#0a0a12;color:#e8e8f0;min-height:100vh}
+a{color:#f472b6;text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:16px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#111118,#1a1a28);border-radius:16px;padding:20px 24px;margin-bottom:20px;border:1px solid #1a1a28;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.brand{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#f472b6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tag{color:#6b7280;font-size:.8rem;margin-top:2px}
+.ceo-badge{background:#ec4899;color:#fff;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700}
+
+/* Nav */
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+nav button{background:#111118;border:1px solid #1a1a28;color:#9ca3af;padding:10px 16px;border-radius:12px;cursor:pointer;font-size:.85rem;font-weight:600;transition:all .2s}
+nav button:hover{background:#1a1a28;color:#f472b6;border-color:#f472b6}
+nav button.active{background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;border-color:transparent}
+
+/* Stats Grid */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:#111118;border-radius:14px;padding:16px;border:1px solid #1a1a28;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#f472b6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-card .label{color:#6b7280;font-size:.8rem;margin-top:4px}
+.stat-card .sub{color:#9ca3af;font-size:.7rem;margin-top:2px}
+
+/* Cards */
+.card{background:#111118;border-radius:14px;padding:20px;margin-bottom:16px;border:1px solid #1a1a28}
+.card-title{font-size:1rem;font-weight:700;margin-bottom:16px;color:#f472b6}
+.card table{width:100%;border-collapse:collapse;font-size:.85rem}
+.card th{text-align:left;color:#6b7280;font-weight:600;padding:8px 6px;border-bottom:1px solid #1a1a28}
+.card td{padding:8px 6px;border-bottom:1px solid #0f0f1a}
+.card tr:last-child td{border:none}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:700}
+.badge-green{background:#0a2a0a;color:#22c55e}
+.badge-yellow{background:#2a2a0a;color:#eab308}
+.badge-red{background:#2a0a0a;color:#ef4444}
+.badge-blue{background:#0a0a2a;color:#3b82f6}
+.badge-purple{background:#1a0a2a;color:#a855f7}
+
+/* Progress bar */
+.progress-bar{height:6px;background:#1a1a28;border-radius:10px;overflow:hidden;margin-top:4px}
+.progress-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#f472b6,#ec4899);transition:width .5s}
+
+/* Grid students */
+.student-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.student-card{background:#111118;border-radius:14px;padding:16px;border:1px solid #1a1a28;cursor:pointer;transition:all .2s}
+.student-card:hover{border-color:#f472b6;transform:translateY(-2px)}
+.student-card .name{font-weight:700;font-size:.95rem}
+.student-card .detail{color:#9ca3af;font-size:.8rem;margin-top:4px}
+.student-card .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+
+/* Student detail */
+.detail-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.detail-header h2{font-size:1.3rem}
+.back-btn{background:#1a1a28;border:1px solid #1a1a28;color:#9ca3af;padding:8px 14px;border-radius:10px;cursor:pointer;font-size:.8rem}
+.back-btn:hover{color:#f472b6}
+
+/* Forms */
+input,select,textarea{background:#0f0f1a;border:1px solid #1a1a28;color:#e8e8f0;padding:10px 14px;border-radius:10px;font-size:.9rem;width:100%;margin-bottom:10px;font-family:Arial,sans-serif}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#f472b6}
+textarea{resize:vertical;min-height:80px}
+.btn{background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;border:none;padding:10px 20px;border-radius:10px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(236,72,153,.3)}
+.btn-secondary{background:#1a1a28;color:#9ca3af;border:1px solid #1a1a28}
+.btn-secondary:hover{background:#2a2a38;color:#f472b6}
+.btn-small{padding:6px 14px;font-size:.8rem}
+.btn-danger{background:#ef4444;color:#fff}
+.btn-danger:hover{background:#dc2626}
+
+/* Modules */
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.module-card{background:#111118;border-radius:14px;padding:16px;border:1px solid #1a1a28;text-align:center}
+.module-card .icon{font-size:2rem;margin-bottom:8px}
+.module-card .title{font-weight:700;font-size:.9rem;margin-bottom:6px}
+.module-card .desc{color:#9ca3af;font-size:.8rem}
+.module-card .link{display:inline-block;margin-top:10px;color:#f472b6;font-size:.8rem;font-weight:700}
+
+/* File upload area */
+.file-area{border:2px dashed #1a1a28;border-radius:12px;padding:30px;text-align:center;margin-bottom:12px;cursor:pointer;transition:all .2s}
+.file-area:hover{border-color:#f472b6;background:#0f0f1a}
+.file-area .icon{font-size:2rem;margin-bottom:8px}
+.file-area .text{color:#6b7280;font-size:.85rem}
+.file-list{list-style:none}
+.file-list li{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #0f0f1a;font-size:.85rem}
+.file-list li:last-child{border:none}
+.file-list .del{cursor:pointer;color:#ef4444;font-size:.8rem}
+
+/* Grades */
+.grade-list{display:flex;gap:12px;flex-wrap:wrap}
+.grade-item{background:#0f0f1a;border-radius:10px;padding:12px 16px;text-align:center;min-width:100px}
+.grade-item .period{color:#6b7280;font-size:.7rem}
+.grade-item .note{font-size:1.5rem;font-weight:800;color:#f472b6}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:#111118;border-radius:16px;padding:24px;max-width:500px;width:100%;border:1px solid #1a1a28;max-height:90vh;overflow-y:auto}
+
+/* tabs */
+.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.tab{background:#0f0f1a;border:1px solid #1a1a28;color:#6b7280;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600}
+.tab.active{background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;border-color:transparent}
+
+/* Calendar mini */
+.session-list{list-style:none}
+.session-list li{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0f0f1a;border-radius:10px;margin-bottom:6px;font-size:.85rem}
+.session-list .check{width:18px;height:18px;border-radius:50%;border:2px solid #1a1a28;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem}
+.session-list .check.done{background:#22c55e;border-color:#22c55e;color:#fff}
+
+@media(max-width:600px){.header{flex-direction:column;text-align:center}.stats-grid{grid-template-columns:1fr 1fr}.student-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="brand">🎵 Arpa Music</div>
+      <div class="tag">Sistema de Gestión Integral · CEO Luis Francis</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="ceo-badge">📊 v2.0</span>
+      <span id="fecha-header" style="color:#6b7280;font-size:.8rem"></span>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="main-nav">
+    <button class="active" data-page="dashboard">📊 Dashboard</button>
+    <button data-page="estudiantes">👥 Estudiantes</button>
+    <button data-page="contrato">📜 Contrato</button>
+    <button data-page="horarios">🗓️ Horarios</button>
+    <button data-page="asistencia">✅ Asistencia</button>
+    <button data-page="cobranza">💰 Cobranza</button>
+    <button data-page="contenido">📚 Ciclos</button>
+    <button data-page="marketing">📢 Marketing</button>
+    <button data-page="gerencia">⚙️ Gerencia</button>
+  </nav>
+
+  <!-- Page container -->
+  <div id="page-content"></div>
+</div>
+
+<script>
+// ============ DATA ============
+const DATA = {
+  estudiantes: [
+    {id:"gustavo",nombre:"Gustavo Babilonia",instrumento:"Canto",nivel:"Técnica Vocal",horario:"Martes y Jueves 6:30PM",telefono:"573005731218",ciclo:3,progreso:65,calificaciones:[{periodo:"Ciclo 2",nota:8.5}],activo:true,asistencia:[1,1,0,1,1,0],archivos:[]},
+    {id:"juandy",nombre:"Juandy",instrumento:"Por definir",nivel:"Inicial",horario:"Lunes y Martes 9:00AM",telefono:"573215942748",ciclo:1,progreso:20,calificaciones:[],activo:true,asistencia:[1,0,1,0,0,0],archivos:[]},
+    {id:"angelina",nombre:"Angelina",instrumento:"Guitarra",nivel:"Intermedio",horario:"Martes y Jueves 2:00PM",telefono:"573163969870",ciclo:2,progreso:45,calificaciones:[{periodo:"Ciclo 1",nota:7.5}],activo:true,asistencia:[1,1,1,0,0,0],archivos:[]},
+    {id:"mia",nombre:"Mia Contreras",instrumento:"Piano",nivel:"Inicial",horario:"Por definir",telefono:"573181825064",ciclo:1,progreso:15,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
+    {id:"omar",nombre:"Omar Bravo",instrumento:"Por definir",nivel:"Inicial",horario:"Domingos 10:00AM",telefono:"573133966427",ciclo:1,progreso:10,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
+    {id:"sandra",nombre:"Sandra Alcaldía",instrumento:"Por definir",nivel:"Inicial",horario:"Jueves 3PM, Viernes 3PM",telefono:"573014540390",ciclo:1,progreso:25,calificaciones:[],activo:true,asistencia:[1,0,0,0,0,0],archivos:[]},
+    {id:"nadia",nombre:"Nadia",instrumento:"Por definir",nivel:"Inicial",horario:"Jueves 4PM, Dom 5:30PM",telefono:"",ciclo:1,progreso:20,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
+    {id:"anfred",nombre:"Anfred",instrumento:"Piano",nivel:"Intermedio",horario:"Jueves 12:30PM, Sáb 1PM",telefono:"573006412936",ciclo:2,progreso:50,calificaciones:[{periodo:"Ciclo 1",nota:8.0}],activo:true,asistencia:[1,1,0,1,0,0],archivos:[]},
+    {id:"wilson",nombre:"Wilson Marta Pano",instrumento:"Piano",nivel:"Ciclo 2 Completado",horario:"Lunes y Viernes 10:30AM",telefono:"573015440117",ciclo:3,progreso:70,calificaciones:[{periodo:"Ciclo 1",nota:9.0},{periodo:"Ciclo 2",nota:8.5}],activo:true,asistencia:[1,1,1,1,0,0],archivos:[],pago_pendiente:true},
+    {id:"andres",nombre:"Andrés Cliente",instrumento:"Piano",nivel:"Inicial",horario:"Martes 4PM",telefono:"573103569911",ciclo:1,progreso:30,calificaciones:[],activo:true,asistencia:[1,0,0,0,0,0],archivos:[]},
+    {id:"julian",nombre:"Julián Grijalba",instrumento:"Violín",nivel:"Inicial",horario:"Sábados 10AM",telefono:"573054055804",ciclo:1,progreso:15,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
+    {id:"laura",nombre:"Laura Arpa",instrumento:"Técnica Vocal 2",nivel:"Avanzado",horario:"Jueves y Viernes 9AM",telefono:"573014288568",ciclo:3,progreso:75,calificaciones:[{periodo:"Ciclo 2",nota:9.0}],activo:true,asistencia:[1,1,1,1,0,0],archivos:[]},
+    {id:"hijo-kathe",nombre:"Hijo de Kathe",instrumento:"Por definir",nivel:"Inicial",horario:"Lunes y Jueves 4:45PM",telefono:"",ciclo:1,progreso:10,calificaciones:[],activo:true,asistencia:[0,0,0,0,0,0],archivos:[]},
+    {id:"jireh",nombre:"Jireh",instrumento:"Por definir",nivel:"Técnica 3",horario:"Por definir",telefono:"573136615919",ciclo:3,progreso:60,calificaciones:[{periodo:"Ciclo 2",nota:7.5}],activo:true,asistencia:[1,0,1,0,0,0],archivos:[]},
+    {id:"laurissa",nombre:"Laurissa Barrios",instrumento:"Por definir",nivel:"Intermedio",horario:"Pausado",telefono:"573245679396",ciclo:2,progreso:0,calificaciones:[{periodo:"Ciclo 1",nota:8.0}],activo:false,asistencia:[0,0,0,0,0,0],archivos:[],pausada:true}
+  ],
+  contenido: {
+    1:{nombre:"Ciclo 1 - Fundamentos",sesiones:6,temas:["Introducción al instrumento y postura","Lectura básica de partituras","Ejercicios de digitación / respiración","Primeras canciones o escalas","Ritmo y tempo básico","Evaluación parcial y repaso"]},
+    2:{nombre:"Ciclo 2 - Desarrollo Técnico",sesiones:6,temas:["Técnica avanzada de digitación / vocalización","Acordes básicos y progresiones","Lectura a primera vista","Interpretación y expresión musical","Grabación de práctica guiada","Evaluación de medio ciclo"]},
+    3:{nombre:"Ciclo 3 - Dominio Intermedio",sesiones:6,temas:["Escalas mayores y menores","Improvisación básica","Repertorio extendido","Teoría musical aplicada","Preparación para presentación","Evaluación final de ciclo"]}
+  },
+  enlaces: {
+    contrato:"https://da.gd/fE9hGI",
+    pago_meet:"https://da.gd/NQVaep",
+    horario_andres_felipe:"https://da.gd/G4X5ZD",
+    meet:"meet.google.com/uqf-vjsg-yyu",
+    correo:"jl16a90@hotmail.com"
+  },
+  cobranza: [],
+  marketing: []
+};
+
+// Save / Load localStorage
+function saveData() {
+  localStorage.setItem('arpa_data', JSON.stringify(DATA));
+}
+function loadData() {
+  const stored = localStorage.getItem('arpa_data');
+  if (stored) {
+    const parsed = JSON.parse(stored);
+    Object.assign(DATA, parsed);
+  }
+}
+loadData();
+
+// ============ HELPERS ============
+function activeStudents() { return DATA.estudiantes.filter(e => e.activo); }
+function totalStudents() { return DATA.estudiantes.length; }
+function avgProgress() {
+  const a = activeStudents();
+  return a.length ? Math.round(a.reduce((s,e) => s + e.progreso, 0) / a.length) : 0;
+}
+function pendingPayments() { return DATA.estudiantes.filter(e => e.pago_pendiente).length; }
+function instrumentCount() {
+  const map = {};
+  DATA.estudiantes.forEach(e => {
+    const i = e.instrumento === 'Por definir' ? 'Sin asignar' : e.instrumento;
+    map[i] = (map[i] || 0) + 1;
+  });
+  return map;
+}
+
+function renderStats() {
+  const activos = activeStudents();
+  return `
+    <div class="stats-grid">
+      <div class="stat-card"><div class="num">${totalStudents()}</div><div class="label">Total Estudiantes</div><div class="sub">${activos.length} activos</div></div>
+      <div class="stat-card"><div class="num">${activos.length}</div><div class="label">Activos</div><div class="sub">${totalStudents() - activos.length} inactivos</div></div>
+      <div class="stat-card"><div class="num">${avgProgress()}%</div><div class="label">Progreso Promedio</div></div>
+      <div class="stat-card"><div class="num">$${pendingPayments() > 0 ? pendingPayments() : 0}</div><div class="label">Pagos Pendientes</div><div class="sub">${pendingPayments()} estudiante(s)</div></div>
+    </div>`;
+}
+
+function renderEstudianteCard(e, idx) {
+  const ciclo = DATA.contenido[e.ciclo]?.nombre || `Ciclo ${e.ciclo}`;
+  return `<div class="student-card" onclick="showStudentDetail('${e.id}')">
+    <div class="name">${e.nombre}</div>
+    <div class="detail">🎸 ${e.instrumento} · ${e.nivel}</div>
+    <div class="row">
+      <span style="font-size:.7rem;color:#6b7280">Ciclo ${e.ciclo}</span>
+      <span class="badge ${e.activo?'badge-green':'badge-red'}">${e.activo?'Activo':e.pausada?'Pausado':'Inactivo'}</span>
+    </div>
+    <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:${e.progreso}%"></div></div>
+  </div>`;
+}
+
+// ============ PAGES ============
+function renderDashboard() {
+  const inst = instrumentCount();
+  let instHtml = Object.entries(inst).map(([k,v]) => `<span class="badge badge-purple" style="margin:2px">${k}: ${v}</span>`).join('');
+  const recientes = [...DATA.estudiantes].sort((a,b) => b.progreso - a.progreso).slice(0,5);
+  return `
+    ${renderStats()}
+    <div class="card">
+      <div class="card-title">🎯 Resumen Ejecutivo</div>
+      <table>
+        <tr><td>📜 Enlace Contrato Digital</td><td><a href="${DATA.enlaces.contrato}" target="_blank">${DATA.enlaces.contrato}</a></td></tr>
+        <tr><td>💳 Enlace Pago + Meet</td><td><a href="${DATA.enlaces.pago_meet}" target="_blank">${DATA.enlaces.pago_meet}</a></td></tr>
+        <tr><td>📹 Google Meet</td><td>${DATA.enlaces.meet}</td></tr>
+        <tr><td>📧 Notificaciones</td><td>${DATA.enlaces.correo}</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">🎸 Instrumentos</div>
+      <div>${instHtml}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏆 Top 5 Progreso</div>
+      ${recientes.map(e => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0f0f1a;font-size:.85rem"><span>${e.nombre}</span><span>${e.progreso}%</span></div>`).join('')}
+    </div>
+  `;
+}
+
+function renderEstudiantes() {
+  return `
+    <div class="card">
+      <div class="card-title">👥 Todos los Estudientes</div>
+      <div class="student-grid">
+        ${DATA.estudiantes.map((e,i) => renderEstudianteCard(e,i)).join('')}
+      </div>
+    </div>
+    <div style="text-align:center;margin:16px 0">
+      <button class="btn" onclick="showAddStudentModal()">➕ Agregar Estudiante</button>
+    </div>
+  `;
+}
+
+function renderContrato() {
+  return `
+    <div class="card" style="text-align:center;padding:40px 20px">
+      <div style="font-size:3rem;margin-bottom:16px">📜</div>
+      <div class="card-title" style="font-size:1.2rem">Contrato Digital Arpa Music</div>
+      <p style="color:#9ca3af;margin:16px 0;line-height:1.6">
+        Ciclos de <strong>6 sesiones</strong> · Firma digital · Notificación automática al correo
+      </p>
+      <a href="${DATA.enlaces.contrato}" target="_blank" class="btn" style="display:inline-block;text-decoration:none">Abrir Contrato Digital →</a>
+    </div>
+  `;
+}
+
+function renderHorarios() {
+  const enl = DATA.enlaces;
+  return `
+    <div class="card">
+      <div class="card-title">🗓️ Horarios Disponibles</div>
+      <table>
+        <tr><th>Estudiante</th><th>Días</th><th>Hora</th><th>Link</th></tr>
+        ${DATA.estudiantes.filter(e=>e.horario && e.horario!=='Pausado' && e.horario!=='Por definir').map(e => `
+          <tr>
+            <td><strong>${e.nombre}</strong></td>
+            <td>${e.horario.split(',')[0]}</td>
+            <td>${e.horario.includes('PM')||e.horario.includes('AM') ? e.horario.split(',').slice(-1) : e.horario}</td>
+            <td><a href="https://saludseguridadocupacional78-spec.github.io/Arpa-Music/horario-${e.id}.html" target="_blank" style="font-size:.75rem">Ver</a></td>
+          </tr>
+        `).join('')}
+        <tr><td colspan="4" style="text-align:center;padding-top:12px"><strong>🗓️ Andrés y Felipe</strong> · Mar/Vie · <a href="${enl.horario_andres_felipe}" target="_blank">${enl.horario_andres_felipe}</a></td></tr>
+      </table>
+    </div>
+  `;
+}
+
+function renderAsistencia() {
+  return `
+    <div class="card">
+      <div class="card-title">✅ Asistencia por Estudiante (últimas 6 sesiones)</div>
+      ${DATA.estudiantes.map(e => {
+        const total = e.asistencia.filter(a => a === 1).length;
+        return `<div style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px">
+            <span><strong>${e.nombre}</strong></span>
+            <span>${total}/${e.asistencia.length} (${Math.round(total/e.asistencia.length*100)}%)</span>
+          </div>
+          <div style="display:flex;gap:4px">
+            ${e.asistencia.map(a => `<span style="width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;background:${a?'#0a2a0a':'#2a0a0a'};color:${a?'#22c55e':'#ef4444'}">${a?'✓':'✗'}</span>`).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderCobranza() {
+  const pendientes = DATA.estudiantes.filter(e => e.pago_pendiente);
+  return `
+    <div class="stats-grid">
+      <div class="stat-card"><div class="num">${pendientes.length}</div><div class="label">Pagos Pendientes</div></div>
+      <div class="stat-card"><div class="num">${DATA.estudiantes.filter(e=>e.activo).length - pendientes.filter(e=>e.activo).length}</div><div class="label">Al Día</div></div>
+      <div class="stat-card"><div class="num">${DATA.cobranza.length}</div><div class="label">Registros</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚠️ Pendientes de Pago</div>
+      ${pendientes.length ? pendientes.map(e => `
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #0f0f1a;align-items:center">
+          <span><strong>${e.nombre}</strong> · Ciclo ${e.ciclo}</span>
+          <button class="btn btn-small" onclick="marcarPagado('${e.id}')">✅ Pagó</button>
+        </div>
+      `).join('') : '<p style="color:#22c55e">✓ Todos al día</p>'}
+    </div>
+    <div class="card">
+      <div class="card-title">+ Registrar Pago</div>
+      <select id="cob-pago-est">
+        <option value="">Seleccionar estudiante</option>
+        ${DATA.estudiantes.filter(e=>e.activo).map(e => `<option value="${e.id}">${e.nombre}</option>`).join('')}
+      </select>
+      <input type="number" id="cob-monto" placeholder="Monto pagado" style="width:200px">
+      <button class="btn btn-small" onclick="registrarPago()">💾 Registrar</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Historial de Cobranza</div>
+      ${DATA.cobranza.length ? `<table>${DATA.cobranza.slice().reverse().map(r => `<tr><td>${r.fecha}</td><td><strong>${r.estudiante}</strong></td><td>$${r.monto.toLocaleString()}</td></tr>`).join('')}</table>` : '<p style="color:#6b7280">Sin registros aún</p>'}
+    </div>
+  `;
+}
+
+function renderContenido() {
+  return `
+    <div class="card">
+      <div class="card-title">📚 Contenido Temático por Ciclos</div>
+      ${Object.entries(DATA.contenido).map(([k, ciclo]) => `
+        <div style="background:#0f0f1a;border-radius:12px;padding:16px;margin-bottom:12px">
+          <h3 style="color:#f472b6;font-size:.95rem;margin-bottom:8px">${ciclo.nombre}</h3>
+          <p style="color:#6b7280;font-size:.8rem;margin-bottom:8px">${ciclo.sesiones} sesiones</p>
+          <ol style="padding-left:20px;color:#9ca3af;font-size:.85rem;line-height:1.8">
+            ${ciclo.temas.map(t => `<li>${t}</li>`).join('')}
+          </ol>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderMarketing() {
+  return `
+    <div class="stats-grid">
+      <div class="stat-card"><div class="num">${DATA.marketing.length}</div><div class="label">Campañas</div></div>
+      <div class="stat-card"><div class="num">${totalStudents()}</div><div class="label">Base Estudiantes</div></div>
+      <div class="stat-card"><div class="num">${activeStudents().length}</div><div class="label">Activos</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📢 Gestión de Marketing</div>
+      <div style="margin-bottom:12px">
+        <input placeholder="Nombre de la campaña" id="mk-name">
+        <textarea placeholder="Descripción / mensaje" id="mk-desc"></textarea>
+        <button class="btn btn-small" onclick="crearCampania()">➕ Crear Campaña</button>
+      </div>
+      ${DATA.marketing.length ? DATA.marketing.slice().reverse().map(c => `
+        <div style="background:#0f0f1a;border-radius:10px;padding:12px;margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;font-size:.85rem">
+            <strong>${c.nombre}</strong><span style="color:#6b7280;font-size:.7rem">${c.fecha}</span>
+          </div>
+          <p style="color:#9ca3af;font-size:.8rem;margin-top:4px">${c.desc}</p>
+        </div>
+      `).join('') : '<p style="color:#6b7280">Sin campañas registradas</p>'}
+    </div>
+  `;
+}
+
+function renderGerencia() {
+  return `
+    <div class="card">
+      <div class="card-title">⚙️ Panel de Gerencia</div>
+      <table>
+        <tr><td>📊 Total estudiantes</td><td><strong>${totalStudents()}</strong></td></tr>
+        <tr><td>✅ Activos</td><td><strong>${activeStudents().length}</strong></td></tr>
+        <tr><td>⏸️ Pausados</td><td><strong>${DATA.estudiantes.filter(e=>e.pausada).length}</strong></td></tr>
+        <tr><td>📈 Promedio progreso</td><td><strong>${avgProgress()}%</strong></td></tr>
+        <tr><td>🎸 Instrumentos</td><td><strong>${Object.keys(instrumentCount()).length}</strong></td></tr>
+        <tr><td>💰 Pagos pendientes</td><td><strong>${pendingPayments()}</strong></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">🔗 Enlaces Rápidos</div>
+      <table>
+        <tr><td>📜 Contrato Digital</td><td><a href="${DATA.enlaces.contrato}" target="_blank">Abrir</a></td></tr>
+        <tr><td>💳 Pago + Meet</td><td><a href="${DATA.enlaces.pago_meet}" target="_blank">Abrir</a></td></tr>
+        <tr><td>🎹 Andrés & Felipe</td><td><a href="${DATA.enlaces.horario_andres_felipe}" target="_blank">Abrir</a></td></tr>
+        <tr><td>📹 Meet</td><td><a href="https://${DATA.enlaces.meet}" target="_blank">Entrar</a></td></tr>
+        <tr><td>📧 Correo notificaciones</td><td>${DATA.enlaces.correo}</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">🔄 Acciones del Sistema</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-small btn-secondary" onclick="exportarDatos()">📥 Exportar Datos</button>
+        <button class="btn btn-small btn-secondary" onclick="if(confirm('¿Restaurar datos de fábrica?')){localStorage.removeItem('arpa_data');location.reload()}">🔄 Restaurar</button>
+      </div>
+    </div>
+  `;
+}
+
+// ============ STUDENT DETAIL ============
+function showStudentDetail(id) {
+  const e = DATA.estudiantes.find(x => x.id === id);
+  if (!e) return;
+  const ciclo = DATA.contenido[e.ciclo];
+  const totalAsis = e.asistencia.length;
+  const asisCount = e.asistencia.filter(a => a === 1).length;
+  const asisPct = totalAsis ? Math.round(asisCount/totalAsis*100) : 0;
+
+  document.getElementById('page-content').innerHTML = `
+    <div class="detail-header">
+      <button class="back-btn" onclick="navigate('estudiantes')">← Volver</button>
+      <h2>${e.nombre}</h2>
+      <span class="badge ${e.activo?'badge-green':'badge-red'}">${e.activo?'Activo':e.pausada?'Pausado':'Inactivo'}</span>
+    </div>
+
+    <div class="tabs" id="detail-tabs">
+      <button class="tab active" onclick="switchDetailTab('perfil',this)">👤 Perfil</button>
+      <button class="tab" onclick="switchDetailTab('progreso',this)">📈 Progreso</button>
+      <button class="tab" onclick="switchDetailTab('archivos',this)">📁 Archivos</button>
+      <button class="tab" onclick="switchDetailTab('calificaciones',this)">🏆 Calificaciones</button>
+    </div>
+    <div id="detail-content">
+      ${renderDetailPerfil(e)}
+    </div>
+  `;
+  window._detailStudent = e;
+}
+
+function switchDetailTab(tab, btn) {
+  document.querySelectorAll('#detail-tabs .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const e = window._detailStudent;
+  if (!e) return;
+  const map = { perfil: renderDetailPerfil, progreso: renderDetailProgreso, archivos: renderDetailArchivos, calificaciones: renderDetailCalificaciones };
+  document.getElementById('detail-content').innerHTML = map[tab](e);
+}
+
+function renderDetailPerfil(e) {
+  return `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="card"><div class="card-title">🎸 Instrumento</div><p><strong>${e.instrumento}</strong></p><p style="color:#9ca3af;font-size:.8rem">${e.nivel}</p></div>
+      <div class="card"><div class="card-title">🕐 Horario</div><p><strong>${e.horario}</strong></p>${e.telefono ? `<p style="color:#9ca3af;font-size:.8rem">📞 ${e.telefono}</p>` : ''}</div>
+      <div class="card"><div class="card-title">📚 Ciclo Actual</div><p><strong>Ciclo ${e.ciclo}</strong></p><p style="color:#9ca3af;font-size:.8rem">${DATA.contenido[e.ciclo]?.nombre || 'Por definir'}</p></div>
+      <div class="card"><div class="card-title">📊 Asistencia</div><p><strong>${asisCount}/${totalAsis} (${asisPct}%)</strong></p></div>
+    </div>
+    <div class="card"><div class="card-title">✏️ Editar Estudiante</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <input id="edit-nombre" value="${e.nombre}" placeholder="Nombre">
+        <input id="edit-instrumento" value="${e.instrumento}" placeholder="Instrumento">
+        <select id="edit-ciclo">
+          ${[1,2,3].map(c => `<option value="${c}" ${e.ciclo===c?'selected':''}>Ciclo ${c}</option>`).join('')}
+        </select>
+        <input id="edit-progreso" type="number" value="${e.progreso}" min="0" max="100" placeholder="Progreso %">
+      </div>
+      <button class="btn btn-small" style="margin-top:8px" onclick="guardarEditEstudiante('${e.id}')">💾 Guardar Cambios</button>
+    </div>
+  `;
+}
+
+function renderDetailProgreso(e) {
+  const ciclo = DATA.contenido[e.ciclo];
+  return `
+    <div class="card">
+      <div class="card-title">📈 Progreso General: ${e.progreso}%</div>
+      <div class="progress-bar" style="height:12px"><div class="progress-fill" style="width:${e.progreso}%"></div></div>
+    </div>
+    ${ciclo ? `
+    <div class="card">
+      <div class="card-title">${ciclo.nombre} · ${ciclo.sesiones} sesiones</div>
+      <ul class="session-list">
+        ${ciclo.temas.map((t, i) => `
+          <li>
+            <span class="check ${e.asistencia[i]?'done':''}">${e.asistencia[i]?'✓':''}</span>
+            <span style="${e.asistencia[i]?'color:#22c55e':'color:#9ca3af'}">Sesión ${i+1}: ${t}</span>
+          </li>
+        `).join('')}
+      </ul>
+    </div>` : ''}
+    <div class="card">
+      <div class="card-title">🎯 Marcar Asistencia</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${[1,2,3,4,5,6].map(i => `
+          <button class="btn btn-small ${e.asistencia[i-1]?'btn-danger':'btn-secondary'}" onclick="toggleAsistencia('${e.id}', ${i-1})">
+            Sesión ${i} ${e.asistencia[i-1]?'✓':''}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderDetailArchivos(e) {
+  const files = e.archivos || [];
+  return `
+    <div class="card">
+      <div class="card-title">📁 Archivos de ${e.nombre}</div>
+      <div class="file-area" onclick="document.getElementById('file-input-${e.id}').click()">
+        <div class="icon">📤</div>
+        <div class="text">Haz clic para subir un archivo</div>
+      </div>
+      <input type="file" id="file-input-${e.id}" style="display:none" onchange="subirArchivo('${e.id}', this)">
+      <ul class="file-list" id="file-list-${e.id}">
+        ${files.map((f, i) => `<li><span>📄 ${f.nombre}</span><span style="color:#6b7280;font-size:.7rem">${f.fecha}</span></li>`).join('')}
+      </ul>
+    </div>
+  `;
+}
+
+function renderDetailCalificaciones(e) {
+  return `
+    <div class="card">
+      <div class="card-title">🏆 Calificaciones de ${e.nombre}</div>
+      <div class="grade-list">
+        ${e.calificaciones.length ? e.calificaciones.map(c => `
+          <div class="grade-item"><div class="period">${c.periodo}</div><div class="note">${c.nota}</div></div>
+        `).join('') : '<p style="color:#6b7280">Sin calificaciones registradas</p>'}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">➕ Agregar Calificación</div>
+      <select id="cal-periodo">
+        <option value="">Seleccionar periodo</option>
+        ${[1,2,3].map(c => `<option value="Ciclo ${c}">Ciclo ${c}</option>`).join('')}
+      </select>
+      <input type="number" id="cal-nota" min="0" max="10" step="0.5" placeholder="Nota (0-10)" style="width:200px">
+      <button class="btn btn-small" onclick="agregarCalificacion('${e.id}')">💾 Guardar</button>
+    </div>
+  `;
+}
+
+// ============ ACTIONS ============
+function toggleAsistencia(id, idx) {
+  const e = DATA.estudiantes.find(x => x.id === id);
+  if (e) {
+    e.asistencia[idx] = e.asistencia[idx] ? 0 : 1;
+    saveData();
+    showStudentDetail(id);
+  }
+}
+
+function guardarEditEstudiante(id) {
+  const e = DATA.estudiantes.find(x => x.id === id);
+  if (!e) return;
+  e.nombre = document.getElementById('edit-nombre').value || e.nombre;
+  e.instrumento = document.getElementById('edit-instrumento').value || e.instrumento;
+  e.ciclo = parseInt(document.getElementById('edit-ciclo').value) || e.ciclo;
+  e.progreso = parseInt(document.getElementById('edit-progreso').value) || e.progreso;
+  saveData();
+  showStudentDetail(id);
+}
+
+function agregarCalificacion(id) {
+  const e = DATA.estudiantes.find(x => x.id === id);
+  if (!e) return;
+  const periodo = document.getElementById('cal-periodo').value;
+  const nota = parseFloat(document.getElementById('cal-nota').value);
+  if (!periodo || isNaN(nota)) return alert('Completa todos los campos');
+  e.calificaciones.push({periodo, nota});
+  saveData();
+  showStudentDetail(id);
+}
+
+function subirArchivo(id, input) {
+  const e = DATA.estudiantes.find(x => x.id === id);
+  if (!e || !input.files.length) return;
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    if (!e.archivos) e.archivos = [];
+    e.archivos.push({nombre: file.name, fecha: new Date().toLocaleDateString('es-CO')});
+    saveData();
+    showStudentDetail(id);
+  };
+  reader.readAsDataURL(file);
+}
+
+function marcarPagado(id) {
+  const e = DATA.estudiantes.find(x => x.id === id);
+  if (e) {
+    e.pago_pendiente = false;
+    saveData();
+    renderPage();
+  }
+}
+
+function registrarPago() {
+  const est = document.getElementById('cob-pago-est').value;
+  const monto = parseFloat(document.getElementById('cob-monto').value);
+  if (!est || isNaN(monto)) return alert('Selecciona estudiante y monto');
+  const e = DATA.estudiantes.find(x => x.id === est);
+  DATA.cobranza.push({estudiante: e.nombre, monto, fecha: new Date().toLocaleDateString('es-CO')});
+  e.pago_pendiente = false;
+  saveData();
+  renderPage();
+}
+
+function crearCampania() {
+  const nom = document.getElementById('mk-name').value;
+  const desc = document.getElementById('mk-desc').value;
+  if (!nom || !desc) return alert('Completa nombre y descripción');
+  DATA.marketing.push({nombre: nom, desc, fecha: new Date().toLocaleDateString('es-CO')});
+  saveData();
+  renderPage();
+}
+
+function showAddStudentModal() {
+  const name = prompt('Nombre completo del nuevo estudiante:');
+  if (!name) return;
+  const id = name.toLowerCase().replace(/[^a-záéíóúñ]/g,'-').replace(/-+/g,'-');
+  DATA.estudiantes.push({
+    id, nombre: name, instrumento: 'Por definir', nivel: 'Inicial',
+    horario: 'Por definir', telefono: '', ciclo: 1, progreso: 0,
+    calificaciones: [], activo: true, asistencia: [0,0,0,0,0,0], archivos: []
+  });
+  saveData();
+  renderPage();
+}
+
+function exportarDatos() {
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `arpa-music-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+// ============ NAVIGATION ============
+function navigate(page) {
+  document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector(`#main-nav button[data-page="${page}"]`);
+  if (btn) btn.classList.add('active');
+  renderPage(page);
+}
+
+const renderers = {
+  dashboard: renderDashboard,
+  estudiantes: renderEstudiantes,
+  contrato: renderContrato,
+  horarios: renderHorarios,
+  asistencia: renderAsistencia,
+  cobranza: renderCobranza,
+  contenido: renderContenido,
+  marketing: renderMarketing,
+  gerencia: renderGerencia
+};
+
+function renderPage(page) {
+  page = page || document.querySelector('#main-nav .active')?.dataset?.page || 'dashboard';
+  const renderer = renderers[page] || renderDashboard;
+  document.getElementById('page-content').innerHTML = renderer();
+}
+
+// ============ INIT ============
+document.getElementById('fecha-header').textContent = new Date().toLocaleDateString('es-CO', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+document.querySelectorAll('#main-nav button').forEach(btn => {
+  btn.addEventListener('click', () => navigate(btn.dataset.page));
+});
+
+renderPage('dashboard');
+</script>
+</body>
+</html>
