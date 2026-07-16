@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a12">
+    <meta property="og:title" content="Juandy · Horario Julio 2026 · Arpa Music">
+    <meta property="og:description" content="8 sesiones · Piano. Toca cada clase para marcar/desmarcar.">
+    <title>🎹 Juandy · Julio 2026 · Arpa Music</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;background:#08080f;color:#e8e8f0;min-height:100dvh;display:flex;justify-content:center;padding:16px}
+        .container{max-width:480px;width:100%;padding:16px 0}
+        .header{text-align:center;padding:20px 0 24px}
+        .header h1{font-size:24px;font-weight:700;letter-spacing:-.3px;background:linear-gradient(135deg,#e8e8f0,#8888cc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .header p{color:#8888b8;font-size:14px;margin-top:4px}
+        .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+        .info-card{background:#14142a;border:1px solid #2a2a4a;border-radius:12px;padding:14px;text-align:center}
+        .info-card .icon{font-size:20px;margin-bottom:4px}
+        .info-card .label{font-size:11px;color:#6868a0;letter-spacing:.5px}
+        .info-card .value{font-size:18px;font-weight:700;margin-top:2px}
+        .progress-bar{background:#1a1a30;border-radius:20px;height:8px;overflow:hidden;margin-bottom:24px}
+        .progress-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#6c5ce7,#a29bfe);transition:width .5s ease}
+        .stats{display:flex;justify-content:space-between;margin-bottom:20px;padding:0 4px}
+        .stat{text-align:center}
+        .stat-num{font-size:22px;font-weight:700;color:#a29bfe}
+        .stat-label{font-size:11px;color:#6868a0;margin-top:2px}
+        .sessions{display:flex;flex-direction:column;gap:10px}
+        .session{display:flex;align-items:center;gap:14px;background:#14142a;border:1px solid #2a2a4a;border-radius:14px;padding:14px 16px;cursor:pointer;transition:all .25s ease;user-select:none;-webkit-tap-highlight-color:transparent}
+        .session:hover{border-color:#4a4a7a;transform:translateY(-1px)}
+        .session:active{transform:scale(.98)}
+        .session.done{background:#1a1a30;border-color:#6c5ce7}
+        .session.done .day-badge{background:#6c5ce7}
+        .session.today{border-color:#a29bfe;box-shadow:0 0 0 1px rgba(162,155,254,.15)}
+        .day-badge{min-width:44px;height:44px;border-radius:12px;background:#1e1e3a;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#a29bfe;transition:all .25s ease;line-height:1.2}
+        .day-badge .num{font-size:16px;color:#e8e8f0}
+        .session-info{flex:1}
+        .session-info .date{font-size:13px;color:#9898b8}
+        .session-info .time{font-size:15px;font-weight:600;color:#e8e8f0}
+        .session-status{font-size:13px;font-weight:600;min-width:80px;text-align:right}
+        .status-pendiente{color:#6868a0}
+        .status-hecha{color:#6c5ce7}
+        .status-hoy{color:#a29bfe}
+        .badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600}
+        .badge-start{background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff}
+        .badge-end{background:linear-gradient(135deg,#fdcb6e,#e17055);color:#fff}
+        .badge-empty{background:transparent;border:1px dashed #2a2a4a;color:#6868a0;font-size:10px}
+        .footer{text-align:center;padding:24px 0 8px;font-size:12px;color:#3a3a5a}
+        .footer a{color:#5a5a8a;text-decoration:none}
+        @media(max-width:400px){.session{padding:12px 14px;gap:10px}.day-badge{min-width:38px;height:38px}.day-badge .num{font-size:14px}.session-status{font-size:12px;min-width:70px}}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🎹 Juandy</h1>
+        <p>Piano · Ciclo Julio · 8 sesiones</p>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="icon">🎯</div>
+            <div class="label">CICLO</div>
+            <div class="value">8 sesiones</div>
+        </div>
+        <div class="info-card">
+            <div class="icon">📅</div>
+            <div class="label">INICIO → FIN</div>
+            <div class="value" style="font-size:14px">Jue 2 Jul → Vie 24 Jul</div>
+        </div>
+        <div class="info-card">
+            <div class="icon">⏱️</div>
+            <div class="label">HORARIO</div>
+            <div class="value" style="font-size:14px">Jue & Vie · 3:00 PM</div>
+        </div>
+        <div class="info-card">
+            <div class="icon">⏳</div>
+            <div class="label">DURACIÓN</div>
+            <div class="value">1h</div>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stat"><div class="stat-num" id="count-done">0</div><div class="stat-label">Completadas</div></div>
+        <div class="stat"><div class="stat-num" id="count-pending">8</div><div class="stat-label">Pendientes</div></div>
+        <div class="stat"><div class="stat-num" id="count-progress">0%</div><div class="stat-label">Progreso</div></div>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div class="sessions" id="sessions"></div>
+
+    <div class="footer">Arpa Music 🎶</div>
+</div>
+
+<script>
+const STORAGE_KEY = 'arpa_juandy_julio2026';
+
+const SESIONES = [
+    {n:1,dia:'JUE',fecha:'2 de Julio',hora:'3:00 PM',emoji:'🚀'},
+    {n:2,dia:'VIE',fecha:'3 de Julio',hora:'3:00 PM'},
+    {n:3,dia:'JUE',fecha:'9 de Julio',hora:'3:00 PM'},
+    {n:4,dia:'VIE',fecha:'10 de Julio',hora:'3:00 PM'},
+    {n:5,dia:'JUE',fecha:'16 de Julio',hora:'3:00 PM',hoy:true},
+    {n:6,dia:'VIE',fecha:'17 de Julio',hora:'3:00 PM'},
+    {n:7,dia:'JUE',fecha:'23 de Julio',hora:'3:00 PM'},
+    {n:8,dia:'VIE',fecha:'24 de Julio',hora:'3:00 PM',emoji:'🏆'}
+];
+
+function getEstado(){
+    try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{}}catch(e){return{}}
+}
+
+function setEstado(id,marcada){
+    const estado=getEstado();
+    if(marcada) estado[id]=true;
+    else delete estado[id];
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(estado));
+}
+
+function render(){
+    const estado=getEstado();
+    const total=SESIONES.length;
+    const done=SESIONES.filter(s=>estado['s'+s.n]).length;
+    const pct=Math.round(done/total*100);
+
+    let html='';
+    SESIONES.forEach(s=>{
+        const marcada=!!estado['s'+s.n];
+        const isToday=!!s.hoy;
+        const label=s.n===1?'badge-start':s.n===total?'badge-end':'';
+        const badgeHtml=label?`<span class="badge ${label}">${s.n===1?'Inicio':'Fin'}</span>`:'<span class="badge badge-empty">—</span>';
+        const emojiHtml=s.emoji||'';
+
+        html+=`
+            <div class="session ${marcada?'done':''} ${isToday?'today':''}" data-id="s${s.n}">
+                <div class="day-badge">
+                    <span>${s.dia}</span>
+                    <span class="num">${s.n}</span>
+                </div>
+                <div class="session-info">
+                    <div class="date">${s.fecha} ${emojiHtml}</div>
+                    <div class="time">🕐 ${s.hora}</div>
+                </div>
+                <div class="session-status">
+                    ${marcada?'<span class="status-hecha">✅ Hecha</span>':isToday?'<span class="status-hoy">🔜 Hoy</span>':'<span class="status-pendiente">📅 Pendiente</span>'}
+                </div>
+            </div>
+        `;
+    });
+
+    document.getElementById('sessions').innerHTML=html;
+    document.getElementById('count-done').textContent=done;
+    document.getElementById('count-pending').textContent=total-done;
+    document.getElementById('count-progress').textContent=pct+'%';
+    document.getElementById('progress-fill').style.width=pct+'%';
+
+    document.querySelectorAll('.session').forEach(el=>{
+        el.addEventListener('click',function(){
+            const id=this.dataset.id;
+            const estado=getEstado();
+            const nuevo=!estado[id];
+            setEstado(id,nuevo);
+            render();
+        });
+    });
+}
+
+render();
+</script>
+</body>
+</html>
